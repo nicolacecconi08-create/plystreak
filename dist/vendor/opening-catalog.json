@@ -1,0 +1,733 @@
+[
+  {
+    "id": "partita-italiana",
+    "name": "Partita italiana",
+    "sourceName": "Italian Game",
+    "category": "apertura",
+    "eco": "C50",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bc4",
+    "idea": "Sviluppa il cavallo e punta con l’alfiere verso f7; prepara centro e arrocco.",
+    "caution": "Non lanciare un attacco con pochi pezzi: completa prima lo sviluppo.",
+    "tags": [
+      "e4",
+      "sviluppo"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+    "ply": 5
+  },
+  {
+    "id": "spagnola-ruy-lopez",
+    "name": "Spagnola · Ruy López",
+    "sourceName": "Ruy Lopez",
+    "category": "apertura",
+    "eco": "C60",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bb5",
+    "idea": "L’alfiere in b5 aumenta la pressione sul cavallo che difende e5.",
+    "caution": "Catturare subito in c6 non significa vincere automaticamente il pedone e5.",
+    "tags": [
+      "e4",
+      "pressione"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+    "ply": 5
+  },
+  {
+    "id": "partita-scozzese",
+    "name": "Partita scozzese",
+    "sourceName": "Scotch Game",
+    "category": "apertura",
+    "eco": "C44",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. d4",
+    "idea": "La spinta d4 contesta subito il centro e apre linee ai pezzi.",
+    "caution": "Dopo gli scambi centrali verifica le minacce contro il cavallo e la donna.",
+    "tags": [
+      "e4",
+      "centro aperto"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/3PP3/5N2/PPP2PPP/RNBQKB1R b KQkq - 0 3",
+    "ply": 5
+  },
+  {
+    "id": "quattro-cavalli",
+    "name": "Quattro cavalli",
+    "sourceName": "Four Knights Game",
+    "category": "apertura",
+    "eco": "C47",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6",
+    "idea": "Sviluppa rapidamente i cavalli e conserva diverse possibilità per gli alfieri.",
+    "caution": "La simmetria non rende ogni mossa sicura: controlla catture e inchiodature.",
+    "tags": [
+      "e4",
+      "sviluppo"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R w KQkq - 4 4",
+    "ply": 6
+  },
+  {
+    "id": "partita-viennese",
+    "name": "Partita viennese",
+    "sourceName": "Vienna Game",
+    "category": "apertura",
+    "eco": "C25",
+    "pgn": "1. e4 e5 2. Nc3",
+    "idea": "Il cavallo in c3 difende e4 e lascia aperta la scelta fra sviluppo tranquillo e f4.",
+    "caution": "Spingere il pedone f cambia la sicurezza del re: scegli il momento con attenzione.",
+    "tags": [
+      "e4",
+      "flessibile"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 2",
+    "ply": 3
+  },
+  {
+    "id": "apertura-di-alfiere",
+    "name": "Apertura di alfiere",
+    "sourceName": "Bishop's Opening",
+    "category": "apertura",
+    "eco": "C23",
+    "pgn": "1. e4 e5 2. Bc4",
+    "idea": "L’alfiere esce subito in c4 e mette sotto osservazione la casa f7.",
+    "caution": "Non confondere la pressione su f7 con una minaccia immediata di matto.",
+    "tags": [
+      "e4",
+      "alfiere"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pppp1ppp/8/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR b KQkq - 1 2",
+    "ply": 3
+  },
+  {
+    "id": "difesa-russa-petrov",
+    "name": "Difesa russa · Petrov",
+    "sourceName": "Petrov's Defense",
+    "category": "apertura",
+    "eco": "C42",
+    "pgn": "1. e4 e5 2. Nf3 Nf6",
+    "idea": "Il Nero risponde all’attacco su e5 attaccando a sua volta e4.",
+    "caution": "Le catture al centro richiedono un ordine preciso: non copiare ciecamente le mosse.",
+    "tags": [
+      "e4",
+      "contrattacco"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+    "ply": 4
+  },
+  {
+    "id": "difesa-philidor",
+    "name": "Difesa Philidor",
+    "sourceName": "Philidor Defense",
+    "category": "apertura",
+    "eco": "C41",
+    "pgn": "1. e4 e5 2. Nf3 d6",
+    "idea": "Il Nero sostiene e5 con d6 e prepara lo sviluppo dei pezzi.",
+    "caution": "Il sostegno del centro limita inizialmente l’alfiere f8: evita una posizione troppo passiva.",
+    "tags": [
+      "e4",
+      "solida"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp2ppp/3p4/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "difesa-siciliana",
+    "name": "Difesa siciliana",
+    "sourceName": "Sicilian Defense",
+    "category": "apertura",
+    "eco": "B20",
+    "pgn": "1. e4 c5",
+    "idea": "Il Nero contesta d4 con il pedone c e crea fin dall’inizio una struttura asimmetrica.",
+    "caution": "Le ali possono avere piani diversi: controlla il centro prima di attaccare sul lato.",
+    "tags": [
+      "e4",
+      "asimmetrica"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    "ply": 2
+  },
+  {
+    "id": "difesa-francese",
+    "name": "Difesa francese",
+    "sourceName": "French Defense",
+    "category": "apertura",
+    "eco": "C00",
+    "pgn": "1. e4 e6 2. d4 d5",
+    "idea": "Il Nero prepara d5 per sfidare il centro bianco con una struttura compatta.",
+    "caution": "L’alfiere c8 può restare chiuso: cerca un piano per attivarlo.",
+    "tags": [
+      "e4",
+      "struttura"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "difesa-caro-kann",
+    "name": "Difesa Caro-Kann",
+    "sourceName": "Caro-Kann Defense",
+    "category": "apertura",
+    "eco": "B10",
+    "pgn": "1. e4 c6",
+    "idea": "Con c6 il Nero prepara d5 senza chiudere subito l’alfiere c8 con e6.",
+    "caution": "Il piano di sviluppo cambia secondo la risposta del Bianco: non usare sempre lo stesso schema.",
+    "tags": [
+      "e4",
+      "solida"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pp1ppppp/2p5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    "ply": 2
+  },
+  {
+    "id": "difesa-scandinava",
+    "name": "Difesa scandinava",
+    "sourceName": "Scandinavian Defense",
+    "category": "apertura",
+    "eco": "B01",
+    "pgn": "1. e4 d5",
+    "idea": "Il Nero attacca immediatamente il pedone e4 con d5.",
+    "caution": "Se la donna ricattura presto, evita di farle perdere troppi tempi.",
+    "tags": [
+      "e4",
+      "centro"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    "ply": 2
+  },
+  {
+    "id": "difesa-alekhine",
+    "name": "Difesa Alekhine",
+    "sourceName": "Alekhine Defense",
+    "category": "apertura",
+    "eco": "B02",
+    "pgn": "1. e4 Nf6",
+    "idea": "Il cavallo attacca e4 e invita il Bianco ad avanzare pedoni centrali.",
+    "caution": "Il Nero deve poi attaccare quei pedoni: muovere il cavallo senza piano costa tempi.",
+    "tags": [
+      "e4",
+      "ipermoderna"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppppppp/5n2/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 1 2",
+    "ply": 2
+  },
+  {
+    "id": "difesa-pirc",
+    "name": "Difesa Pirc",
+    "sourceName": "Pirc Defense",
+    "category": "apertura",
+    "eco": "B00",
+    "pgn": "1. e4 d6",
+    "idea": "Il Nero prepara uno sviluppo flessibile con d6, cavallo f6 e fianchetto.",
+    "caution": "Lasciare spazio al Bianco richiede attenzione alle spinte centrali e agli attacchi sul re.",
+    "tags": [
+      "e4",
+      "fianchetto"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp1pppp/3p4/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+    "ply": 2
+  },
+  {
+    "id": "difesa-moderna",
+    "name": "Difesa moderna",
+    "sourceName": "Modern Defense",
+    "category": "apertura",
+    "eco": "B06",
+    "pgn": "1. e4 g6 2. d4 Bg7",
+    "idea": "Il fianchetto permette all’alfiere di esercitare pressione da lontano sul centro.",
+    "caution": "Non rimandare troppo il contrattacco centrale mentre il Bianco guadagna spazio.",
+    "tags": [
+      "e4",
+      "fianchetto"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqk1nr/ppppppbp/6p1/8/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 1 3",
+    "ply": 4
+  },
+  {
+    "id": "gambetto-di-donna",
+    "name": "Gambetto di donna",
+    "sourceName": "Queen's Gambit",
+    "category": "gambetto",
+    "eco": "D06",
+    "pgn": "1. d4 d5 2. c4",
+    "idea": "Il Bianco offre il pedone c per distogliere d5 e contendere il centro.",
+    "caution": "Il pedone offerto spesso si recupera, ma non inseguirlo trascurando lo sviluppo.",
+    "tags": [
+      "d4",
+      "centro"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp1pppp/8/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq - 0 2",
+    "ply": 3
+  },
+  {
+    "id": "gambetto-di-donna-accettato",
+    "name": "Gambetto di donna accettato",
+    "sourceName": "Queen's Gambit Accepted",
+    "category": "apertura",
+    "eco": "D20",
+    "pgn": "1. d4 d5 2. c4 dxc4",
+    "idea": "Il Nero cattura in c4 e punta a svilupparsi prima di contrastare il centro.",
+    "caution": "Difendere il pedone c4 a ogni costo può indebolire l’ala di donna.",
+    "tags": [
+      "d4",
+      "scambi"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp1pppp/8/8/2pP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "gambetto-di-donna-rifiutato",
+    "name": "Gambetto di donna rifiutato",
+    "sourceName": "Queen's Gambit Declined",
+    "category": "apertura",
+    "eco": "D30",
+    "pgn": "1. d4 d5 2. c4 e6",
+    "idea": "Il Nero rafforza d5 con e6 e conserva una presenza centrale stabile.",
+    "caution": "L’alfiere c8 necessita di un piano di sviluppo o liberazione.",
+    "tags": [
+      "d4",
+      "solida"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "difesa-slava",
+    "name": "Difesa slava",
+    "sourceName": "Slav Defense",
+    "category": "apertura",
+    "eco": "D10",
+    "pgn": "1. d4 d5 2. c4 c6",
+    "idea": "Il pedone c6 sostiene d5 lasciando libera la diagonale dell’alfiere c8.",
+    "caution": "Quando esce l’alfiere, controlla la difesa dei pedoni b7 e d5.",
+    "tags": [
+      "d4",
+      "struttura"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pp2pppp/2p5/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "difesa-semislava",
+    "name": "Difesa semislava",
+    "sourceName": "Semi-Slav Defense",
+    "category": "apertura",
+    "eco": "D43",
+    "pgn": "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6",
+    "idea": "La catena c6-d5-e6 sostiene saldamente il centro e prepara controgioco.",
+    "caution": "Il centro può aprirsi rapidamente: la sicurezza del re resta prioritaria.",
+    "tags": [
+      "d4",
+      "solida"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pp3ppp/2p1pn2/3p4/2PP4/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 0 5",
+    "ply": 8
+  },
+  {
+    "id": "difesa-ovest-indiana",
+    "name": "Difesa ovest-indiana",
+    "sourceName": "Queen's Indian Defense",
+    "category": "apertura",
+    "eco": "E12",
+    "pgn": "1. d4 Nf6 2. c4 e6 3. Nf3 b6",
+    "idea": "Il Nero prepara il fianchetto dell’alfiere c8 per controllare le case centrali.",
+    "caution": "L’ordine delle mosse conta: controlla le spinte d5 ed e4 del Bianco.",
+    "tags": [
+      "d4",
+      "fianchetto"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/p1pp1ppp/1p2pn2/8/2PP4/5N2/PP2PPPP/RNBQKB1R w KQkq - 0 4",
+    "ply": 6
+  },
+  {
+    "id": "difesa-nimzo-indiana",
+    "name": "Difesa nimzo-indiana",
+    "sourceName": "Nimzo-Indian Defense",
+    "category": "apertura",
+    "eco": "E20",
+    "pgn": "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4",
+    "idea": "L’alfiere inchioda il cavallo c3 e rende più difficile la spinta e4.",
+    "caution": "Cedere l’alfiere in c3 cambia il rapporto fra struttura e coppia degli alfieri.",
+    "tags": [
+      "d4",
+      "inchiodatura"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqk2r/pppp1ppp/4pn2/8/1bPP4/2N5/PP2PPPP/R1BQKBNR w KQkq - 2 4",
+    "ply": 6
+  },
+  {
+    "id": "difesa-est-indiana",
+    "name": "Difesa est-indiana",
+    "sourceName": "King's Indian Defense",
+    "category": "apertura",
+    "eco": "E61",
+    "pgn": "1. d4 Nf6 2. c4 g6 3. Nc3",
+    "idea": "Il Nero prepara il fianchetto di re e un successivo attacco al centro bianco.",
+    "caution": "Prima di lanciare pedoni sul re avversario, considera se il centro può aprirsi.",
+    "tags": [
+      "d4",
+      "fianchetto"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppppp1p/5np1/8/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 3",
+    "ply": 5
+  },
+  {
+    "id": "difesa-grunfeld",
+    "name": "Difesa Grünfeld",
+    "sourceName": "Grünfeld Defense",
+    "category": "apertura",
+    "eco": "D80",
+    "pgn": "1. d4 Nf6 2. c4 g6 3. Nc3 d5",
+    "idea": "Il Nero combina fianchetto e spinta d5 per attaccare il centro bianco.",
+    "caution": "Il Bianco può costruire un grande centro: il Nero deve esercitare pressione concreta.",
+    "tags": [
+      "d4",
+      "ipermoderna"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/ppp1pp1p/5np1/3p4/2PP4/2N5/PP2PPPP/R1BQKBNR w KQkq - 0 4",
+    "ply": 6
+  },
+  {
+    "id": "difesa-olandese",
+    "name": "Difesa olandese",
+    "sourceName": "Dutch Defense",
+    "category": "apertura",
+    "eco": "A80",
+    "pgn": "1. d4 f5",
+    "idea": "Con f5 il Nero controlla e4 e prepara gioco sull’ala di re.",
+    "caution": "La spinta f scopre diagonali verso il re: controlla gli attacchi prima dell’arrocco.",
+    "tags": [
+      "d4",
+      "asimmetrica"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppppp1pp/8/5p2/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 2",
+    "ply": 2
+  },
+  {
+    "id": "difesa-benoni",
+    "name": "Difesa Benoni",
+    "sourceName": "Benoni Defense",
+    "category": "apertura",
+    "eco": "A56",
+    "pgn": "1. d4 Nf6 2. c4 c5",
+    "idea": "Il Nero sfida il pedone d4 con c5 e cerca una struttura asimmetrica.",
+    "caution": "Il minor spazio richiede pezzi attivi e rotture ben preparate.",
+    "tags": [
+      "d4",
+      "asimmetrica"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pp1ppppp/5n2/2p5/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "sistema-di-londra",
+    "name": "Sistema di Londra",
+    "sourceName": "London System",
+    "category": "apertura",
+    "eco": "A48",
+    "pgn": "1. d4 Nf6 2. Nf3 g6 3. Bf4",
+    "idea": "Il Bianco sviluppa presto l’alfiere fuori dalla catena di pedoni e costruisce un centro stabile.",
+    "caution": "È un sistema, non una sequenza automatica: rispondi alle minacce dell’avversario.",
+    "tags": [
+      "d4",
+      "sistema"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppppp1p/5np1/8/3P1B2/5N2/PPP1PPPP/RN1QKB1R b KQkq - 1 3",
+    "ply": 5
+  },
+  {
+    "id": "apertura-inglese",
+    "name": "Apertura inglese",
+    "sourceName": "English Opening",
+    "category": "apertura",
+    "eco": "A10",
+    "pgn": "1. c4",
+    "idea": "Il pedone c controlla d5 e permette strutture centrali flessibili.",
+    "caution": "Le trasposizioni sono frequenti: orientati sulla struttura, non solo sul nome.",
+    "tags": [
+      "c4",
+      "flessibile"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pppppppp/8/8/2P5/8/PP1PPPPP/RNBQKBNR b KQkq - 0 1",
+    "ply": 1
+  },
+  {
+    "id": "apertura-reti",
+    "name": "Apertura Réti",
+    "sourceName": "Réti Opening",
+    "category": "apertura",
+    "eco": "A09",
+    "pgn": "1. Nf3 d5 2. c4",
+    "idea": "Il Bianco sviluppa il cavallo e contesta il centro con c4 prima di occuparlo con i pedoni.",
+    "caution": "Il controllo da lontano funziona se lo accompagni con sviluppo e rotture centrali.",
+    "tags": [
+      "Nf3",
+      "ipermoderna"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/ppp1pppp/8/3p4/2P5/5N2/PP1PPPPP/RNBQKB1R b KQkq - 0 2",
+    "ply": 3
+  },
+  {
+    "id": "apertura-catalana",
+    "name": "Apertura catalana",
+    "sourceName": "Catalan Opening",
+    "category": "apertura",
+    "eco": "E00",
+    "pgn": "1. d4 Nf6 2. c4 e6 3. g3",
+    "idea": "Il Bianco unisce il centro d4-c4 alla pressione dell’alfiere in fianchetto.",
+    "caution": "Se il Nero prende c4, scegli con calma fra recupero del pedone e attività.",
+    "tags": [
+      "d4",
+      "fianchetto"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppp1ppp/4pn2/8/2PP4/6P1/PP2PP1P/RNBQKBNR b KQkq - 0 3",
+    "ply": 5
+  },
+  {
+    "id": "attacco-trompowsky",
+    "name": "Attacco Trompowsky",
+    "sourceName": "Trompowsky Attack",
+    "category": "apertura",
+    "eco": "A45",
+    "pgn": "1. d4 Nf6 2. Bg5",
+    "idea": "L’alfiere attacca subito il cavallo f6, creando decisioni sulla struttura.",
+    "caution": "Lo sviluppo precoce dell’alfiere non giustifica ignorare il centro.",
+    "tags": [
+      "d4",
+      "alfiere"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppppppp/5n2/6B1/3P4/8/PPP1PPPP/RN1QKBNR b KQkq - 2 2",
+    "ply": 3
+  },
+  {
+    "id": "apertura-bird",
+    "name": "Apertura Bird",
+    "sourceName": "Bird Opening",
+    "category": "apertura",
+    "eco": "A02",
+    "pgn": "1. f4",
+    "idea": "Il pedone f controlla e5 e prepara una struttura originale per il Bianco.",
+    "caution": "Il re perde una protezione: attenzione alle diagonali aperte.",
+    "tags": [
+      "f4",
+      "asimmetrica"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pppppppp/8/8/5P2/8/PPPPP1PP/RNBQKBNR b KQkq - 0 1",
+    "ply": 1
+  },
+  {
+    "id": "apertura-ponziani",
+    "name": "Apertura Ponziani",
+    "sourceName": "Ponziani Opening",
+    "category": "apertura",
+    "eco": "C44",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. c3",
+    "idea": "Il Bianco prepara d4 con c3 per costruire un centro di pedoni.",
+    "caution": "Il tempo speso con c3 può consentire un contrattacco centrale immediato.",
+    "tags": [
+      "e4",
+      "centro"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/2P2N2/PP1P1PPP/RNBQKB1R b KQkq - 0 3",
+    "ply": 5
+  },
+  {
+    "id": "gambetto-di-re",
+    "name": "Gambetto di re",
+    "sourceName": "King's Gambit",
+    "category": "gambetto",
+    "eco": "C30",
+    "pgn": "1. e4 e5 2. f4",
+    "idea": "Il Bianco offre il pedone f per deviare e5 e aprire linee verso il re nero.",
+    "caution": "La sicurezza del proprio re si riduce: il compenso richiede sviluppo rapido.",
+    "tags": [
+      "e4",
+      "attacco"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pppp1ppp/8/4p3/4PP2/8/PPPP2PP/RNBQKBNR b KQkq - 0 2",
+    "ply": 3
+  },
+  {
+    "id": "gambetto-evans",
+    "name": "Gambetto Evans",
+    "sourceName": "Italian Game: Evans Gambit",
+    "category": "gambetto",
+    "eco": "C51",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4",
+    "idea": "Il pedone b guadagna tempi sull’alfiere e prepara un centro ampio con c3 e d4.",
+    "caution": "Un pedone in meno richiede attività; mosse lente possono far svanire il compenso.",
+    "tags": [
+      "e4",
+      "italiana"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/1PB1P3/5N2/P1PP1PPP/RNBQK2R b KQkq - 0 4",
+    "ply": 7
+  },
+  {
+    "id": "gambetto-danese",
+    "name": "Gambetto danese",
+    "sourceName": "Danish Gambit",
+    "category": "gambetto",
+    "eco": "C21",
+    "pgn": "1. e4 e5 2. d4 exd4 3. c3",
+    "idea": "Il Bianco offre pedoni per aprire diagonali e sviluppare rapidamente gli alfieri.",
+    "caution": "Il Nero può restituire materiale per semplificare: non contare solo su un attacco diretto.",
+    "tags": [
+      "e4",
+      "sviluppo"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pppp1ppp/8/8/3pP3/2P5/PP3PPP/RNBQKBNR b KQkq - 0 3",
+    "ply": 5
+  },
+  {
+    "id": "gambetto-smith-morra",
+    "name": "Gambetto Smith-Morra",
+    "sourceName": "Sicilian Defense: Smith-Morra Gambit",
+    "category": "gambetto",
+    "eco": "B21",
+    "pgn": "1. e4 c5 2. d4 cxd4 3. c3",
+    "idea": "Il Bianco offre un pedone contro la Siciliana per aprire colonne e accelerare lo sviluppo.",
+    "caution": "Il compenso dipende dall’attività dei pezzi: evita scambi che la riducano senza motivo.",
+    "tags": [
+      "e4",
+      "siciliana"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkbnr/pp1ppppp/8/8/3pP3/2P5/PP3PPP/RNBQKBNR b KQkq - 0 3",
+    "ply": 5
+  },
+  {
+    "id": "gambetto-benko",
+    "name": "Gambetto Benko",
+    "sourceName": "Benko Gambit",
+    "category": "gambetto",
+    "eco": "A57",
+    "pgn": "1. d4 Nf6 2. c4 c5 3. d5 b5",
+    "idea": "Il Nero offre un pedone sull’ala di donna per ottenere colonne aperte e pressione duratura.",
+    "caution": "Il compenso è soprattutto posizionale: il pedone non si recupera necessariamente subito.",
+    "tags": [
+      "d4",
+      "ala di donna"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/p2ppppp/5n2/1ppP4/2P5/8/PP2PPPP/RNBQKBNR w KQkq - 0 4",
+    "ply": 6
+  },
+  {
+    "id": "gambetto-budapest",
+    "name": "Gambetto Budapest",
+    "sourceName": "Indian Defense: Budapest Gambit",
+    "category": "gambetto",
+    "eco": "A51",
+    "pgn": "1. d4 Nf6 2. c4 e5",
+    "idea": "Il Nero attacca subito d4 e offre il pedone e per guadagnare attività.",
+    "caution": "Dopo la cattura in e5 occorre sviluppare con precisione, non affidarsi alle trappole.",
+    "tags": [
+      "d4",
+      "attività"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+    "ply": 4
+  },
+  {
+    "id": "gambetto-blackmar-diemer",
+    "name": "Gambetto Blackmar-Diemer",
+    "sourceName": "Blackmar-Diemer Gambit",
+    "category": "gambetto",
+    "eco": "D00",
+    "pgn": "1. d4 d5 2. e4 dxe4 3. Nc3 Nf6",
+    "idea": "Il Bianco cerca di aprire il centro e la colonna f offrendo un pedone.",
+    "caution": "Il sacrificio non garantisce un attacco vincente: controlla sempre il compenso reale.",
+    "tags": [
+      "d4",
+      "attacco"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/ppp1pppp/5n2/8/3Pp3/2N5/PPP2PPP/R1BQKBNR w KQkq - 2 4",
+    "ply": 6
+  },
+  {
+    "id": "gambetto-scozzese",
+    "name": "Gambetto scozzese",
+    "sourceName": "Scotch Game: Scotch Gambit",
+    "category": "gambetto",
+    "eco": "C44",
+    "pgn": "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Bc4",
+    "idea": "Il Bianco sviluppa l’alfiere invece di ricatturare subito in d4.",
+    "caution": "Il Nero può restituire il pedone per svilupparsi: evita di basare il piano su una sola trappola.",
+    "tags": [
+      "e4",
+      "sviluppo"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkbnr/pppp1ppp/2n5/8/2BpP3/5N2/PPP2PPP/RNBQK2R b KQkq - 1 4",
+    "ply": 7
+  },
+  {
+    "id": "gambetto-viennese",
+    "name": "Gambetto viennese",
+    "sourceName": "Vienna Game: Vienna Gambit",
+    "category": "gambetto",
+    "eco": "C29",
+    "pgn": "1. e4 e5 2. Nc3 Nf6 3. f4",
+    "idea": "La spinta f4 sfida e5 dopo aver sviluppato il cavallo in c3.",
+    "caution": "Il Nero può reagire al centro: valuta d5 e non solo la cattura del pedone f.",
+    "tags": [
+      "e4",
+      "viennese"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4PP2/2N5/PPPP2PP/R1BQKBNR b KQkq - 0 3",
+    "ply": 5
+  },
+  {
+    "id": "gambetto-stafford",
+    "name": "Gambetto Stafford",
+    "sourceName": "Petrov's Defense: Stafford Gambit",
+    "category": "gambetto",
+    "eco": "C42",
+    "pgn": "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6",
+    "idea": "Il Nero rinuncia a recuperare subito il pedone e sviluppa il cavallo con idee di attacco.",
+    "caution": "È un gambetto rischioso: con una difesa accurata il Bianco può conservare il vantaggio materiale.",
+    "tags": [
+      "e4",
+      "rischioso"
+    ],
+    "source": "Lichess chess-openings · CC0",
+    "fen": "r1bqkb1r/pppp1ppp/2n2n2/4N3/4P3/8/PPPP1PPP/RNBQKB1R w KQkq - 1 4",
+    "ply": 6
+  }
+]
