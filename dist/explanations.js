@@ -7,7 +7,7 @@ export function materialBalance(c,color){return c.board().flat().filter(Boolean)
 export function explainMove({move,before,after,grade,opening}){
  const a=new Chess(move.before),b=new Chess(move.after),side=move.color,other=side==='w'?'b':'w',who=side==='w'?'Il Bianco':'Il Nero',enemy=side==='w'?'il Nero':'il Bianco',facts=[],center=['d4','e4','d5','e5'];
  const best=decodeLine(move.before,before?.lines?.[0]?.pv),reply=decodeLine(move.after,after?.lines?.[0]?.pv),same=best[0]?.uci===move.from+move.to+(move.promotion||'');
- let action=`${who} sposta il ${pieces[move.piece]} da ${move.from} a ${move.to}.`;
+ let action=`${who} sposta ${['q','r'].includes(move.piece)?'la':'il'} ${pieces[move.piece]} da ${move.from} a ${move.to}.`;
  if(move.flags.includes('k')||move.flags.includes('q'))action=`${who} arrocca ${move.flags.includes('k')?'corto':'lungo'}: il re va in ${move.to} e la torre entra in gioco.`;
  else if(move.captured)action=`${who} gioca ${move.san}: il ${pieces[move.piece]} da ${move.from} cattura un ${pieces[move.captured]} ${move.flags.includes('e')?'en passant':'in '+move.to}.`;
  if(move.promotion)action+=` Il pedone viene promosso a ${pieces[move.promotion]}.`;
