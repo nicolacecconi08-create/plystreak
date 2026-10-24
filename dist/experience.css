@@ -10,3 +10,5 @@ header{position:relative;padding-left:clamp(16px,3.2vw,46px);padding-right:clamp
 
 .coach-actions:not(:has(button:not([hidden]))){display:none}
 .reset-analysis{width:100%;margin:0 0 14px;padding:13px;font-weight:700}.board[data-mate=true]{outline:3px solid #c86a60;outline-offset:3px}.board[data-mate=true] .mate-king{background-image:radial-gradient(#d96b63aa,transparent)}
+
+.why-board{width:100%;max-width:320px;aspect-ratio:1;margin:12px 0}.why-board .square:disabled{opacity:1}.why-board .why-mark{box-shadow:inset 0 0 0 4px #ecaa48}.why-detail{margin:16px 0}.why-detail summary{cursor:pointer;font-weight:700}.game-recap:empty{display:none}.game-recap li{margin:8px 0}

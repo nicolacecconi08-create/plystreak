@@ -1,8 +1,8 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.4.0.json.gz",
-  "size": 2377237,
-  "sha256": "30a38f748072873b67e2cc2743be3af1f711a7b9735a6bb5cc97ba0b889733e1",
-  "notes": "Animazioni del coach corrette; giudizio di ogni mossa con criteri condivisi con la revisione; reset Nuova partita; effetto scacco matto e correzioni."
+  "path": "/updates/plystreak-core-1.5.0.json.gz",
+  "size": 2386503,
+  "sha256": "aede07e632b18a6d2a9622a6bc806d21fc08d87b9b81cc4f8c2462907ea5e521",
+  "notes": "Analisi automatica ultime 30 partite Chess.com, ripresa, profilo ed esercizi; ricontrollo giudizi, spiegazioni visive, riepiloghi e finali."
 }

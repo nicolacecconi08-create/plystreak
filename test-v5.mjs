@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {Chess} from './dist/vendor/chess.js';
+import {fetchLatestGames} from './dist/chess-api.js';
+import {checkedGrade} from './dist/move-grade.js';
+import {analyzeRecord} from './dist/batch-analysis.js';
+import {ENDGAMES,planContext,gameSummary} from './dist/coaching-tools.js';
+let requests=[];globalThis.fetch=async url=>{requests.push(url);return {ok:true,json:async()=>url.endsWith('archives')?{archives:['https://evil.example/2026/10','https://api.chess.com/pub/player/test/games/2026/09','https://api.chess.com/pub/player/test/games/2026/08']}:{games:Array.from({length:20},(_,i)=>({url:url+'/'+i,rules:'chess',pgn:'1. e4 e5 *',end_time:1700000000+(url.endsWith('09')?100:0)+i,white:{username:'test',rating:1000},black:{username:'other'}}))}}};
+const games=await fetchLatestGames('test');assert.equal(games.length,30);assert.equal(requests.length,3);assert.ok(games[0].playedAt>games.at(-1).playedAt);
+const chess=new Chess();chess.loadPgn('1. e4 e5 2. Nf3 Nc6 *');const moves=chess.history({verbose:true});let calls=0;const engine={evaluate:async fen=>{calls++;const c=new Chess(fen);return {cp:0,mate:null,lines:[{cp:0,pv:[c.moves({verbose:true})[0]?.lan]}]}}};let checkpoint;const record={pgn:chess.pgn()};const analysis=await analyzeRecord(record,{engine,onCheckpoint:a=>checkpoint=structuredClone(a)});assert.equal(analysis.details.length,4);assert.equal(calls,5);calls=0;await analyzeRecord({...record,analysis:checkpoint},{engine});assert.equal(calls,0);
+const controller=new AbortController();let saved;await assert.rejects(analyzeRecord(record,{engine,signal:controller.signal,onCheckpoint:a=>{saved=structuredClone(a);controller.abort()}}),/interrotta/);assert.equal(saved.details.length,1);calls=0;await analyzeRecord({...record,analysis:saved},{engine});assert.equal(calls,3);
+const before={cp:500,lines:[{cp:500,pv:['d2d4']}]},after={cp:-500,lines:[]};let verifies=0;const grade=await checkedGrade({evaluate:async(f,q,s,opts)=>{assert.deepEqual(opts.limits,[24,5000]);verifies++;return {cp:0,lines:[]}}},{move:moves[0],before,after});assert.equal(verifies,2);assert.equal(grade.verification,'changed');
+for(const game of ENDGAMES)assert.ok(!new Chess(game.fen).isGameOver());assert.ok(gameSummary(analysis.details,'w').moments.every(d=>d.side==='w'));console.log('PASS v1.5: latest 30 ordering/origin; per-move checkpoints, abort/resume; critical recheck; summaries and legal endgames.');
