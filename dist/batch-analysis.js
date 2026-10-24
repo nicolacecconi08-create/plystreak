@@ -21,11 +21,11 @@ export async function analyzeRecord(record,{engine,openings={},signal,onProgress
 export async function runBatch(username,{signal,onProgress,onSaved,engine=new Engine(()=>{})}={}){
  try{
   const job=await getRecord('batch-'+username,'meta');if(!job)return;
+  const records=await Promise.all(job.ids.map(id=>getRecord(id)));const pending=records.filter(r=>r&&!(r.analysis?.complete&&r.analysis.methodId===ANALYSIS_METHOD));const remaining=()=>pending.reduce((n,r)=>n+Math.max(0,r.plies-(r.analysis?.methodId===ANALYSIS_METHOD?r.analysis.checkpoint?.grades?.length||0:0)),0);let completed=0;const started=Date.now(),initialRemaining=remaining();
   const response=await fetch('vendor/openings.json');if(!response.ok)throw Error('Catalogo aperture non disponibile.');const openings=await response.json();
-  for(let i=0;i<job.ids.length;i++){
-   if(signal?.aborted)throw Error('Analisi interrotta.');const record=await getRecord(job.ids[i]);if(!record)continue;
-   if(record.analysis?.complete&&record.analysis.methodId===ANALYSIS_METHOD)continue;
-   const analysis=await analyzeRecord(record,{engine,openings,signal,onProgress:(ply,total,verify)=>onProgress?.(i+1,job.ids.length,ply,total,verify),onCheckpoint:analysis=>saveGame({...record,analysis})});
+  for(const [i,record] of pending.entries()){
+   if(signal?.aborted)throw Error('Analisi interrotta.');
+   const analysis=await analyzeRecord(record,{engine,openings,signal,onProgress:(ply,total,verify)=>onProgress?.(i+1,pending.length,ply,total,verify,completed>=3?Math.max(0,initialRemaining-completed)*(Date.now()-started)/completed:null),onCheckpoint:async analysis=>{await saveGame({...record,analysis});completed++}});
    await saveGame({...record,analysis});await onSaved?.();
   }
   await putRecord({...job,completedAt:Date.now()},'meta');
