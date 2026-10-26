@@ -2,7 +2,22 @@ import {Chess} from './vendor/chess.js';
 import {classify} from './analysis.js';
 export const positionKey=fen=>fen.split(' ').slice(0,4).join(' ');
 function material(c,side){const v={p:1,n:3,b:3,r:5,q:9,k:0};return c.board().flat().filter(Boolean).reduce((n,p)=>n+(p.color===side?1:-1)*v[p.type],0)}
-export function isSacrifice(move,before){if(before?.lines?.[0]?.pv?.[0]!==move.from+move.to+(move.promotion||''))return false;const c=new Chess(move.before),base=material(c,move.color);try{for(const u of before.lines[0].pv.slice(0,6)){const m=c.move({from:u.slice(0,2),to:u.slice(2,4),promotion:u[4]||'q'});if(m.color!==move.color&&m.captured&&['n','b','r','q'].includes(m.captured)&&base-material(c,move.color)>=3)return true}}catch{}return false}
+// Conservative: the offered piece must be captured immediately, and the loss
+// must survive our best legal immediate recapture. Ordinary exchanges do not qualify.
+export function isSacrifice(move,before){
+ const pv=before?.lines?.[0]?.pv;
+ if((before?.depth||before?.lines?.[0]?.depth||0)<18||pv?.[0]!==move.from+move.to+(move.promotion||'')||!['n','b','r','q'].includes(move.piece)||move.promotion)return false;
+ const c=new Chess(move.before),base=material(c,move.color);
+ try{
+  c.move({from:move.from,to:move.to,promotion:move.promotion});
+  const u=pv[1];if(!u)return false;
+  const reply=c.move({from:u.slice(0,2),to:u.slice(2,4),promotion:u[4]});
+  if(reply.to!==move.to||reply.captured!==move.piece||base-material(c,move.color)<2)return false;
+  const recaptures=c.moves({verbose:true}).filter(m=>m.to===reply.to&&m.captured);
+  for(const r of recaptures){const copy=new Chess(c.fen());copy.move({from:r.from,to:r.to,promotion:r.promotion});if(base-material(copy,move.color)<2)return false;}
+  return true;
+ }catch{return false;}
+}
 export function gradeMove({move,before,after,openings={},previousLoss=0}){return classify({before,after,side:move.color==='w'?1:-1,uci:move.from+move.to+(move.promotion||''),book:!!openings[positionKey(move.after)],sacrifice:isSacrifice(move,before),previousLoss})}
 
 export async function checkedGrade(engine,args,{signal,onVerify}={}){
