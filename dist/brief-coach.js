@@ -1,8 +1,11 @@
+import {getLanguage} from './i18n.js';
+import {localComment,localAnswer} from './coach-localized.js';
 import {Chess} from './vendor/chess.js';
 import {names,values,opposite,moveEvidence,hanging,pins} from './tactics.js';
 const piece=p=>`${names[p.type]} in ${p.square}`;
 const target=p=>(p.type==='q'||p.type==='r'?'la ':'il ')+piece(p);
 export function briefComment(move,before,after,grade,tone='warm',context={}){
+ if(getLanguage()!=='it')return localComment(move,before,after,grade,tone);
  const e=moveEvidence(move,after),c=e.c;
  if(c.isCheckmate())return 'Scacco matto: hai chiuso la partita! Il re avversario non ha più risposte legali.';
  if(c.isStalemate())return 'È stallo: il re avversario non è sotto scacco e non ha mosse legali. La partita è patta.';
@@ -29,10 +32,11 @@ export function briefComment(move,before,after,grade,tone='warm',context={}){
  else fact=strategyObservation(move)+' La valutazione non peggiora sensibilmente: puoi continuare a costruire la tua idea.';}
  return (tone==='direct'?'Buona scelta. ':tone==='quiet'?'Bene. ':pick(['Bene, un passo utile. ', 'Buona scelta per questa posizione. ', 'Questa idea regge al controllo. ', 'Bene, la valutazione della posizione tiene. ', 'Continua così, con attenzione. ']))+fact;
 }
-export function strategicHint(c){if(c.isCheck())return 'Il tuo re è sotto scacco: prima risolvi questo problema.';const loose=hanging(c,c.turn());if(loose.length)return `Controlla il tuo ${piece(loose[0])}: è attaccato e non è difeso. Come puoi gestire la minaccia?`;const pin=pins(c,opposite(c.turn()))[0];if(pin)return `Il tuo ${piece(pin.pinned)} è inchiodato al re: tienine conto quando conti i difensori.`;const attacked=c.board().flat().filter(p=>p&&p.color===c.turn()&&p.type!=='k'&&c.isAttacked(p.square,opposite(c.turn())));if(attacked.length)return `Controlla attaccanti e difensori del tuo ${piece(attacked.sort((a,b)=>values[b.type]-values[a.type])[0])}.`;return c.moveNumber()<12?'Quale pezzo deve ancora entrare in gioco? Pensa anche alla sicurezza del re.':'Qual è il tuo pezzo meno attivo? Cerca un modo per migliorarlo senza trascurare le minacce.'}
+export function strategicHint(c){if(getLanguage()!=='it')return localAnswer(c,'plan');if(c.isCheck())return 'Il tuo re è sotto scacco: prima risolvi questo problema.';const loose=hanging(c,c.turn());if(loose.length)return `Controlla il tuo ${piece(loose[0])}: è attaccato e non è difeso. Come puoi gestire la minaccia?`;const pin=pins(c,opposite(c.turn()))[0];if(pin)return `Il tuo ${piece(pin.pinned)} è inchiodato al re: tienine conto quando conti i difensori.`;const attacked=c.board().flat().filter(p=>p&&p.color===c.turn()&&p.type!=='k'&&c.isAttacked(p.square,opposite(c.turn())));if(attacked.length)return `Controlla attaccanti e difensori del tuo ${piece(attacked.sort((a,b)=>values[b.type]-values[a.type])[0])}.`;return c.moveNumber()<12?'Quale pezzo deve ancora entrare in gioco? Pensa anche alla sicurezza del re.':'Qual è il tuo pezzo meno attivo? Cerca un modo per migliorarlo senza trascurare le minacce.'}
 
 export function strategyObservation(move){const c=new Chess(move.after),old=new Chess(move.before),color=move.color,centers=['d4','e4','d5','e5'];const count=pos=>centers.filter(s=>pos.isAttacked(s,color)).length,delta=count(c)-count(old);if(delta>0)return `Ora controlli ${count(c)} delle quattro case centrali, ${delta} in più di prima.`;if(delta<0)return `Dopo la mossa controlli ${count(c)} delle quattro case centrali, ${-delta} in meno di prima.`;if(move.piece==='p')return 'Hai cambiato la struttura dei pedoni: questa spinta non può essere annullata.';if(move.piece==='k')return 'Hai cambiato la posizione del re: confronta la sua attività con gli attacchi avversari.';if(move.piece==='r'){const pawns=c.board().flat().filter(p=>p?.type==='p'&&p.square[0]===move.to[0]);return pawns.length?'La torre è su una colonna che contiene ancora pedoni.':'La torre è su una colonna aperta, senza pedoni.'}return `Hai riposizionato il ${names[move.piece]}: chiediti quali compiti può svolgere da ${move.to}.`}
 export function coachAnswer(c,question,color=c.turn(),lastGrade=null){
+ if(getLanguage()!=='it')return localAnswer(c,question,color,lastGrade);
  if(c.isGameOver())return c.isCheckmate()?'La partita è finita per scacco matto. Nel riepilogo puoi individuare un solo tema su cui lavorare alla prossima.':'La partita è terminata in patta. Guarda se il risultato era inevitabile oppure se avevi ancora margine prima della posizione finale.';
  if(question==='last'){if(!lastGrade?.move)return 'Appena avrai giocato una mossa, ne discuteremo qui. Per ora scegli liberamente il tuo piano.';return 'Sulla tua ultima mossa: '+briefComment(lastGrade.move,lastGrade.reviewBefore||lastGrade.before,lastGrade.after,lastGrade,'direct')}
  if(c.turn()!==color)return 'Aspettiamo la risposta dell’avversario: poi ragioniamo sulla posizione che avrai davanti.';

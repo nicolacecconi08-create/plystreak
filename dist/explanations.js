@@ -1,3 +1,5 @@
+import {t,getLanguage} from './i18n.js';
+import {localComment,pieceName} from './coach-localized.js';
 import {Chess} from './vendor/chess.js';
 const pieces={p:'pedone',n:'cavallo',b:'alfiere',r:'torre',q:'donna',k:'re'};
 const values={p:1,n:3,b:3,r:5,q:9,k:0};
@@ -30,5 +32,6 @@ export function explainMove({move,before,after,grade,opening}){
  }
  if(grade&&after?.mate!=null&&after.mate!==0&&Math.sign(after.cp)!==(side==='w'?1:-1)&&reply.length){reason=`La mossa permette all’avversario di avviare una linea di matto con ${reply[0].san}. `+reason;}
  let tip=b.isCheckmate()?'Ripercorri la posizione precedente: quali case di fuga mancavano al re e quali pezzi le controllavano?':b.isCheck()?'Quando c’è scacco, verifica prima tutte le risposte legali al re; solo dopo confronta i piani.':grade&&grade.loss>.05?'Prima di confermare una mossa, cerca scacchi e catture dell’avversario. Poi confronta la tua scelta con la prima mossa della linea migliore.':move.captured?'Una cattura non è automaticamente un guadagno: conta anche le possibili ricatture nella linea successiva.':a.moveNumber()<=10?'In apertura confronta sviluppo dei pezzi, controllo del centro e possibilità di arroccare. La valutazione del motore decide se un’eccezione funziona.':'Confronta la risposta più forte dell’avversario con il tuo piano: una buona mossa deve reggere anche contro quella risposta.';
+ if(getLanguage()!=='it')return {action:t('c.move',[pieceName(move.piece),move.from,move.to]),reason:grade?t('c.reason.'+grade.type)+' '+t('c.loss',[(grade.loss*100).toFixed(1)]):t('c.noeval'),facts:[localComment(move,before,after,grade,'quiet')],tip:t('c.tip'),best,reply,same,balance,delta,controlledA,controlledB};
  return{action,reason,facts,tip,best,reply,same,balance,delta,controlledA,controlledB};
 }

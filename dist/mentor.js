@@ -1,6 +1,8 @@
+import {getLanguage} from './i18n.js';
+import {localHint} from './coach-localized.js';
 import {coachAnswer} from './brief-coach.js';
 import {hanging,names,opposite} from './tactics.js';
-export function hintFor(c,step=0){
+export function hintFor(c,step=0){if(getLanguage()!=='it')return localHint(c,step);
  if(step===0||c.isCheck()||c.isGameOver())return {text:coachAnswer(c,'plan'),squares:[]};
  const side=c.turn(),loose=hanging(c,side);if(loose.length){const p=loose[0];return {text:`Guarda questo pezzo: ${names[p.type]} in ${p.square}. È attaccato e senza difesa. Puoi spostarlo, difenderlo o cercare un compenso? Confronta le possibilità prima di scegliere.`,squares:[p.square]}}
  const moves=c.moves({verbose:true}),pieces=c.board().flat().filter(p=>p?.color===side&&!['p','k'].includes(p.type));
