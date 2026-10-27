@@ -1,8 +1,8 @@
 {
-  "version": "1.9.4",
+  "version": "1.9.5",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.9.4.json.gz",
-  "size": 2497179,
-  "sha256": "04e795f111b0510ce77a99c1213987e53458ce21e24179d23785606cf874c8e5",
-  "notes": "Scacchiera adattata allo spazio disponibile con posto riservato ai comandi, intestazione compatta durante la revisione."
+  "path": "/updates/plystreak-core-1.9.5.json.gz",
+  "size": 2499972,
+  "sha256": "3b90d7b5ac08431f529ca8741521dd9ef4a827ef56ebfd9a4150224b8c722bfa",
+  "notes": "Valutazioni alternative coerenti, risposte agli esercizi verificate dalla stessa posizione, soluzioni guidate sulla scacchiera e nessuna penalità quando l’analisi è incerta."
 }

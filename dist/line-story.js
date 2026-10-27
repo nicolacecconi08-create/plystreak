@@ -8,7 +8,10 @@ const balance=(fen,side)=>new Chess(fen).board().flat().reduce((n,p)=>n+(p?(p.co
 export function stepStory(move){
  const who=move.color==='w'?'Il Bianco':'Il Nero';
  const action=move.flags.includes('k')||move.flags.includes('q')?`${who} arrocca: sposta il re e porta la torre verso il centro.`:move.captured?`${who} cattura un ${names[move.captured]} con ${noun(move.piece)}.`:`${who} sposta ${noun(move.piece)}.`;
- return action+' '+humanFacts(move).slice(0,2).join(' ');
+ const before=new Chess(move.before),after=new Chess(move.after);
+ const facts=humanFacts(move).filter(t=>!t.startsWith('Hai spostato')).slice(0,2).map(t=>t.replace('Hai dato scacco:','Il re avversario è sotto scacco:').replace('Spostando il pezzo hai aperto','Spostando il pezzo si apre').replace('Occupi una casa centrale','La mossa occupa una casa centrale'));
+ if(before.isCheck()&&!after.isCheckmate())facts.unshift(move.piece==='k'?'Il re si mette al riparo dallo scacco: nella nuova casa non è attaccato.':'La mossa risolve lo scacco al proprio re.');
+ return action+' '+facts.slice(0,2).join(' ');
 }
 export function lineStory(fen,pv,side){
  const line=legalVariation(fen,pv),first=line.moves[0];
