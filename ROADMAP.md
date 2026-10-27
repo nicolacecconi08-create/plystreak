@@ -1,9 +1,16 @@
 # Plystreak — priorità e stato verificato
 
-Aggiornato il 27 ottobre 2026, rilascio 1.9.5.
+Aggiornato il 27 ottobre 2026, rilascio 1.9.6.
 
 ## Criterio deciso
 Game Review e sistema dei problemi hanno pari priorità assoluta. Prima di aggiungere funzioni, riesaminare entrambe le aree e correggere i difetti rilevanti. Ordinare ogni lotto per affidabilità scacchistica, impatto sull’utente, dipendenze, costo e rischio; preservare dati e modifiche concorrenti.
+
+## Lotto 1.9.6 completato
+- Problemi: filtro per tema e alternanza dei temi tra le nuove posizioni; i ripassi dovuti conservano la precedenza.
+- Catalogo: 32 configurazioni legali, composte dai 16 scenari originali e dalle loro 16 versioni a colori invertiti, esplicitamente indicate. Verifica del motore anche dal lato del Nero.
+- Game Review: osservazioni concrete su difese abbandonate, pedoni passati, colonne libere per le torri e diagonali aperte per gli alfieri. I fatti geometrici non vengono presentati come vantaggi certi; promozioni e catture avversarie sono controllate.
+- Avvio sessione disabilitato fino al caricamento dei dati, con feedback quando nessuna posizione corrisponde ai filtri.
+- Verifiche: regressioni del progetto, legalità e obiettivi di tutte le 32 configurazioni, quattro casi dal lato del Nero con Stockfish, interazione browser sul filtro e sul matto del Nero.
 
 ## Lotto 1.9.5 completato
 - Game Review e motore condiviso: scartate alternative MultiPV di profondità diversa dalla prima scelta, punteggi limitati (bound) e duplicati della prima mossa. “Grande mossa” richiede alternative alla stessa profondità, almeno 16, senza confrontare matto e centipawn.

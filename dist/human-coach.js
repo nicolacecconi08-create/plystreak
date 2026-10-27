@@ -1,3 +1,4 @@
+import {positionalFacts} from './positional-facts.js';
 import {Chess} from './vendor/chess.js';
 import {names,pins,opposite,playUci} from './tactics.js';
 const noun=p=>({p:'il pedone',n:'il cavallo',b:'l’alfiere',r:'la torre',q:'la donna',k:'il re'})[p];
@@ -15,6 +16,7 @@ export function humanFacts(move,after){
  const r=new Chess(c.fen()),reply=playUci(r,after?.lines?.[0]?.pv?.[0]);
  if(reply){if(r.isCheckmate())facts.push(`L’avversario può dare scacco matto già alla prossima mossa con ${noun(reply.piece)}. Il tuo re non avrebbe una via di fuga e nessun pezzo potrebbe bloccare l’attacco o catturare chi lo attacca. È una minaccia immediata.`);else if(reply.captured)facts.push(`L’avversario può già catturare ${noun(reply.captured)} con ${noun(reply.piece)}. Questo è il pericolo da controllare: potresti perdere quel pezzo, oppure riprenderne uno a tua volta. Guarda i passaggi per distinguere una perdita da uno scambio.`);else if(targets(r,reply.to).length>=2)facts.push('L’avversario può rispondere attaccando due pezzi insieme: salvarne uno potrebbe lasciare esposto l’altro. Può farlo già al prossimo turno, ma potrebbe anche scegliere un’altra mossa.');}
 
+ facts.push(...positionalFacts(move));
  if(!facts.length){if(move.flags.includes('k')||move.flags.includes('q'))facts.push('Con l’arrocco cambi la protezione del re e attivi la torre. Ora valuta come coordinare gli altri pezzi.');else if('nb'.includes(move.piece)&&move.from[1]===(side==='w'?'1':'8'))facts.push('Porti un pezzo fuori dalla fila di partenza: ora può partecipare al gioco, invece di restare bloccato dietro ai pedoni.');else if(['d4','e4','d5','e5'].includes(move.to))facts.push('Occupi una casa centrale: può aiutarti a coordinare i pezzi, purché tu riesca a mantenerla difesa.');else if(move.captured)facts.push('La cattura cambia il bilancio materiale. Conta anche le ricatture, prima di decidere se lo scambio ti favorisce.');else facts.push(`Hai spostato ${noun(move.piece)}. Controlla cosa può attaccare da qui e se, spostandolo, hai lasciato senza protezione un altro pezzo.`);}
  return facts;
 }
