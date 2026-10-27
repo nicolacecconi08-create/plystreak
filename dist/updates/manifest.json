@@ -1,8 +1,8 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.9.0.json.gz",
-  "size": 2490829,
-  "sha256": "c5461d3a4a236e725ef309f0bab6828fb9314a1b6636f72758366225fac5398c",
-  "notes": "Confronto con la mossa migliore, varianti navigabili, spiegazioni più accessibili e criteri Geniale più prudenti."
+  "path": "/updates/plystreak-core-1.9.1.json.gz",
+  "size": 2493283,
+  "sha256": "39c31a172aaba19d998de71c328bf8f685cf4b073f68b016ddcb41feb0d8c9fc",
+  "notes": "Nome ed ECO per le mosse di teoria, con collegamento diretto alla sequenza di studio dell’apertura o gambit."
 }
