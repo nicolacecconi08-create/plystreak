@@ -1,9 +1,15 @@
 # Plystreak — priorità e stato verificato
 
-Aggiornato il 28 ottobre 2026, rilascio 1.9.8.
+Aggiornato il 28 ottobre 2026, rilascio 1.9.9.
 
 ## Criterio deciso
 Game Review e sistema dei problemi hanno pari priorità assoluta. Prima di aggiungere funzioni, riesaminare entrambe le aree e correggere i difetti rilevanti. Ordinare ogni lotto per affidabilità scacchistica, impatto sull’utente, dipendenze, costo e rischio; preservare dati e modifiche concorrenti.
+
+## Lotto 1.9.9 — colori delle frecce di cattura
+- Rosso riservato alla cattura consigliata dalla prima linea del motore, dalla posizione visibile, con profondità almeno 16 e variante legale.
+- Giallo per attacchi possibili, controllo delle caselle e catture legali non necessariamente consigliate.
+- Alternative di cattura favorevoli mostrate in giallo con legenda distinta: solo linee MultiPV alla stessa profondità, vantaggio di almeno 50 centipawn dal lato che muove e perdita rispetto alla prima scelta tra 0 e 50. Non si confrontano matto e centipawn; nessuna promessa di esito certo. La copertura è limitata alle alternative effettivamente restituite dal motore.
+- Test dedicati per prospettiva Bianco/Nero, profondità, bound, continuazioni illegali, mosse tranquille e vantaggi non confermati.
 
 ## Lotto 1.9.8 — revisione grafica di Ply
 - Sostituito il cavallino cartoon con un emblema sobrio da scacchi. Eliminati volto espressivo, accessori e animazione di saluto, come richiesto.

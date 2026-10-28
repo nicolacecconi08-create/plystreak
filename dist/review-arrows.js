@@ -1,5 +1,23 @@
 import {Chess} from './vendor/chess.js';
 
+// Use only coherent, legal engine lines from the displayed position.
+export function engineCaptureArrows(fen,result){
+ const lines=result?.lines||[],primary=lines[0];
+ if(!primary||primary.depth<16||!Number.isFinite(primary.depth)||primary.lowerbound||primary.upperbound)return [];
+ const side=fen.split(' ')[1]==='w'?1:-1,out=[];
+ for(const [i,line] of lines.entries()){
+  if(line.depth!==primary.depth||line.lowerbound||line.upperbound||!line.pv?.length)continue;
+  let first;try{const c=new Chess(fen);for(const u of line.pv){if(!/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(u))throw Error();const m=c.move({from:u.slice(0,2),to:u.slice(2,4),promotion:u[4]});first??=m}}catch{continue}
+  if(!first?.captured)continue;
+  if(i===0){out.push({...first,kind:'recommended',label:'Cattura consigliata dal motore'});continue}
+  // A favorable alternative must preserve a clear advantage and stay close to best.
+  if(primary.mate!=null||line.mate!=null||!Number.isFinite(primary.cp)||!Number.isFinite(line.cp))continue;
+  const advantage=line.cp*side,loss=(primary.cp-line.cp)*side;
+  if(advantage>=50&&loss>=0&&loss<=50)out.push({...first,kind:'favorable',label:'Cattura alternativa · posizione favorevole stimata'});
+ }
+ return out;
+}
+
 export function squareCenter(square,flipped=false){
  if(!/^[a-h][1-8]$/.test(square))return null;
  const file=square.charCodeAt(0)-97,rank=Number(square[1])-1;

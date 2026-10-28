@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {engineCaptureArrows} from './dist/review-arrows.js';
+const fen='7k/8/2q1r3/8/3N4/8/7K/8 w - - 0 1';
+const line=(pv,cp,depth=20)=>({pv,cp,depth,mate:null});
+const result={lines:[line(['d4c6'],300),line(['d4e6'],280)]};
+assert.deepEqual(engineCaptureArrows(fen,result).map(a=>a.kind),['recommended','favorable']);
+assert.equal(engineCaptureArrows(fen,{lines:[line(['d4c6'],300),line(['d4e6'],20)]}).length,1,'No favorable label without advantage');
+assert.equal(engineCaptureArrows(fen,{lines:[line(['d4c6'],300),line(['d4e6'],200)]}).length,1,'Reject costly alternative');
+assert.equal(engineCaptureArrows(fen,{lines:[line(['d4c6'],300),line(['d4e6'],280,18)]}).length,1,'Same depth required');
+assert.equal(engineCaptureArrows(fen,{lines:[line(['d4c6'],300,12)]}).length,0);
+assert.equal(engineCaptureArrows(fen,{lines:[line(['d4c6','a8a1'],300)]}).length,0,'Reject invalid continuation');
+assert.equal(engineCaptureArrows(fen,{lines:[{...line(['d4c6'],300),upperbound:true}]}).length,0);
+assert.equal(engineCaptureArrows(fen,{lines:[line(['d4f5'],300)]}).length,0,'Quiet best is not red');
+const black='8/7k/8/3n4/8/2Q1R3/8/7K b - - 0 1';
+assert.deepEqual(engineCaptureArrows(black,{lines:[line(['d5c3'],-300),line(['d5e3'],-280)]}).map(a=>a.kind),['recommended','favorable']);
+assert.equal(engineCaptureArrows(fen,{lines:[{...line(['d4c6'],100000),mate:3},line(['d4e6'],280)]}).length,1,'Do not compare mate to centipawns');
+console.log('PASS capture colors: recommended vs possible, favorable alternatives, both colors, depth, bounds, legal continuation, mate, quiet moves');

@@ -1,4 +1,4 @@
-import {reviewArrows,renderReviewArrows,attackArrows} from './review-arrows.js';
+import {reviewArrows,renderReviewArrows,attackArrows,engineCaptureArrows} from './review-arrows.js';
 import {fitReviewBoard} from './board-fit.js';
 import {lineStory,stepStory} from './line-story.js';
 import {theoryCard} from './opening-study.js';
@@ -29,14 +29,17 @@ function drawArrows(previous){
  const comparison=!!activeBranch?.comparison&&branchIndex===0;
  const best=game?reviewArrows({fen,next,played:comparison?moves[index-1]:null,comparison}):[];
  if(!activeBranch)for(const a of best)if(a.kind==='next')a.label='Migliore per chi deve muovere';
+ const captures=game?engineCaptureArrows(fen,source):[];
+ for(const a of best){const recommended=captures.find(c=>c.kind==='recommended'&&a.kind==='next'&&c.from===a.from&&c.to===a.to&&c.promotion===a.promotion);if(recommended){a.kind=recommended.kind;a.label=recommended.label}}
  const focus=selected||(previous&&currentChess().get(previous.to)?previous.to:null);
  const attacks=game&&focus?attackArrows(fen,focus,$('showControlSquares').checked):[];
- const arrows=[...(['both','attacks'].includes(arrowMode)?attacks:[]),...(['both','best'].includes(arrowMode)?best:[])];
- renderReviewArrows($('board'),arrows,flipped);
- const labels=[...new Map(arrows.map(a=>[a.kind,{kind:a.kind,label:a.label}])).values()];
+ const arrows=[...(['both','attacks'].includes(arrowMode)?[...attacks,...captures.filter(a=>a.kind==='favorable')]:[]),...(['both','best'].includes(arrowMode)?best:[])];
+ const unique=[...new Map(arrows.map(a=>[a.from+a.to+(a.promotion||''),a])).values()];
+ renderReviewArrows($('board'),unique,flipped);
+ const labels=[...new Map(unique.map(a=>[a.kind,{kind:a.kind,label:a.label}])).values()];
  $('arrowLegend').innerHTML=labels.map(a=>`<span class="arrow-key ${a.kind}">${esc(a.label)}</span>`).join('');
  $('arrowHelp').hidden=!game||arrowMode==='off';
- $('arrowHelp').textContent=['both','attacks'].includes(arrowMode)?'Tocca un pezzo per vedere i suoi attacchi. Il controllo di una casa non garantisce una cattura: contano turno, inchiodature e risposte avversarie.':'';
+ $('arrowHelp').textContent=['both','attacks'].includes(arrowMode)?'Rosso: cattura consigliata. Giallo: attacco possibile o cattura alternativa; la legenda distingue quelle con posizione favorevole stimata. Tocca un pezzo per esaminarlo. Nessun guadagno è garantito.':'';
  if(game&&['both','best'].includes(arrowMode)&&!best.length&&!currentChess().isGameOver())$('arrowHelp').textContent+=' La mossa migliore non è ancora disponibile per questa posizione.';
 }
 $('arrowMode').onchange=()=>{arrowMode=$('arrowMode').value;try{localStorage.setItem('plystreak-arrow-mode',arrowMode)}catch{}renderBoard()};
