@@ -1,3 +1,17 @@
+# Aggiornamento 1.11.1 · 29 ottobre 2026
+
+Audit delle priorità Game Review / problemi:
+- Riepilogo: un errore decisivo determina l’obiettivo prima di piccole imprecisioni ripetute. Nessuna mossa corretta elencata come errore da rivedere; gestita la selezione di un colore senza mosse ancora analizzate.
+- Spiegazioni: catture e ricatture sono riprodotte legalmente. Il saldo materiale distingue parità, guadagno e perdita; segnala ulteriori ricatture possibili e non confonde materiale con vantaggio posizionale. Nessuna notazione nelle nuove frasi. Le minacce immediate di matto vengono prima dei dettagli secondari.
+- Problemi: una PV non valida o interrotta prima della risposta del giocatore non viene più troncata per dichiarare completata la soluzione. Resta possibile saltare il problema senza penalità.
+- Aggiornamento del core PC 1.11.1, senza cambiare la shell nativa o i dati locali.
+
+Test: bilancio scambi per entrambi i colori, ricatture ancora aperte, PV invalide, priorità del matto, riepilogo vuoto e senza errori, soluzioni incomplete; regressioni spiegazioni, classificazioni, prossima mossa importante, ripasso/backup, catalogo. Controllo Stockfish delle quattro nuove linee. Nessuna modifica al layout in questa patch; non ripetuta una prova visiva su dispositivi.
+
+Restano prioritarie: spiegazioni posizionali più approfondite, qualità e ampiezza del catalogo, analisi confrontabili e classificazioni affidabili. La stima Elo della 1.11.0 resta euristica non calibrata.
+
+---
+
 # Aggiornamento 1.11.0 · 28 ottobre 2026
 
 Implementato:

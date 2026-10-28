@@ -2,8 +2,9 @@ import {Chess} from './vendor/chess.js';
 import {legalVariation,uciOf} from './best-comparison.js';
 // A bounded training line ends on the learner's turn, never on an unseen reply.
 export function trainingPath(fen,pv,maxPlies=5){
- const line=legalVariation(fen,pv.slice(0,maxPlies));
- if(line.moves.length%2===0){line.moves.pop();line.positions.pop();}
+ const requested=pv.slice(0,maxPlies),line=legalVariation(fen,requested);
+ if(line.moves.length!==requested.length)throw Error('La variante contiene un passaggio non valido: serve una nuova verifica.');
+ if(line.moves.length%2===0)throw Error('La variante si interrompe prima della tua risposta: soluzione incompleta.');
  if(!line.moves.length)throw Error('La variante non contiene una soluzione legale.');
  return line;
 }

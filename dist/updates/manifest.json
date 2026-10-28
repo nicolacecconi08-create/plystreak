@@ -1,8 +1,8 @@
 {
-  "version": "1.11.0",
+  "version": "1.11.1",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.11.0.json.gz",
-  "size": 2515901,
-  "sha256": "8f95724e0b5514e2bca6941c0d3a821e52191e661825cb6ef07ad77c05a97248",
-  "notes": "Problemi a sequenza con conferma visiva, percorsi alternativi verificati, nuovi scenari e meno ripetizioni. Stima Elo sperimentale e interfaccia responsive migliorata."
+  "path": "/updates/plystreak-core-1.11.1.json.gz",
+  "size": 2517323,
+  "sha256": "55177895bf558a8eb8c17ce98a906e5ec61b712d31ef866f2ebc9a028fb605fe",
+  "notes": "Spiegazioni concrete di scambi e ricatture, priorità alle minacce di matto, riepilogo centrato sugli errori decisivi e rifiuto delle soluzioni incomplete nei problemi."
 }
