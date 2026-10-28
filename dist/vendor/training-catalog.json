@@ -1,5 +1,73 @@
 [
   {
+    "id": "combo-sacrificio-linea",
+    "theme": "king",
+    "fen": "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16",
+    "solution": "b3b8",
+    "line": [
+      "b3b8",
+      "d7b8",
+      "d1d8"
+    ],
+    "objective": "Apri la colonna con un sacrificio e completa il matto.",
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 16
+    }
+  },
+  {
+    "id": "combo-matto-affogato",
+    "theme": "king",
+    "fen": "5r1k/6pp/4Q2N/8/8/8/8/7K w - - 0 1",
+    "solution": "e6g8",
+    "line": [
+      "e6g8",
+      "f8g8",
+      "h6f7"
+    ],
+    "objective": "Blocca il re con i suoi pezzi e completa il matto.",
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 16
+    }
+  },
+  {
+    "id": "combo-promozione",
+    "theme": "material",
+    "fen": "8/4P1k1/8/8/8/8/8/K7 w - - 0 1",
+    "solution": "e7e8q",
+    "objective": "Trasforma il pedone in un vantaggio decisivo.",
+    "line": [
+      "e7e8q"
+    ],
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 16
+    },
+    "goal": "promotion"
+  },
+  {
+    "id": "combo-infilata",
+    "theme": "material",
+    "fen": "8/8/8/8/7q/8/K5Bk/R7 w - - 0 1",
+    "solution": "a1h1",
+    "objective": "Costringi il re a spostarsi e recupera la donna.",
+    "line": [
+      "a1h1",
+      "h2g3",
+      "h1h4"
+    ],
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 16
+    },
+    "goal": "queen-recovery"
+  },
+  {
     "id": "lesson-doppio-1",
     "theme": "fork",
     "fen": "2q1k3/p6p/8/8/4N3/8/P6P/6K1 w - - 0 1",

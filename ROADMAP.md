@@ -1,3 +1,18 @@
+# Aggiornamento 1.11.0 · 28 ottobre 2026
+
+Implementato:
+- Problemi a sequenza: linea principale, risposte automatiche, nessuna riuscita prima della fine; alternative indicate e confrontate dal motore dalla posizione corrente. Le linee sono esercizi su una difesa verificata, non una prova che tutte le altre mosse siano sbagliate.
+- Spunta sulla scacchiera attenuata e Prossimo problema nel pannello. Ripeti, indizi e soluzione mostrata conservano il primo tentativo e gli intervalli di ripasso. Fallimenti del salvataggio segnalati senza annullare il risultato.
+- Quattro nuovi scenari (20 originali / 40 con inversione colori): sacrificio sulla colonna, matto affogato, promozione, infilata. Tutte le mosse controllate con Stockfish e legalità; due combinazioni con matto in due. Una famiglia per sessione; rotazione dei nuovi esercizi a pari priorità.
+- Stima Elo sperimentale della performance per colore: intervallo euristico, non calibrato su rating reali. Almeno 12 mosse utili, esclusione teoria, matto trovato, valutazioni estreme e profondità insufficienti. Nessuna equivalenza certificata con Chess.com/FIDE.
+- Layout problemi responsive, configurazione richiudibile, dimensionamento sulla finestra, comandi touch, focus tastiera, pannello laterale iPad e sotto la scacchiera su telefono.
+
+Verifiche: test sequenze e obiettivi, mate reali, nessuna riuscita anticipata, catalogo e simmetrie, ripasso e backup, valutazioni conservative, spiegazioni, frecce, navigazione. Browser: sequenza completa, risposta automatica, spunta, attenuazione e passaggio al successivo. Misure DOM a 390×844 e 820×1180 senza overflow orizzontale. Non eseguito test su dispositivi fisici; acquisizione screenshot browser non riuscita per timeout.
+
+Restano aperti: ampliamento sostanziale del catalogo da partite reali, modelli Elo calibrati su dataset, ulteriori spiegazioni strategiche contestuali e sincronizzazione account. Le priorità precedenti restano valide.
+
+---
+
 # Plystreak — priorità e stato verificato
 
 Aggiornato il 28 ottobre 2026, rilascio 1.10.0.
