@@ -1,8 +1,8 @@
 {
-  "version": "1.9.7",
+  "version": "1.9.8",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.9.7.json.gz",
-  "size": 2508442,
-  "sha256": "2b3c431c45a4fabef1bacff0ba95d83a65e6ba969ff0a93cb93c44742b367384",
-  "notes": "Frecce per la migliore, attacchi ai pezzi e controllo delle caselle. Nuova mascotte Ply."
+  "path": "/updates/plystreak-core-1.9.8.json.gz",
+  "size": 2507919,
+  "sha256": "76429e6c16d5f39aab4cc30a67bbdffe68f85f6197ef1c4a26b59ce99bb216e1",
+  "notes": "Ply ridisegnato come emblema essenziale da scacchi, senza elementi cartoon o animazioni di saluto."
 }
