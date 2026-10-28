@@ -1,9 +1,16 @@
 # Plystreak — priorità e stato verificato
 
-Aggiornato il 27 ottobre 2026, rilascio 1.9.6.
+Aggiornato il 28 ottobre 2026, rilascio 1.9.7.
 
 ## Criterio deciso
 Game Review e sistema dei problemi hanno pari priorità assoluta. Prima di aggiungere funzioni, riesaminare entrambe le aree e correggere i difetti rilevanti. Ordinare ogni lotto per affidabilità scacchistica, impatto sull’utente, dipendenze, costo e rischio; preservare dati e modifiche concorrenti.
+
+## Lotto 1.9.7 — frecce nell’analisi e mascotte
+- Freccia verde per la migliore dalla posizione visibile, solo con analisi disponibile; nel confronto delle alternative si parte dalla stessa posizione iniziale.
+- Frecce per gli attacchi del pezzo appena mosso o selezionato, catture legali immediate e, su richiesta, controllo delle caselle vuote. Turno, inchiodature, ostacoli ed en passant sono verificati; nessuna promessa di guadagno materiale.
+- Modalità migliore + attacchi, solo migliore, solo attacchi o nessuna; preferenza salvata. Frecce responsive, ruotabili e senza intercettare i tocchi.
+
+- Mascotte originale Ply: cavallino vettoriale nel marchio di tutte le pagine e nelle impostazioni, con movimento disattivabile e rispetto delle preferenze di accessibilità.
 
 ## Lotto 1.9.6 completato
 - Problemi: filtro per tema e alternanza dei temi tra le nuove posizioni; i ripassi dovuti conservano la precedenza.

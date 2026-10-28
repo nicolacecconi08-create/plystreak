@@ -12,3 +12,12 @@ header{position:relative;padding-left:clamp(16px,3.2vw,46px);padding-right:clamp
 .reset-analysis{width:100%;margin:0 0 14px;padding:13px;font-weight:700}.board[data-mate=true]{outline:3px solid #c86a60;outline-offset:3px}.board[data-mate=true] .mate-king{background-image:radial-gradient(#d96b63aa,transparent)}
 
 .why-board{width:100%;max-width:320px;aspect-ratio:1;margin:12px 0}.why-board .square:disabled{opacity:1}.why-board .why-mark{box-shadow:inset 0 0 0 4px #ecaa48}.why-detail{margin:16px 0}.why-detail summary{cursor:pointer;font-weight:700}.game-recap:empty{display:none}.game-recap li{margin:8px 0}
+
+.brand .ply-mascot{width:42px;height:42px;object-fit:contain;flex:none;margin-right:8px;transform-origin:50% 90%}
+.brand:hover .ply-mascot{animation:ply-greeting .6s ease-in-out}
+.ply-introduction{display:flex;align-items:center;gap:12px;padding:12px;background:var(--soft);border-radius:12px;margin-bottom:22px}
+.ply-introduction img{width:72px;height:72px;flex:none}.ply-introduction strong{font-size:16px;color:var(--ink)}.ply-introduction p{font-size:13px;margin:5px 0 0}
+@keyframes ply-greeting{25%{transform:rotate(-7deg)}65%{transform:rotate(6deg)}}
+@media(prefers-reduced-motion:reduce){.brand:hover .ply-mascot{animation:none}}
+[data-motion=off] .brand:hover .ply-mascot{animation:none}
+@media(max-width:700px){.brand .ply-mascot{width:36px;height:36px;margin-right:6px}}

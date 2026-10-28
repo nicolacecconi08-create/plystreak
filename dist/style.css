@@ -9,3 +9,24 @@ body{font-size:15px}main{max-width:1400px;padding-left:clamp(16px,3.2vw,46px);pa
 @media(min-width:701px) and (max-width:950px){.workspace{grid-template-columns:minmax(0,1fr) minmax(315px,1fr);gap:20px}.card{padding:20px}.moves-card{padding:0}.intro{flex-wrap:wrap;gap:14px}.board-toolbar{flex-wrap:wrap}.board-toolbar button{width:30px;height:40px}#positionLabel{min-width:82px;font-size:11px}.chart-card .section-heading{flex-wrap:wrap;gap:5px}.tabs{gap:19px}.tabs button{font-size:14px}.engine-pill{font-size:11px}.player{padding-left:25px}.import-actions{flex-wrap:wrap}}
 @media(max-width:700px){header{height:72px;padding:0 16px;gap:10px}.brand{font-size:28px;letter-spacing:-1px}.brand-icon{margin-right:6px;font-size:30px;width:27px}.subtle{font-size:12px;padding:11px 12px;min-height:42px}main{padding-top:27px}h1{font-size:31px}.intro p{font-size:14px}.engine-pill{font-size:12px}.card{padding:24px}.moves-card{padding:0}.player{height:59px}.board-toolbar{margin-left:25px;gap:0;padding:3px}.board-toolbar button{width:32px;height:42px;font-size:25px;flex-shrink:0}.nav{gap:0}#positionLabel{min-width:0;flex:1;max-width:115px;font-size:11px}.chart-card .section-heading{flex-wrap:wrap;gap:6px}.board-note{font-size:12px}.accuracy-row strong{font-size:40px}.square .coord{font-size:10px}.square .board-badge .badge{width:25px;height:25px}.insight-heading h3{font-size:20px}.move-details p{font-size:14px}.tabs{height:54px}.tabs button{font-size:15px}.import-actions{flex-wrap:wrap;gap:4px}textarea,select{font-size:16px}.depth-row label{font-size:13px}.depth-row select{max-width:55%}footer{flex-wrap:wrap;gap:10px;font-size:11px}.section-heading{flex-wrap:wrap}.progress-caption{flex-wrap:wrap}}
 @media(max-width:360px){.brand{font-size:24px}.subtle{font-size:11px;padding:9px}.card{padding:18px}.moves-card{padding:0}.board-toolbar button{width:28px}#positionLabel{font-size:10px}.board-toolbar{margin-left:0}.chart-card{margin-left:0}.tabs{gap:20px}.tabs button{font-size:14px}}
+
+/* Position annotations never consume grid space or intercept board input. */
+#board{position:relative;isolation:isolate}
+.review-arrows{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:6;overflow:visible}
+.review-arrow{opacity:.84;filter:drop-shadow(0 1px 1px #13291c80)}
+.review-arrow.next{color:#36b65c}.review-arrow.played{color:#f0a126}
+.review-arrow path{fill:none;stroke:currentColor;stroke-width:17;stroke-linejoin:round;stroke-linecap:round}
+.review-arrow.played path{stroke-dasharray:22 11}
+.review-arrow polygon{fill:currentColor}
+.arrow-controls{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin:7px 0 0 25px;font-size:11px}
+.arrow-controls button{padding:7px 10px;min-height:36px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:12px}
+#arrowLegend{display:flex;flex-wrap:wrap;gap:5px 12px;color:var(--ink)}
+.arrow-key:before{content:'➜';font-size:17px;margin-right:5px}.arrow-key.next:before{color:#25883e}.arrow-key.played:before{color:#bc7400}
+
+.review-arrow.attack{color:#f0a126}.review-arrow.control{color:#51a7ef}.review-arrow.capture{color:#e84a50}
+.review-arrow.attack path,.review-arrow.control path{stroke-dasharray:15 11;stroke-width:10}
+.review-arrow.control{opacity:.65}.review-arrow.capture path{stroke-width:13}
+.arrow-key.attack:before{color:#bc7400}.arrow-key.control:before{color:#287fbe}.arrow-key.capture:before{color:#d43a43}
+.arrow-controls select{min-height:36px;max-width:100%;background:var(--panel);color:var(--ink)}
+.control-squares{display:flex;align-items:center;gap:5px;min-height:36px}.control-squares input{width:18px;height:18px}
+.arrow-help{font-size:11px;line-height:1.45;margin:6px 0 0 25px;color:var(--muted)}
