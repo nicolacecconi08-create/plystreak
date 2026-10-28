@@ -32,3 +32,5 @@ body{font-size:15px}main{max-width:1400px;padding-left:clamp(16px,3.2vw,46px);pa
 .arrow-help{font-size:11px;line-height:1.45;margin:6px 0 0 25px;color:var(--muted)}
 
 .review-arrow.favorable path{stroke-width:14;stroke-dasharray:28 8}.review-arrow.recommended path{stroke-width:18}
+
+.important-navigation{margin:6px 0 0 25px;display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px}.important-navigation button{min-height:40px;padding:8px 12px;border-radius:7px;font-weight:600;font-size:12px}.important-navigation span{font-size:11px;color:var(--text-secondary,var(--muted));line-height:1.4}

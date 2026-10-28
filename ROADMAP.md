@@ -1,9 +1,16 @@
 # Plystreak — priorità e stato verificato
 
-Aggiornato il 28 ottobre 2026, rilascio 1.9.9.
+Aggiornato il 28 ottobre 2026, rilascio 1.10.0.
 
 ## Criterio deciso
-Game Review e sistema dei problemi hanno pari priorità assoluta. Prima di aggiungere funzioni, riesaminare entrambe le aree e correggere i difetti rilevanti. Ordinare ogni lotto per affidabilità scacchistica, impatto sull’utente, dipendenze, costo e rischio; preservare dati e modifiche concorrenti.
+Navigazione alla prossima mossa importante, Game Review e sistema dei problemi hanno pari priorità assoluta. Prima di aggiungere funzioni, riesaminare entrambe le aree e correggere i difetti rilevanti. Ordinare ogni lotto per affidabilità scacchistica, impatto sull’utente, dipendenze, costo e rischio; preservare dati e modifiche concorrenti.
+
+## Lotto 1.10.0 — navigazione ai momenti importanti
+- Pulsante «Prossima mossa importante» vicino ai controlli della scacchiera. Cerca dopo la mossa attuale nella partita originale, esce dalle varianti e torna alla revisione; non modifica PGN o dati.
+- Rileva mosse già analizzate classificate geniali, grandi mosse, errori, gravi errori e occasioni mancate; nuovi doppi attacchi non inchiodati, inchiodature al re, perdita del diritto di arrocco, matto/stallo e risposta di matto legale. Mostra il motivo del salto e distingue fine dei risultati da analisi incompleta. Non pretende di riconoscere ogni svolta strategica.
+- Dimensionamento scacchiera aggiornato per includere il nuovo comando.
+- Spiegazioni: perdita del diritto di arrocco dopo movimento del re e conseguenza indiretta dello scambio di donne con ricattura del re in una linea verificata. Il testo distingue risposta obbligata da possibilità e non attribuisce automaticamente un vantaggio nel finale.
+- Regressioni superate per Game Review, problemi e spiegazioni, più test dedicati alla navigazione e alle conseguenze indirette.
 
 ## Lotto 1.9.9 — colori delle frecce di cattura
 - Rosso riservato alla cattura consigliata dalla prima linea del motore, dalla posizione visibile, con profondità almeno 16 e variante legale.
@@ -35,12 +42,19 @@ Game Review e sistema dei problemi hanno pari priorità assoluta. Prima di aggiu
 - Problemi: incertezza, ricerca troppo superficiale o linea non corrispondente alla risposta non registrano un errore. Conservati primo tentativo, aiuti e intervalli di ripasso.
 - Soluzioni degli esercizi sulla scacchiera, con sequenza legale, commenti, avanti/indietro e ritorno al problema. La soluzione del catalogo viene verificata prima di mostrarla, anche se una nuova ricerca preferisce un’altra mossa.
 
-## Prossima rivalutazione: pari priorità
-1. Problemi: aumentare varietà e copertura degli errori ricorrenti con posizioni verificate; valutare esercizi che richiedano più risposte del giocatore, senza trasformare una sola sequenza in unica soluzione accettata.
-2. Game Review: approfondire le spiegazioni posizionali e il confronto concreto tra partita e alternativa; rafforzare campioni di regressione per accuracy e classificazioni, senza presentare equivalenza ai criteri proprietari di Chess.com.
-3. Infrastruttura trasversale: audit prestazioni su dispositivi reali, analisi approfondita selettiva e verifiche dei finali. Tablebase non implementate; richiedono decisione su disponibilità online/offline e fonte.
-4. Archivio e PGN: conservazione, recupero e integrità delle analisi. Archivio locale già presente; sincronizzazione richiede servizio esterno reale.
-5. Gioco dal vivo essenziale, dopo le priorità precedenti: regole, rotazione, cronologia, accesso alla revisione; poi orologi, ripresa, rivincita, patta e annullamento.
+## Priorità aggiornate dall’utente
+| Priorità | Area | Prossimo lavoro |
+| --- | --- | --- |
+| Massima assoluta | Prossima mossa importante | Pulsante implementato in 1.10.0; ampliare con evidenza verificata il riconoscimento delle svolte strategiche. |
+| Massima assoluta | Game Review | Correttezza di classificazioni e accuracy, regressioni, chiarezza e visibilità delle spiegazioni. |
+| Massima assoluta | Problemi | Audit delle risposte; varietà verificata e copertura degli errori ricorrenti; valutare esercizi con più risposte accettando alternative valide. |
+| Alta | Spiegazioni | Conseguenze indirette, attività e controllo delle case, struttura pedonale, sicurezza del re; spiegare chi beneficia degli scambi senza ridurre tutto al materiale. |
+| Alta | Approfondimenti | Varianti legali, risposte avversarie, conseguenze tattiche e strategiche, opportunità future e cambiamenti affidabili della valutazione. Distinguere possibilità da necessità. |
+| Successiva | Infrastruttura | Prestazioni su dispositivi reali, analisi selettiva, finali e tablebase da valutare. |
+| Successiva | Archivio e PGN | Integrità e recupero; sincronizzazione subordinata a servizio esterno reale. |
+| Successiva | Gioco dal vivo | Prima regole, rotazione, cronologia e revisione; poi orologi, ripresa, rivincita e patta/annullamento. |
+
+Le tre nuove priorità provengono dall’ultimo messaggio esplicito dell’utente. Il completamento del pulsante non equivale al completamento di tutti i miglioramenti delle spiegazioni.
 
 ## Vincoli e blocchi
 - Login e sincronizzazione reali restano bloccati dalla configurazione di un servizio esterno: vedere AUTH-PLAN.md. Nessuna autenticazione fittizia.

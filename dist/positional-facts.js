@@ -3,6 +3,8 @@ const noun=p=>({p:'il pedone',n:'il cavallo',b:'l’alfiere',r:'la torre',q:'la 
 export function positionalFacts(move){
  const old=new Chess(move.before),now=new Chess(move.after),side=move.color,out=[];
  if(now.isGameOver())return out;
+ const rights=side==='w'?/[KQ]/:/[kq]/;
+ if(move.piece==='k'&&!/[kq]/.test(move.flags)&&rights.test(move.before.split(' ')[2])&&!rights.test(move.after.split(' ')[2]))out.push('Muovendo il re rinunci definitivamente all’arrocco, anche se tornerà nella casa di partenza. Dovrai proteggerlo e far entrare in gioco le torri in un altro modo.');
  const captures=now.moves({verbose:true}).filter(m=>m.captured);
  // Describe an actual legal capture, never an attack by an absolutely pinned piece.
  for(const p of now.board().flat().filter(p=>p&&p.color===side&&p.type!=='k'&&p.square!==move.to)){

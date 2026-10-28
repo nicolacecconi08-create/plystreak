@@ -12,7 +12,8 @@ export function fitReviewBoard(){
   const nav=document.querySelector('.app-nav');
   const box=wrap.getBoundingClientRect(),bar=toolbar.getBoundingClientRect();
   // The distance below the board includes player, margins, gaps and navigation controls.
-  const below=bar.bottom-box.bottom;
+  const important=document.querySelector('.important-navigation');
+  const below=(important?important.getBoundingClientRect().bottom:bar.bottom)-box.bottom;
   const reserve=small&&nav?nav.getBoundingClientRect().height+12:16;
   const workspace=document.querySelector('.workspace');
   // Use the normal document position, unaffected by the sticky column while scrolling.
@@ -30,5 +31,5 @@ window.addEventListener('resize',fitReviewBoard);
 window.visualViewport?.addEventListener('resize',fitReviewBoard);
 document.fonts?.ready.then(fitReviewBoard);
 const observer=new ResizeObserver(fitReviewBoard);
-for(const selector of ['header','.intro','.board-toolbar','.player:has(#bottomName)','.app-nav']){const el=document.querySelector(selector);if(el)observer.observe(el);}
+for(const selector of ['header','.intro','.board-toolbar','.important-navigation','.player:has(#bottomName)','.app-nav']){const el=document.querySelector(selector);if(el)observer.observe(el);}
 fitReviewBoard();

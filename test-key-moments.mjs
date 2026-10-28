@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {Chess} from './dist/vendor/chess.js';
+import {nextImportant,importantReason} from './dist/key-moments.js';
+import {humanFacts} from './dist/human-coach.js';
+import {positionalFacts} from './dist/positional-facts.js';
+const c=new Chess();c.loadPgn('1. e4 d5 2. exd5 Qxd5 3. Nc3 *');const moves=c.history({verbose:true});
+const grades=moves.map(()=>({type:'book'}));grades[1]={type:'mistake'};
+assert.equal(nextImportant(moves,grades,[],0).index,2);
+assert.equal(nextImportant(moves,grades,[],2),null);
+assert.equal(nextImportant(moves,[],[],0),null,'Do not guess importance before analysis');
+grades[4]={type:'brilliant'};assert.equal(nextImportant(moves,grades,[],2).index,5);assert.equal(nextImportant(moves,grades,[],5),null);
+const k=new Chess('r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1'),km=k.move('Kf1');
+assert(importantReason(km,{type:'good'},null).includes('arroccare'));assert(positionalFacts(km).some(s=>s.includes('definitivamente')));
+const q=new Chess('r2qk2r/8/8/8/8/8/8/3QK3 w kq - 0 1'),m=q.move('Qxd8+');
+const facts=humanFacts(m,{lines:[{pv:['e8d8']}]});assert(facts.some(s=>s.includes('re avversario ricattura')&&s.includes('non obbligata')));
+assert(!humanFacts(m,{lines:[{pv:['e8e6']}]}).some(s=>s.includes('ricattura la donna')),'No illegal hypothetical consequence');
+const noRights=new Chess('r2qk2r/8/8/8/8/8/8/3QK3 w - - 0 1'),nr=noRights.move('Qxd8+');assert(!humanFacts(nr,{lines:[{pv:['e8d8']}]}).some(s=>s.includes('perde il diritto')));
+console.log('PASS: next important, current skipped, end, partial analysis, changed grades, castling loss, conditional queen exchange, invalid reply and pre-existing loss of rights');
