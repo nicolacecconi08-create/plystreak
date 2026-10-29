@@ -1,8 +1,8 @@
 {
-  "version": "1.14.1",
+  "version": "1.14.2",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.14.1.json.gz",
-  "size": 2531587,
-  "sha256": "885120ccf4e85d42fadc7a8c6843244f9df38a8360b4e2bcb301630b8776f299",
-  "notes": "Scorrimento rapido di tutte le mosse fino al prossimo momento saliente. Analisi ottimizzata con cronologia incrementale e cache dei ricontrolli a parametri identici, senza ridurre la profondit\u00e0."
+  "path": "/updates/plystreak-core-1.14.2.json.gz",
+  "size": 2532594,
+  "sha256": "bf4cf0b425fc091aae42ac16419ad0f9eb7268779a0d47731da2c0f90e348588",
+  "notes": "Animazione della patta: bagliore dorato breve sulla scacchiera e sui due re, con supporto per ripetizione e risultato PGN."
 }

@@ -1,3 +1,10 @@
+## 1.14.2 — Animazione patta
+- Bagliore dorato neutro per 1,1 secondi sulla scacchiera e sui due re, senza cambiare pezzi o posizione e senza stile persistente.
+- Motore di animazione condiviso da Analisi/coach/miniscacchiere; in Analisi cronologia memoizzata per riconoscere ripetizioni e risultato PGN alla posizione finale. Il matto ha precedenza.
+- Non riparte a ogni render; si annulla cambiando posizione, rispetta riduzione movimento e animazioni off, viene rinviata all'arrivo durante scorrimento rapido.
+- Test draw-animation, rapid-analysis, review-resume passati: stallo, materiale insufficiente, ripetizione, entrambi i re, lifecycle e accessibilità. Nessuna prova visiva su dispositivi fisici.
+- PC core 1.14.2, export nativo conservato.
+
 ## 1.14.1 — Scorrimento saliente e ottimizzazioni
 - Prossima mossa saliente riproduce tutte le semimosse intermedie, 45–110 ms ciascuna, con animazione pezzi accelerata; spiegazioni e frecce complete solo all'arrivo.
 - Annullamento con altri comandi, tastiera o scheda nascosta; nessuna sovrascrittura tardiva della posizione. Riduzione movimento/animazioni off: salto immediato. Celebrazione solo all'arrivo.
