@@ -1,3 +1,22 @@
+# Aggiornamento 1.12.1 · 29 ottobre 2026
+
+Audit priorità: classificazioni, confronto, aperture e integrità dei problemi.
+
+Correzioni effettive:
+- Falso Brilliant quando la perdita apparente viene recuperata con una cattura su un’altra casa nella mossa successiva della variante. Ora si riproduce legalmente anche quel passaggio e si riconta il materiale.
+- Mosse obbligate escluse dai sacrifici classificabili come Geniali; una variante priva della continuazione legale non fornisce prova sufficiente.
+- Geniale richiede entrambe le valutazioni a profondità almeno 18 e differenza di profondità non superiore a due. Incertezza nella verifica approfondita elimina l’etichetta invece di conservarla.
+- Criteri aggiornati nel dialogo informativo; corretta la descrizione della persistenza locale dei dati.
+- Pacchetto PC 1.12.1 aggiornato sui soli file condivisi modificati, preservando tutte le altre integrazioni native.
+
+Test superati: nuovi casi di controcattura, scelta forzata, PV troncate/illegali, colori invertiti, profondità incompatibili, ricontrollo che invalida l’etichetta. Stockfish reale conferma che il sacrificio di donna con matto conserva Geniale, mentre un semplice matto di torre non lo riceve. Regressioni classificazioni, confronto dalla stessa posizione, aperture/trasposizioni/link alla lezione, spiegazioni, riepiloghi, prossima mossa importante, frecce, problemi e progressione.
+
+Funzioni già presenti e preservate: Mostra la mossa migliore, navigazione della variante e ritorno alla partita; Teoria con nome/ECO e studio della posizione effettiva. Nessuna modifica del layout; nessuna nuova prova visiva su iPad/telefono in questa patch.
+
+Account/sincronizzazione: resta il prerequisito esterno descritto in AUTH-PLAN.md; progetto statico senza configurazione Supabase/Firebase, nessun login simulato. Le analisi storiche non sono sovrascritte: usare Ripeti analisi per applicare i criteri aggiornati.
+
+---
+
 # Aggiornamento 1.12.0 · 29 ottobre 2026
 
 Richiesta: difficoltà graduale dei problemi, inclusi pezzi distrattori.

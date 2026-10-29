@@ -13,7 +13,7 @@ assert.equal(isSacrifice(ordinary,result(['e2e3','e4e3','e1e3'])),false);
 // A piece unrelated to the selected move is lost later: not an intentional sacrifice.
 const unrelated=pos(new Chess().fen(),'e2e4');assert.equal(isSacrifice(unrelated,result(['e2e4','e7e5','g1f3','b8c6'])),false);
 const offer=pos('6k1/5ppp/8/8/8/3B4/8/6K1 w - - 0 1','d3h7');
-assert.equal(isSacrifice(offer,result(['d3h7','g8h7'])),true);
+assert.equal(isSacrifice(offer,result(['d3h7','g8h7','g1f2'])),true);
 assert.equal(isSacrifice(offer,result(['d3h7','g8h7'],50,10)),false);
 assert.notEqual(gradeMove({move:offer,before:result(['d3h7','g8h7']),after:result([], -500)}).type,'brilliant');
 const fen=new Chess().fen(),pv=['e2e4','e7e5','g1f3','a1a8'];const line=legalVariation(fen,pv);assert.equal(line.moves.length,3);assert.equal(line.positions[0],fen);assert.equal(pv.length,4);assert.equal(legalVariation(fen,['bad']).moves.length,0);
