@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {RapidReview,rapidDelay} from './dist/rapid-review.js';
+import {reviewHistory} from './dist/review-history.js';
+import {Chess} from './dist/vendor/chess.js';
+import {Engine} from './dist/analysis.js';
+let steps=[],delays=[];const rapid=new RapidReview(async ms=>delays.push(ms));
+assert(await rapid.play(3,9,i=>steps.push(i)));assert.deepEqual(steps,[4,5,6,7,8,9]);assert(!rapid.running);assert(delays.every(d=>d<=110&&d>=45));
+steps=[];await rapid.play(1,7,i=>steps.push(i),{reduced:true});assert.deepEqual(steps,[7]);
+steps=[];assert.equal(await rapid.play(0,8,i=>{steps.push(i);if(i===3)rapid.cancel()}),false);assert.deepEqual(steps,[1,2,3]);
+let release;const interrupted=new RapidReview(()=>new Promise(r=>release=r));const old=interrupted.play(0,5,()=>{});interrupted.cancel();await interrupted.play(0,1,()=>{},{reduced:true});release();assert.equal(await old,false);
+const c=new Chess();c.loadPgn('1. Nf3 Nf6 2. Ng1 Ng8 3. Nf3 Nf6 4. Ng1 Ng8');const moves=c.history({verbose:true}),history=reviewHistory(moves,moves[0].before);
+for(let i=0;i<=moves.length;i++)assert.equal(history(i).fen(),i?moves[i-1].after:moves[0].before);
+assert(history(8).isThreefoldRepetition());assert.equal(history(2).fen(),moves[1].after);assert(history(8).isThreefoldRepetition());
+// Fake UCI transport verifies exact caching keys, including limits/searchmoves.
+const engine=new Engine(()=>{});engine.init=async()=>{};let runs=0;
+engine.worker={postMessage(cmd){if(cmd.startsWith('go ')){runs++;queueMicrotask(()=>{engine.pending.line('info depth 24 multipv 1 score cp 25 pv e2e4 e7e5');engine.pending.line('bestmove e2e4');});}}};
+const fen=new Chess().fen();await engine.evaluate(fen,'deep','',{limits:[24,5000]});await engine.evaluate(fen,'deep','',{limits:[24,5000]});assert.equal(runs,1);
+await engine.evaluate(fen,'deep');assert.equal(runs,2);
+await engine.evaluate(fen,'deep','e2e4',{limits:[24,5000]});assert.equal(runs,3);
+await engine.evaluate(fen,'deep','',{limits:[24,6000]});assert.equal(runs,4);
+await engine.evaluate(fen,'deep','',{limits:[24,5000],skill:5});await engine.evaluate(fen,'deep','',{limits:[24,5000],skill:5});assert.equal(runs,6);
+console.log('PASS: every intermediate move, reduced motion, cancellation/reentrancy, exact positions/repetition, separate engine cache keys and reuse');

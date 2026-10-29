@@ -1,3 +1,11 @@
+## 1.14.1 — Scorrimento saliente e ottimizzazioni
+- Prossima mossa saliente riproduce tutte le semimosse intermedie, 45–110 ms ciascuna, con animazione pezzi accelerata; spiegazioni e frecce complete solo all'arrivo.
+- Annullamento con altri comandi, tastiera o scheda nascosta; nessuna sovrascrittura tardiva della posizione. Riduzione movimento/animazioni off: salto immediato. Celebrazione solo all'arrivo.
+- Analisi: cronologia scacchistica incrementale anziché ricostruzione dal principio a ogni valutazione, preservando ripetizione e regola 50 mosse. Cache anche dei ricontrolli profondi con chiavi distinte per posizione, qualità, searchmoves, livello e limiti. Nessuna riduzione di profondità o tempo motore.
+- Test rapid-analysis, resume, key-moments, Brilliant, review-practice passati; Stockfish reale mantiene sacrificio di donna verificato e non assegna Geniale al matto ordinario.
+- Browser: osservata mossa 1 Nero durante lo scorrimento, arrivo su 2 Bianco con spiegazione Grave errore. Nessuna misura comparativa su dispositivi fisici; guadagno dipende da partita e cache.
+- PC core 1.14.1 con export nativo preservato.
+
 ## 1.14.0 — Ripresa, salvataggio e progressi
 - Analisi salvata in IndexedDB dopo ogni mossa completata, inclusi risultati motore e giudizi verificati. Pulsante Riprendi analisi distinto dal ricalcolo completo, Riapri ultima analisi salvata; apertura da archivio recupera checkpoint coerenti col PGN.
 - Checkpoint versionati e validati alla lettura: nessun salto oltre giudizi mancanti, varianti illegali troncate. Backup conserva checkpoint; snapshot ottimizzato senza rigiocare tutte le varianti a ogni salvataggio.
