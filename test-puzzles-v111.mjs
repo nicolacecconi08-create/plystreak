@@ -12,7 +12,7 @@ for(const c of expandedCatalog(bank).filter(c=>c.line)){
 const path=trainingPath(combo.fen,combo.line);assert.equal(path.moves.length,3);assert(!pathComplete(path,1));assert(!pathComplete(path,2));assert(pathComplete(path,3));
 assert.equal(verifiedPath(combo.fen,['b3b8','a1a8']),null);
 const deck=makeDeck([],bank);for(let i=0;i<20;i++){const q=reviewQueue(deck.cards,[],{random:Math.random});assert.equal(new Set(q.map(c=>c.family||c.id)).size,q.length);}
-const moves=Array.from({length:30},()=>({color:'w'})),grades=moves.map(()=>({type:'best',accuracy:95,loss:.001})),results=moves.map(()=>({cp:10,depth:20,mate:null}));
+const moves=Array.from({length:30},()=>({color:'w',before:'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'})),grades=moves.map(()=>({type:'best',accuracy:95,loss:.001})),results=Array.from({length:31},()=>({cp:10,depth:20,mate:null}));
 assert.equal(performanceEstimate(moves,grades,'w',results).count,30);
 assert(!performanceEstimate(moves.slice(0,6),grades,'w',results).low);
 assert(!performanceEstimate(moves,grades.slice(0,4),'w',results).low);

@@ -13,3 +13,7 @@
 .analysis-page.review-loaded .player .avatar{width:30px;height:30px}
 .analysis-page.review-loaded .board-toolbar{margin-top:8px}
 @media(max-width:700px){.analysis-page.review-loaded .intro h1{font-size:20px!important}.analysis-page.review-loaded .intro{flex-wrap:nowrap}.analysis-page.review-loaded .engine-pill{font-size:10px;padding:6px}.analysis-page.review-loaded .workspace{gap:6px}}
+
+/* Keep the salient-move action next to the ordinary move navigation. */
+.analysis-page .important-navigation{margin:6px 0 0 25px;display:flex;flex-direction:column;align-items:stretch;gap:4px}.analysis-page #nextImportant{min-height:44px;font-size:14px;width:100%;font-weight:700}.analysis-page #importantStatus{min-height:16px}
+@media(max-width:700px){.analysis-page .important-navigation{order:4;width:100%;margin:0}.analysis-page .arrow-controls,.analysis-page .arrow-help{order:4;width:100%}.analysis-page .board-note{order:4}.analysis-page #nextImportant{min-height:44px}}

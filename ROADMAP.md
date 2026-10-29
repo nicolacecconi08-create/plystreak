@@ -1,3 +1,11 @@
+## 1.13.1 — Navigazione saliente e stima Elo prudente
+- Pulsante primario Prossima mossa saliente, descrizione del prossimo evento, 44px e ordine esplicito su layout mobile (prima mancava e il controllo poteva separarsi dalla navigazione).
+- Stima performance: minimo 20 scelte non obbligate fuori teoria, cp iniziale entro 600, nessun matto, profondità prima/dopo >=18 e differenza <=2, no bound. Risultati mancanti/invalidi esclusi.
+- Scala cubica prudente con penalità di perdita media, errori e svarioni; limiti superiori espliciti 2200, 1900 su campione sotto 30, 1600 per uno svarione, 1300 per almeno due. Anche gli errori che entrano in matto contano. Non è un modello calibrato su rating reali.
+- Test regressione performance (90%, campioni corti, mosse obbligate, profondità discordanti, errori fuori campione), navigazione saliente, puzzle, rating, review e Brilliant passati.
+- Browser: salto al grave errore e poi al matto, fine navigazione disabilitata, partita corta senza stima. CSS responsive verificato nel codice; nessun test su dispositivo fisico.
+- Core PC 1.13.1 aggiornato con sostituzioni mirate su app.js/index.html per preservare integrazioni native.
+
 ## 1.13.0 — Elo problemi e allenamento continuo
 - Indice locale da 800 punti, difficoltà nominale, esito, errori, aiuti; bonus contenuti di velocità e streak. Non è Elo ufficiale o calibrato sulle partite.
 - Timer di riflessione esclude motore e scheda nascosta, conserva tempo/errori al reset. Storico pregresso senza misure non rivalutato.
