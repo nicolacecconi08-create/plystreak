@@ -14,7 +14,8 @@
       "engine": "Stockfish 19 Lite",
       "allPlies": true,
       "depth": 16
-    }
+    },
+    "difficulty": 3
   },
   {
     "id": "combo-matto-affogato",
@@ -31,7 +32,8 @@
       "engine": "Stockfish 19 Lite",
       "allPlies": true,
       "depth": 16
-    }
+    },
+    "difficulty": 3
   },
   {
     "id": "combo-promozione",
@@ -47,7 +49,8 @@
       "allPlies": true,
       "depth": 16
     },
-    "goal": "promotion"
+    "goal": "promotion",
+    "difficulty": 1
   },
   {
     "id": "combo-infilata",
@@ -65,7 +68,8 @@
       "allPlies": true,
       "depth": 16
     },
-    "goal": "queen-recovery"
+    "goal": "queen-recovery",
+    "difficulty": 2
   },
   {
     "id": "lesson-doppio-1",
@@ -80,7 +84,8 @@
       "best": "e4d6",
       "cp": 8,
       "solutionCp": 0
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-doppio-2",
@@ -95,7 +100,8 @@
       "best": "d4f5",
       "cp": 0,
       "solutionCp": 0
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-doppio-3",
@@ -110,7 +116,8 @@
       "best": "d5e7",
       "cp": 441,
       "solutionCp": 450
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-doppio-4",
@@ -125,7 +132,8 @@
       "best": "f4e6",
       "cp": 617,
       "solutionCp": 618
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-inchiodatura-1",
@@ -140,7 +148,8 @@
       "best": "h1h5",
       "cp": 460,
       "solutionCp": 466
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-inchiodatura-2",
@@ -155,7 +164,8 @@
       "best": "g1g4",
       "cp": 448,
       "solutionCp": 449
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-inchiodatura-3",
@@ -170,7 +180,8 @@
       "best": "c4e5",
       "cp": 489,
       "solutionCp": 492
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-inchiodatura-4",
@@ -185,7 +196,8 @@
       "best": "a6b7",
       "cp": -20,
       "solutionCp": -25
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-presa-1",
@@ -200,7 +212,8 @@
       "best": "d3h7",
       "cp": 622,
       "solutionCp": 983
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-presa-2",
@@ -215,7 +228,8 @@
       "best": "f3e5",
       "cp": 631,
       "solutionCp": 619
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-presa-3",
@@ -230,7 +244,8 @@
       "best": "c1c6",
       "cp": 800,
       "solutionCp": 1208
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-presa-4",
@@ -245,7 +260,8 @@
       "best": "d2d7",
       "cp": 100000,
       "solutionCp": 100000
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-matto-1",
@@ -260,7 +276,8 @@
       "best": "e1e8",
       "cp": 100000,
       "solutionCp": 100000
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-matto-2",
@@ -275,7 +292,8 @@
       "best": "d1d8",
       "cp": 100000,
       "solutionCp": 100000
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-matto-3",
@@ -290,7 +308,8 @@
       "best": "g6g7",
       "cp": 100000,
       "solutionCp": 100000
-    }
+    },
+    "difficulty": 1
   },
   {
     "id": "lesson-matto-4",
@@ -305,6 +324,171 @@
       "best": "b6b7",
       "cp": 100000,
       "solutionCp": 100000
-    }
+    },
+    "difficulty": 1
+  },
+  {
+    "id": "lesson-matto-1-level-2",
+    "theme": "king",
+    "fen": "6k1/pp3ppp/2n5/8/8/2N5/PP3PPP/4R1K1 w - - 0 1",
+    "solution": "e1e8",
+    "objective": "Trova il matto in una mossa.",
+    "target": null,
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-matto-1",
+    "difficulty": 2,
+    "line": [
+      "e1e8"
+    ],
+    "distractors": 6
+  },
+  {
+    "id": "lesson-matto-1-level-3",
+    "theme": "king",
+    "fen": "6k1/pp1p1ppp/1bn5/8/8/2NB4/PP1P1PPP/4R1K1 w - - 0 1",
+    "solution": "e1e8",
+    "objective": "Trova la mossa che sfrutta la posizione e completa la sequenza.",
+    "target": null,
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-matto-1",
+    "difficulty": 3,
+    "line": [
+      "e1e8"
+    ],
+    "distractors": 10
+  },
+  {
+    "id": "lesson-doppio-3-level-2",
+    "theme": "fork",
+    "fen": "r1q3k1/pp5p/8/3N4/8/8/PP5P/R5K1 w - - 0 1",
+    "solution": "d5e7",
+    "objective": "Crea un doppio attacco con il cavallo.",
+    "target": null,
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-doppio-3",
+    "difficulty": 2,
+    "line": [
+      "d5e7",
+      "g8f7",
+      "e7c8"
+    ],
+    "distractors": 6
+  },
+  {
+    "id": "lesson-doppio-3-level-3",
+    "theme": "fork",
+    "fen": "r1q3k1/pp3p1p/1b6/3N4/8/5B2/PP3P1P/R5K1 w - - 0 1",
+    "solution": "d5e7",
+    "objective": "Trova la mossa che sfrutta la posizione e completa la sequenza.",
+    "target": null,
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 17,
+      "rootVerified": true
+    },
+    "family": "lesson-doppio-3",
+    "difficulty": 3,
+    "line": [
+      "d5e7",
+      "g8g7",
+      "e7c8"
+    ],
+    "distractors": 10
+  },
+  {
+    "id": "lesson-inchiodatura-1-level-2",
+    "theme": "pin",
+    "fen": "8/pp4k1/2n2n2/4B2q/8/2N5/PP6/6KR w - - 0 1",
+    "solution": "h1h5",
+    "objective": "Sfrutta un’inchiodatura per guadagnare materiale.",
+    "target": "h5",
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-inchiodatura-1",
+    "difficulty": 2,
+    "line": [
+      "h1h5"
+    ],
+    "distractors": 6
+  },
+  {
+    "id": "lesson-inchiodatura-1-level-3",
+    "theme": "pin",
+    "fen": "r7/pp1p2k1/2n2n2/4B2q/8/2N5/PP1P4/R5KR w - - 0 1",
+    "solution": "h1h5",
+    "objective": "Trova la mossa che sfrutta la posizione e completa la sequenza.",
+    "target": "h5",
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-inchiodatura-1",
+    "difficulty": 3,
+    "line": [
+      "h1h5"
+    ],
+    "distractors": 10
+  },
+  {
+    "id": "lesson-presa-3-level-2",
+    "theme": "hanging",
+    "fen": "6k1/pp5p/2q2n2/8/8/5N2/PP5P/2R3K1 w - - 0 1",
+    "solution": "c1c6",
+    "objective": "Trova una cattura favorevole.",
+    "target": "c6",
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-presa-3",
+    "difficulty": 2,
+    "line": [
+      "c1c6"
+    ],
+    "distractors": 6
+  },
+  {
+    "id": "lesson-presa-3-level-3",
+    "theme": "hanging",
+    "fen": "6k1/pp5p/b1qp1n2/8/8/3P1N2/PP5P/1BR3K1 w - - 0 1",
+    "solution": "c1c6",
+    "objective": "Trova la mossa che sfrutta la posizione e completa la sequenza.",
+    "target": "c6",
+    "verified": {
+      "engine": "Stockfish 19 Lite",
+      "allPlies": true,
+      "depth": 20,
+      "rootVerified": true
+    },
+    "family": "lesson-presa-3",
+    "difficulty": 3,
+    "line": [
+      "c1c6"
+    ],
+    "distractors": 10
   }
 ]

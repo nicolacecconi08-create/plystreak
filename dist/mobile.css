@@ -18,3 +18,5 @@ html{scroll-padding-bottom:100px}.board{user-select:none;-webkit-user-select:non
 @media(prefers-reduced-motion:reduce){.practice-board-frame.is-complete .board{transition:none}}
 
 .practice-setup-toggle{cursor:pointer;padding:12px 0;font-weight:600}#practiceWorkspace{scroll-margin-top:16px}#practiceSetup:not([open]){margin-bottom:16px}@media(max-width:700px){#practiceWorkspace{scroll-margin-top:8px}#practiceWorkspace .practice-path{margin:8px 0}#practiceFeedback{line-height:1.55}}
+
+.difficulty-progress{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);font-size:14px;line-height:1.6}.practice-plan .archive-filters label{min-width:140px}@media(max-width:700px){.practice-plan .archive-filters label{min-width:0}.difficulty-progress{font-size:13px;padding:10px 12px}}

@@ -1,8 +1,8 @@
 {
-  "version": "1.11.1",
+  "version": "1.12.0",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.11.1.json.gz",
-  "size": 2517323,
-  "sha256": "55177895bf558a8eb8c17ce98a906e5ec61b712d31ef866f2ebc9a028fb605fe",
-  "notes": "Spiegazioni concrete di scambi e ricatture, priorità alle minacce di matto, riepilogo centrato sugli errori decisivi e rifiuto delle soluzioni incomplete nei problemi."
+  "path": "/updates/plystreak-core-1.12.0.json.gz",
+  "size": 2520135,
+  "sha256": "4b58446663600c0ca0cf868d0ef20907122c5d0026b9c756ae1803dab42facad",
+  "notes": "Problemi a difficoltà graduale: Essenziale, Intermedio e Sfida. Otto varianti con distrattori verificati, progressione basata su soluzioni senza aiuti e scelta manuale del livello."
 }

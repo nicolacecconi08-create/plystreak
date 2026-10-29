@@ -1,3 +1,19 @@
+# Aggiornamento 1.12.0 · 29 ottobre 2026
+
+Richiesta: difficoltà graduale dei problemi, inclusi pezzi distrattori.
+
+- Tre livelli didattici dichiarati: Essenziale, Intermedio, Sfida. Non sono rating Elo calibrati.
+- Percorso guidato predefinito: livello consigliato dal completamento senza aiuti di quattro famiglie diverse al livello precedente. Si considerano i tentativi più recenti per famiglia/livello; un errore può riportare un tema da consolidare. Il livello della coda viene aggiornato all’inizio di una nuova sessione. Copie speculari e ripetizioni dello stesso primo tentativo non aumentano il conteggio.
+- Scelta manuale di ciascun livello o Tutti i livelli. Ripassi mantenuti, filtri tema/origine compatibili. Le posizioni personali sono etichettate intermedie indicative, non calibrate e non contano per il passaggio di livello.
+- Otto varianti verificate: quattro intermedie con sei pezzi aggiuntivi e quattro Sfida con dieci; forchetta, inchiodatura, cattura favorevole, matto. Posizioni composte, non partite storiche. Soluzione originale conservata, linee legali e confronto Stockfish per ogni passaggio non forzato/non già matto. Negli scenari Sfida l’obiettivo testuale è meno esplicito.
+- Catalogo: 28 posizioni di base/varianti, 56 contando i colori invertiti; una sola famiglia per sessione.
+
+Test: progressione 1→2→3, aiuti esclusi, copie speculari e ripetizioni escluse dal conteggio, filtri e selezione manuale, priorità ripassi, legalità/dimensione dei nuovi scenari, verifiche Stockfish; regressioni catalogo, problemi, riepilogo, backup e intervalli. Browser: selezione Sfida + tema forchetta, pezzi aggiuntivi, soluzione completa in due mosse del giocatore, risposta automatica, spunta finale, nessun overflow orizzontale alla larghezza disponibile. Non ripetuti test fisici iPad/telefono.
+
+Core PC aggiornato a 1.12.0. Nessuna modifica ad account, automazioni o dati esistenti.
+
+---
+
 # Aggiornamento 1.11.1 · 29 ottobre 2026
 
 Audit delle priorità Game Review / problemi:
