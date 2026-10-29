@@ -1,3 +1,13 @@
+## 1.14.0 — Ripresa, salvataggio e progressi
+- Analisi salvata in IndexedDB dopo ogni mossa completata, inclusi risultati motore e giudizi verificati. Pulsante Riprendi analisi distinto dal ricalcolo completo, Riapri ultima analisi salvata; apertura da archivio recupera checkpoint coerenti col PGN.
+- Checkpoint versionati e validati alla lettura: nessun salto oltre giudizi mancanti, varianti illegali troncate. Backup conserva checkpoint; snapshot ottimizzato senza rigiocare tutte le varianti a ogni salvataggio.
+- Richiesta persistenza browser quando supportata, feedback di salvataggio, errori/abort transazioni gestiti; nessuna promessa di cloud sync o protezione dalla cancellazione dati browser.
+- Illuminazione di un secondo sulla destinazione di Geniale (turchese) e Grande mossa (blu), cancellazione su navigazione, nessuna modifica alla posizione o stile finale. Rispetta animazioni disattivate e riduzione movimento.
+- Progressi: errori e svarioni per 100 mosse, confronto ultime 5 con precedenti 5, solo concluse/analizzate/colore noto/almeno 10 mosse fuori teoria. Avviso sul campione e difficoltà diverse.
+- Test: interruzione e ripresa senza ricalcoli, JSON/backup, checkpoint corrotti, errore salvataggio, ciclo animazioni, statistiche normalizzate; regressioni puzzle, rating, Elo prudente, mosse salienti, Brilliant.
+- Browser: recuperate 12/17 mosse dopo reload, interruzione manuale e nuova ripresa; grande mossa selezionata con pezzo preservato. Animazioni verificate con test del ciclo, non con misurazione visiva su dispositivo fisico.
+- PC core 1.14.0 conserva export PGN nativo. Le vecchie analisi senza checkpoint richiedono un nuovo calcolo per abilitare la ripresa persistente.
+
 ## 1.13.1 — Navigazione saliente e stima Elo prudente
 - Pulsante primario Prossima mossa saliente, descrizione del prossimo evento, 44px e ordine esplicito su layout mobile (prima mancava e il controllo poteva separarsi dalla navigazione).
 - Stima performance: minimo 20 scelte non obbligate fuori teoria, cp iniziale entro 600, nessun matto, profondità prima/dopo >=18 e differenza <=2, no bound. Risultati mancanti/invalidi esclusi.

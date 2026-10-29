@@ -1,8 +1,8 @@
 {
-  "version": "1.13.1",
+  "version": "1.14.0",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.13.1.json.gz",
-  "size": 2525818,
-  "sha256": "59ba4e6b102e6ec57563a19db35adc71a9dfa183c3b237744a9f8cb2bf954047",
-  "notes": "Pulsante Prossima mossa saliente pi\u00f9 visibile e ordinato su mobile. Stima Elo della performance pi\u00f9 restrittiva: campione minimo, profondit\u00e0 confrontabili, esclusione mosse obbligate e limiti per errori gravi."
+  "path": "/updates/plystreak-core-1.14.0.json.gz",
+  "size": 2530446,
+  "sha256": "46f6977e8c21e7c08cae4fd4d7961e606d53a6b54fb7611315d2a0b729106ca6",
+  "notes": "Ripresa dell\u2019analisi interrotta e salvataggio dopo ogni mossa, recupero dopo chiusura, animazioni Geniale/Grande mossa e statistiche errori per 100 mosse."
 }
