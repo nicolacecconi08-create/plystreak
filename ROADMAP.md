@@ -1,3 +1,9 @@
+## 1.15.0 — Gioco dal vivo
+
+Implementato gioco locale per due persone: tempi predefiniti/personalizzati con incremento, pausa concordata, salvataggio e ripresa, mosse legali, promozione, arrocco e presa al passo; matto/stallo/materiale, patte reclamabili e automatiche, offerta di patta e abbandono. Rotazione, cronologia, PGN, rivincita a colori invertiti e revisione diretta con archivio source=live. Orologi basati sul tempo trascorso anche in background. Nessun suggerimento durante il gioco.
+
+Verifica: test-live, test-draw-animation, test-navigation, test-review-resume, test-rapid-analysis. Browser: avvio, mosse, offerta di patta, pausa, reload con ripresa, conclusione e importazione in Analisi. Limiti: stessa macchina, dati locali; posizioni morte rare non riconosciute dal solo controllo materiale richiedono accordo; nessuna certificazione arbitrale. Browser desktop verificato; dispositivi fisici iOS/iPad non disponibili. Pacchetto PC aggiornato preservando i file nativi non modificati.
+
 ## 1.14.2 — Animazione patta
 - Bagliore dorato neutro per 1,1 secondi sulla scacchiera e sui due re, senza cambiare pezzi o posizione e senza stile persistente.
 - Motore di animazione condiviso da Analisi/coach/miniscacchiere; in Analisi cronologia memoizzata per riconoscere ripetizioni e risultato PGN alla posizione finale. Il matto ha precedenza.
