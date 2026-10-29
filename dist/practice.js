@@ -1,3 +1,4 @@
+import {ratingHistory,ratingMilestones,nextContinuousQueue} from './puzzle-rating.js';
 import {LEVELS,cardDifficulty,difficultyQueue,difficultyNote} from './practice-difficulty.js';
 import {trainingPath,pathMove,pathComplete,verifiedPath,goalReached} from './puzzle-path.js';
 import {meetsGoal,reviewChoice} from './practice-review.js';
@@ -12,24 +13,34 @@ import {makeDeck,reviewSummary,schedules,nextReviewText} from './repetition.js';
 import {playUci} from './tactics.js';
 const $=id=>document.getElementById(id),engine=new Engine(s=>$('practiceStatus').textContent=s);
 let cards=[],attempts=[],queue=[],index=0,chess,fen='',base=null,selected=null,flipped=false,busy=false,solved=false,assisted=false,recorded=false,sessionId=newId(),solutionLine=null,solutionIndex=0,ready=false,path=null,ply=0,alternate=false,completed=false,lastMove=null;
+let attemptRecord=null,mistakes=0,elapsed=0,clockAt=performance.now(),clockRunning=false,ratingSettled=false,totalShown=0;
+function tick(){const now=performance.now();if(clockRunning)elapsed+=now-clockAt;clockAt=now;clockRunning=!busy&&!solved&&!!path&&!document.hidden;}
+document.addEventListener('visibilitychange',()=>{tick();clockRunning=!busy&&!solved&&!!path&&!document.hidden;});
+function ratingView(){const state=ratingHistory(attempts),m=ratingMilestones(state);$('puzzleRating').textContent=state.rating;$('ratingStreak').textContent=`${state.streak} di fila senza errori · record ${state.peak}`;$('ratingBar').value=m.progress;$('ratingBar').setAttribute('aria-valuetext',`${state.rating} punti, prossimo traguardo ${m.next}`);$('ratingGoal').textContent=state.rating===3000?'Traguardo massimo raggiunto':`${m.next-state.rating} punti al traguardo di ${m.next}`;$('ratingMilestones').innerHTML=m.marks.map(x=>`<span class="${x.reached?'reached':''}">${x.reached?'✓ ':''}${x.value}</span>`).join('');}
+async function settleRating(outcome){if(ratingSettled||!path)return;tick();await record(outcome==='solved');if(!attemptRecord)return;const updated={...attemptRecord,rating:{version:1,family:queue[index].family||queue[index].id.replace(/:opposite$/,''),outcome,level:cardDifficulty(queue[index]),seconds:Math.min(86400,elapsed/1000),mistakes,assisted}};try{await putRecord(updated,'attempts');attempts=attempts.filter(a=>a.id!==updated.id);attempts.push(updated);attemptRecord=updated;ratingSettled=true;ratingView();const e=ratingHistory(attempts).events.find(e=>e.id===updated.id);$('ratingResult').textContent=e?.repeat?'Ripasso entro 24 ore: punteggio invariato.':`Elo problemi: ${e?.delta>=0?'+':''}${e?.delta||0} punti · ${mistakes} errori · ${Math.round(elapsed/1000)} secondi di riflessione.`;}catch{$('ratingResult').textContent='Punteggio non salvato. Riprova prima di proseguire.';}}
+function options(){return {difficulty:$('practiceDifficulty').value,mode:$('queueMode').value,source:$('practiceSource').value,theme:$('practiceTopic').value};}
 function render(){
+ tick();
+ $('practiceExit').hidden=!solved;$('practiceExit').disabled=busy;
+
  if(chess)drawBoard($('practiceBoard'),chess,{selected,flipped,disabled:busy||solved||!path,last:lastMove});
  ['practiceReset','practiceNext','practiceHint','practiceSolution','startPractice','queueMode','practiceSource','practiceTopic','practiceDifficulty'].forEach(id=>$(id).disabled=busy);
  $('startPractice').disabled=busy||!ready;
  $('practiceSolution').disabled=busy||!path;$('practiceHint').disabled=busy||solved||!path;
- $('practiceNext').textContent=completed?'Prossimo problema →':'Salta questo problema →';
+ $('practiceNext').textContent=solved?'Prossimo problema →':'Salta questo problema →';
  $('practiceSuccess').hidden=!completed;$('practiceBoardFrame').classList.toggle('is-complete',completed);
  $('practicePath').textContent=path?(alternate?'Percorso alternativo verificato':'Linea principale')+` · ${Math.ceil(ply/2)} / ${Math.ceil(path.moves.length/2)} mosse completate`:'';
  $('solutionViewer').hidden=!solutionLine;$('solutionPrev').disabled=busy||!solutionIndex;$('solutionNext').disabled=busy||!solutionLine||solutionIndex>=solutionLine.moves.length;
 }
-function summary(){$('difficultyProgress').textContent=$('practiceSource').value==='personal'?'Le posizioni delle tue partite hanno difficoltà non calibrata e non determinano l’avanzamento del percorso guidato.':difficultyNote(cards,attempts,$('practiceDifficulty').value);const s=reviewSummary(cards,attempts);$('reviewStats').innerHTML=[['Da ripassare',s.due],['Nuove posizioni',s.new],['Consolidate · 3 riuscite',s.mastered]].map(([label,value])=>`<div class="stat"><span>${label}</span><strong>${value}</strong></div>`).join('');$('practiceCounts').textContent=`${attempts.filter(a=>a.cardId).length} primi tentativi registrati. Riprova per capire: i tentativi successivi nella stessa sessione non allungano l’intervallo.`}
+function summary(){ratingView();$('difficultyProgress').textContent=$('practiceSource').value==='personal'?'Le posizioni delle tue partite hanno difficoltà non calibrata e non determinano l’avanzamento del percorso guidato.':difficultyNote(cards,attempts,$('practiceDifficulty').value);const s=reviewSummary(cards,attempts);$('reviewStats').innerHTML=[['Da ripassare',s.due],['Nuove posizioni',s.new],['Consolidate · 3 riuscite',s.mastered]].map(([label,value])=>`<div class="stat"><span>${label}</span><strong>${value}</strong></div>`).join('');$('practiceCounts').textContent=`${attempts.filter(a=>a.cardId).length} primi tentativi registrati. Riprova per capire: i tentativi successivi nella stessa sessione non allungano l’intervallo.`}
 function empty(){const s=reviewSummary(cards.filter(c=>($('practiceSource').value==='all'||c.source===$('practiceSource').value)&&($('practiceTopic').value==='all'||c.theme===$('practiceTopic').value)),attempts);$('practiceWorkspace').hidden=true;$('practiceEmpty').hidden=false;$('emptyTitle').textContent=queue.length?'Sessione completata.':'Nessuna posizione in attesa.';$('emptyText').textContent=$('practiceSource').value==='personal'&&!cards.some(c=>c.source==='personal')?'Completa l’analisi di una partita e indica il tuo colore. Intanto puoi allenarti con i nuovi scenari tattici.':Number.isFinite(s.nextDue)?'Il prossimo ripasso sarà disponibile il '+new Date(s.nextDue).toLocaleString(locale())+'. Puoi anche iniziare una sessione libera o lavorare su altre posizioni nuove.':'Non ci sono posizioni disponibili con questi filtri. Cambia tema o difficoltà, scegli Allenamento libero oppure analizza una partita per personalizzare gli esercizi.'}
-async function start(){if(busy||!ready)return;busy=true;render();sessionId=newId();attempts=await readAll('attempts');queue=difficultyQueue(cards,attempts,{difficulty:$('practiceDifficulty').value,mode:$('queueMode').value,source:$('practiceSource').value,theme:$('practiceTopic').value});index=0;summary();busy=false;if(queue.length){$('practiceSetup').open=false;await load();$('practiceWorkspace').scrollIntoView({block:'start',behavior:'smooth'});}else{empty();render()}}
+async function start(){if(busy||!ready)return;busy=true;render();sessionId=newId();attempts=await readAll('attempts');queue=nextContinuousQueue(cards,attempts,options(),null,difficultyQueue);index=0;totalShown=1;summary();busy=false;if(queue.length){$('practiceSetup').open=false;await load();$('practiceWorkspace').scrollIntoView({block:'start',behavior:'smooth'});}else{empty();render()}}
 async function load(){
  busy=true;solved=false;completed=false;selected=null;assisted=false;recorded=false;base=null;solutionLine=null;solutionIndex=0;path=null;ply=0;alternate=false;lastMove=null;
+ attemptRecord=null;mistakes=0;elapsed=0;ratingSettled=false;$('ratingResult').textContent='';
  const card=queue[index];fen=card.fen;chess=new Chess(fen);flipped=chess.turn()==='b';
  $('practiceEmpty').hidden=true;$('practiceWorkspace').hidden=false;$('practiceTheme').textContent=(THEMES[card.theme]||'Strategia')+' · '+LEVELS[cardDifficulty(card)];$('practiceTitle').textContent=card.objective;
- $('practiceContext').textContent=`${index+1} / ${queue.length} · muove il ${chess.turn()==='w'?'Bianco':'Nero'}. `+(card.source==='personal'?'Posizione tratta da una tua partita: livello intermedio indicativo, difficoltà non calibrata.':(card.distractors?'Scenario con più pezzi e scelte da confrontare. Completa la sequenza.':cardDifficulty(card)===1?'Scenario essenziale: individua l’idea e completa la sequenza.':'Scenario di combinazione: completa tutti i passaggi richiesti.'));
+ $('practiceContext').textContent=`${totalShown}° problema · allenamento continuo · muove il ${chess.turn()==='w'?'Bianco':'Nero'}. `+(card.source==='personal'?'Posizione tratta da una tua partita: livello intermedio indicativo, difficoltà non calibrata.':(card.distractors?'Scenario con più pezzi e scelte da confrontare. Completa la sequenza.':cardDifficulty(card)===1?'Scenario essenziale: individua l’idea e completa la sequenza.':'Scenario di combinazione: completa tutti i passaggi richiesti.'));
  $('practiceFeedback').textContent='Verifico la linea di soluzione…';$('reviewDue').textContent='';render();
  try{
   base=await engine.evaluate(fen,'deep');
@@ -50,7 +61,7 @@ async function load(){
   $('practiceFeedback').textContent='Trova la prima mossa. Le risposte avversarie verranno giocate automaticamente.';
  }catch(e){path=null;$('practiceFeedback').textContent=e.message;}finally{busy=false;render()}
 }
-async function record(success){if(recorded)return;const card=queue[index],a={id:newId(),sessionId,cardId:card.id,position:card.id,theme:card.theme,success,assisted,at:Date.now()};try{await putRecord(a,'attempts')}catch{$('reviewDue').textContent='Salvataggio non riuscito: il risultato resta visibile in questa sessione.';recorded=true;return}recorded=true;attempts.push(a);summary();$('reviewDue').textContent=nextReviewText(schedules(attempts).get(card.id))}
+async function record(success){if(recorded)return;const card=queue[index],a={id:newId(),sessionId,cardId:card.id,position:card.id,theme:card.theme,success,assisted,at:Date.now()};try{await putRecord(a,'attempts')}catch{$('reviewDue').textContent='Salvataggio non riuscito: il risultato resta visibile in questa sessione.';return}recorded=true;attemptRecord=a;attempts.push(a);summary();$('reviewDue').textContent=nextReviewText(schedules(attempts).get(card.id))}
 $('practiceBoard').onclick=async e=>{
  if(busy||solved||!path)return;
  const b=e.target.closest('[data-sq]');if(!b)return;
@@ -66,7 +77,7 @@ $('practiceBoard').onclick=async e=>{
    if(check.verdict==='uncertain'){$('practiceFeedback').textContent='La verifica è incerta: nessun errore registrato. Riprova o passa al prossimo problema.';chess=new Chess(current);return}
    // On the first move retain the declared exercise objective; later moves preserve engine value.
    if(check.verdict!=='accepted'||(ply===0&&!queue[index].line&&!meetsGoal(queue[index],m,chess))){
-    chess=new Chess(current);$('practiceFeedback').textContent='Questa strada non completa la soluzione verificata. La posizione è ripristinata: prova un’altra idea.';await record(false);return;
+    chess=new Chess(current);$('practiceFeedback').textContent='Questa strada non completa la soluzione verificata. La posizione è ripristinata: prova un’altra idea.';mistakes++;await record(false);return;
    }
    let tail=trainingPath(current,check.played.lines[0].pv,Math.max(1,path.moves.length-ply));
    const join=t=>({moves:[...path.moves.slice(0,ply),...t.moves],positions:[...path.positions.slice(0,ply),...t.positions]});
@@ -84,12 +95,13 @@ $('practiceBoard').onclick=async e=>{
   }
   if(pathComplete(path,ply)){
    solved=true;completed=true;$('practiceFeedback').textContent=(alternate?'Percorso alternativo completato. ':'Soluzione completata. ')+ 'Hai giocato tutti i passaggi richiesti. Le altre risposte avversarie possono portare a varianti diverse.';
-   await record(true);
+   await record(true);await settleRating('solved');
   }
  }catch(err){chess=new Chess(current);$('practiceFeedback').textContent='Verifica non riuscita. Nessuna penalità aggiunta. '+err.message;}finally{busy=false;render();if(completed)$('practiceNext').focus({preventScroll:true});}
 };
-$('practiceReset').onclick=async()=>{if(busy)return;const wasRecorded=recorded,wasAssisted=assisted;await load();recorded=wasRecorded;assisted=wasAssisted;$('practiceFeedback').textContent=path?'Riparti dalla linea principale. Il ripasso resta basato sul primo tentativo.':$('practiceFeedback').textContent;};
-$('practiceNext').onclick=async()=>{if(busy)return;if(index+1<queue.length){index++;await load()}else empty()};
+$('practiceReset').onclick=async()=>{if(busy)return;const keep={recorded,assisted,attemptRecord,mistakes,elapsed,ratingSettled};await load();({recorded,assisted,attemptRecord,mistakes,elapsed,ratingSettled}=keep);$('practiceFeedback').textContent=path?'Riparti dalla linea principale. Tempo, tentativi e aiuti restano conteggiati.':$('practiceFeedback').textContent;};
+$('practiceNext').onclick=async()=>{if(busy)return;busy=true;render();await settleRating(completed?'solved':solved?'solution':'skipped');if(path&&!ratingSettled){busy=false;render();return;}const last=queue[index]?.id;queue=nextContinuousQueue(cards,attempts,options(),last,difficultyQueue);index=0;totalShown++;summary();if(queue.length)await load();else{busy=false;empty();render();}};
+$('practiceExit').onclick=async()=>{if(busy||!solved)return;busy=true;render();await settleRating(completed?'solved':'solution');if(path&&!ratingSettled){busy=false;render();return;}$('practiceWorkspace').hidden=true;$('practiceEmpty').hidden=false;$('emptyTitle').textContent='Allenamento concluso';$('emptyText').textContent=`Hai affrontato ${totalShown} problemi. Elo problemi: ${ratingHistory(attempts).rating}. Puoi riprendere quando vuoi.`;$('practiceSetup').open=true;path=null;busy=false;render();$('startPractice').focus();};
 $('practiceFlip').onclick=()=>{flipped=!flipped;render()};
 $('practiceHint').onclick=()=>{assisted=true;const card=queue[index];const hints={fork:'Cerca una casa da cui un cavallo possa attaccare due pezzi importanti, possibilmente dando scacco.',pin:'Segui le linee verso il re avversario. Un difensore inchiodato può davvero catturare fuori da quella linea?',hanging:'Controlla i pezzi avversari attaccati e conta le possibili ricatture.',king:'Esamina gli scacchi: dopo ciascuno, quali case di fuga rimangono al re?'};$('practiceFeedback').textContent=card.source==='catalog'&&ply===0?(hints[card.theme]||strategicHint(chess)):strategicHint(chess);$('reviewDue').textContent='Indizio usato: questa riuscita non allungherà l’intervallo di ripasso.'};
 function showSolutionStep(){chess=new Chess(solutionLine.positions[solutionIndex]);lastMove=solutionIndex?solutionLine.moves[solutionIndex-1]:null;$('practiceFeedback').textContent=solutionIndex?stepStory(solutionLine.moves[solutionIndex-1]):'Questa è la posizione di partenza. Premi Avanti per vedere una possibile soluzione, un passaggio alla volta.';$('solutionStep').textContent=`Passaggio ${solutionIndex} di ${solutionLine.moves.length}`;render();}
@@ -97,7 +109,7 @@ $('solutionPrev').onclick=()=>{if(solutionLine&&!busy&&solutionIndex>0){solution
 $('solutionNext').onclick=()=>{if(solutionLine&&!busy&&solutionIndex<solutionLine.moves.length){solutionIndex++;showSolutionStep()}};
 $('practiceSolution').onclick=async()=>{
  if(!path||busy)return;busy=true;render();
- try{solutionLine=path;solutionIndex=0;assisted=true;solved=true;completed=false;selected=null;await record(false);showSolutionStep();}
+ try{solutionLine=path;solutionIndex=0;assisted=true;solved=true;completed=false;selected=null;await record(false);await settleRating('solution');showSolutionStep();}
  catch(e){$('practiceFeedback').textContent=e.message;}finally{busy=false;render()}
 };
 $('practiceDifficulty').onchange=()=>summary();

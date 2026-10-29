@@ -1,3 +1,14 @@
+## 1.13.0 — Elo problemi e allenamento continuo
+- Indice locale da 800 punti, difficoltà nominale, esito, errori, aiuti; bonus contenuti di velocità e streak. Non è Elo ufficiale o calibrato sulle partite.
+- Timer di riflessione esclude motore e scheda nascosta, conserva tempo/errori al reset. Storico pregresso senza misure non rivalutato.
+- Traguardi ogni 200 punti fino a 3000, record conservato, barra accessibile e indicatori adattivi.
+- Stessa famiglia/speculare senza nuovi punti entro 24 ore; errori interrompono la serie anche nei ripassi.
+- Coda rinnovata dopo ciascun problema, ripassi liberi quando non ci sono nuove posizioni, difficoltà graduale aggiornata; uscita dopo soluzione con riepilogo. Catalogo finito, allenamento senza limite.
+- Dati di rating inclusi nei tentativi e nel backup validato; salvataggi falliti segnalati, navigazione bloccata finché il risultato non è salvato.
+- Test: rating, velocità/errori/aiuti/streak, duplicati/famiglie, traguardi, backup roundtrip, 25 passi di coda continua; regressioni difficoltà, linee legali, review, Brilliant, coaching e catalogo.
+- Browser: soluzione reale 800→817, problema successivo automatico, soluzione assistita 817→808, serie azzerata, uscita/riepilogo verificati. Nessuna prova su dispositivi fisici.
+- Pacchetto PC 1.13.0, app.js nativo identico. Nessun nuovo installer.
+
 # Aggiornamento 1.12.1 · 29 ottobre 2026
 
 Audit priorità: classificazioni, confronto, aperture e integrità dei problemi.

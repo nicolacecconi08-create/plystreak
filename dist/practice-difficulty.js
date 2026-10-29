@@ -29,5 +29,5 @@ export function difficultyNote(cards,attempts,choice='progressive'){
  const p=difficultyProgress(cards,attempts);
  if(choice==='all')return 'Tutti i livelli: difficoltà libera. I problemi speculari non contano come nuovi temi per la progressione.';
  if(choice!=='progressive')return `Livello scelto: ${LEVELS[choice]}. Puoi cambiarlo in qualsiasi momento; i tuoi ripassi restano salvati.`;
- return `Percorso guidato · ${LEVELS[p.level]}. `+(p.level<3?`${Math.min(4,p.counts[p.level])}/4 problemi diversi risolti senza aiuti per passare al livello successivo nella prossima sessione.`:'Hai raggiunto la fascia più impegnativa: consolida le combinazioni e rivedi gli errori.')+' La difficoltà è didattica, non una misura Elo.';
+ return `Percorso guidato · ${LEVELS[p.level]}. `+(p.level<3?`${Math.min(4,p.counts[p.level])}/4 problemi diversi risolti senza aiuti per passare al livello successivo dal prossimo problema.`:'Hai raggiunto la fascia più impegnativa: consolida le combinazioni e rivedi gli errori.')+' La difficoltà è didattica, non una misura Elo.';
 }
