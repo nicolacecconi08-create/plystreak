@@ -1,3 +1,13 @@
+## 1.15.1 — Affidabilità dei giudizi e delle varianti
+
+- Geniale: il sacrificio deve restare tale lungo tutta la PV legale fornita, non soltanto dopo la prima ricattura. Recuperi tardivi e code illegali impediscono il premio.
+- Geniale/Grande mossa e differenze numeriche: esclusi risultati esplicitamente inaffidabili, bound, punteggi discordanti tra risultato e prima linea; profondità coerenti richieste.
+- Ripresa: i flag di affidabilità sopravvivono al checkpoint e i premi speciali vengono ricontrollati senza scartare le mosse già analizzate.
+- Spiegazioni: bilancio materiale delle varianti include promozioni e sottopromozioni; corretto accordo grammaticale delle inchiodature.
+- Test: evidence-v1151, brilliant-v1121, brilliant-engine (Stockfish reale), review-practice-v195, review-resume, opening-study, explanations, line-story, performance-v1131, live. Tutti passati.
+- Audit: confronto dalla stessa posizione, lezione apertura/ECO e trasposizioni già presenti; layout spiegazioni adiacenti mantenuto. Nessuna modifica visuale o verifica nuova su dispositivi fisici.
+- Account/sync ancora bloccati dalla mancanza di progetto Supabase/Firebase configurato (vedi AUTH-PLAN.md); nessun login fittizio aggiunto. PC core aggiornato con app.js e integrazioni native preservati.
+
 ## 1.15.0 — Gioco dal vivo
 
 Implementato gioco locale per due persone: tempi predefiniti/personalizzati con incremento, pausa concordata, salvataggio e ripresa, mosse legali, promozione, arrocco e presa al passo; matto/stallo/materiale, patte reclamabili e automatiche, offerta di patta e abbandono. Rotazione, cronologia, PGN, rivincita a colori invertiti e revisione diretta con archivio source=live. Orologi basati sul tempo trascorso anche in background. Nessun suggerimento durante il gioco.
