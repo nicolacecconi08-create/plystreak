@@ -16,7 +16,7 @@ for(const flag of [{reliable:false},{bound:'lowerbound'},{lowerbound:true},{uppe
  const r=target==='root'?loaded.results[0]:loaded.results[0].lines[0];for(const key of Object.keys(flag))assert.equal(r[key],flag[key]);
 }
 const delayed=new Chess('rq4k1/8/8/8/8/8/8/RR4K1 w - - 0 1').move('Ra4');
-assert.equal(isSacrifice(delayed,result(['a1a4','a8a4','b1b2','b8b7','b2b7'])),false,'delayed recovery is not a sacrifice');
+assert.equal(isSacrifice(delayed,result(['a1a4','a8a4','b1b2','b8b7','b2b7'])),true,'a legal combination can recover the sacrifice later');
 assert.equal(isSacrifice(move,result(['d3h7','g8h7','g1f2','h7h9'])),false,'invalid tail is not evidence');
 assert.equal(compareEvaluations(result([],200),result([],0),'w').delta,2);
 assert.equal(compareEvaluations(result([],-200),result([],0),'b').delta,2);

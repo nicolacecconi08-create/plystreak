@@ -5,7 +5,7 @@ import {classify} from './analysis.js';
 export const positionKey=fen=>fen.split(' ').slice(0,4).join(' ');
 function material(c,side){const v={p:1,n:3,b:3,r:5,q:9,k:0};return c.board().flat().filter(Boolean).reduce((n,p)=>n+(p.color===side?1:-1)*v[p.type],0)}
 // Conservative: the offered piece must be captured immediately, and the loss
-// must survive immediate recaptures and the complete supplied legal PV.
+// must survive immediate recaptures; a later recovery can be the point of the combination.
 // Forced moves and incomplete evidence do not qualify as Brilliant.
 export function isSacrifice(move,before){
  const pv=before?.lines?.[0]?.pv;
@@ -22,8 +22,8 @@ export function isSacrifice(move,before){
   // A counter-capture elsewhere can recover the material just as a recapture can.
   const continuation=playUci(c,pv[2]);
   if(!continuation||continuation.color!==move.color||base-material(c,move.color)<2)return false;
-  // A delayed recapture can turn the apparent sacrifice into an ordinary exchange.
-  for(const u of pv.slice(3)){const next=playUci(c,u);if(!next||base-material(c,move.color)<2)return false;}
+  // Validate every continuation move; later recovery does not erase the sacrifice.
+  for(const u of pv.slice(3)){const next=playUci(c,u);if(!next)return false;}
   return true;
  }catch{return false;}
 }

@@ -1,3 +1,4 @@
+import {mountAnnotations} from './manual-arrows.js';
 // Keep decoded piece images and square buttons alive between board updates.
 export function updateBoard(board,html){
  const template=document.createElement('template');template.innerHTML=html;
@@ -17,5 +18,6 @@ export function updateBoard(board,html){
   }else if(image&&image!==square.querySelector('img'))square.querySelector('img')?.replaceWith(image);
   if(board.children[i]!==square)board.insertBefore(square,board.children[i]||null);
  }
- for(const old of [...board.children])if(!desired.some(n=>n.dataset.sq===old.dataset.sq))old.remove();
+ for(const old of [...board.children])if(!old.classList.contains('manual-arrows')&&!desired.some(n=>n.dataset.sq===old.dataset.sq))old.remove();
+ mountAnnotations(board);board.dispatchEvent(new Event('board-updated'));
 }

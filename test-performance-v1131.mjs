@@ -1,24 +1,4 @@
+// Regression: supersedes the retired uncalibrated 1.13.1 heuristic.
 import assert from 'node:assert/strict';
-import {performanceEstimate as estimate} from './dist/performance-estimate.js';
-const fen='rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-const moves=Array.from({length:35},()=>({color:'w',before:fen}));
-const grades=moves.map(()=>({type:'good',accuracy:90,loss:.02}));
-const results=Array.from({length:36},()=>({cp:10,depth:20,mate:null}));
-const base=estimate(moves,grades,'w',results);assert(base.high<=1750,base.text);
-assert(!estimate(moves.slice(0,19),grades,'w',results).low);
-assert(!estimate(moves,grades,'w',results.map(r=>({...r,depth:17}))).low);
-assert(!estimate(moves,grades,'w',results.map((r,i)=>({...r,depth:i%2?24:20}))).low);
-assert(!estimate(moves,grades,'w',results.map(r=>({...r,cp:800}))).low);
-assert(!estimate(moves.map(m=>({...m,before:'7r/8/8/8/8/5k2/8/5BRK w - - 0 1'})),grades,'w',results).low);
-assert(!estimate(moves,grades,'w',results.map(r=>({...r,lines:[{cp:10,depth:8}]}))).low);
-assert(!estimate(moves,grades,'w',results.map(r=>({...r,lowerbound:true}))).low);
-const excellent=grades.map(g=>({...g,accuracy:100,loss:0}));assert(estimate(moves,excellent,'w',results).high<=2200);
-assert(estimate(moves.slice(0,20),excellent,'w',results).high<=1900);
-const one=excellent.map((g,i)=>i===0?{...g,type:'blunder',loss:.3}:g);
-assert(estimate(moves,one,'w',results).high<=1600);
-const two=one.map((g,i)=>i===1?{...g,type:'blunder',loss:.4}:g);
-assert(estimate(moves,two,'w',results).high<=1300);
-const mating=results.map((r,i)=>i===1?{...r,mate:2}:r);
-assert(estimate(moves,one,'w',mating).high<=1600,'mate-entry blunder must still penalize');
-assert(!estimate(moves,grades,'b',results).low);
-console.log('PASS: conservative 90% estimate, 20-move gate, paired depth/bounds, forced moves, decisive errors, sample caps and both sides');
+import {performanceEstimate} from './dist/performance-estimate.js';
+for(const count of [0,1,19,20,35,100])for(const side of ['w','b']){const r=performanceEstimate(Array.from({length:count},()=>({color:side})),Array.from({length:count},()=>({accuracy:100,type:'best'})),side);assert.equal(r.status,'uncalibrated');assert.equal(r.count,count);assert.equal(r.low,undefined);assert.equal(r.high,undefined);assert.match(r.text,/validazione/)}console.log('PASS no fabricated rating without validated model');
