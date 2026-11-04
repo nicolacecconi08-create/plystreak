@@ -2,13 +2,13 @@
 from pathlib import Path
 import gzip,json,base64,subprocess,hashlib
 root=Path('dist');old=json.loads(gzip.decompress((root/'updates/plystreak-core-1.15.1.json.gz').read_bytes()));files={f['path']:base64.b64decode(f['data']) for f in old['files']}
-changed=subprocess.check_output(['git','diff','--name-only','HEAD','--','dist'],text=True).splitlines()
+changed=subprocess.check_output(['git','diff','--name-only','62b296228c86291a3a72e097e364ff2028be9f20','--','dist'],text=True).splitlines()
 changed+=['dist/'+x for x in ['manual-arrows.js','live-material.js','accuracy-metric.js','overhaul.css']]
 for path in set(changed):
  if path.startswith('dist/updates/') or not Path(path).is_file():continue
  name=path.removeprefix('dist/');new=Path(path).read_bytes()
  if name in files:
-  base=subprocess.check_output(['git','show','HEAD:'+path])
+  base=subprocess.check_output(['git','show','62b296228c86291a3a72e097e364ff2028be9f20:'+path])
   if files[name]!=base:
    if name!='app.js':raise RuntimeError('Unreviewed native differences: '+name)
    start=b"$('export').onclick=";end=b"$('methodButton').onclick="

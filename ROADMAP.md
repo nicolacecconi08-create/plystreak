@@ -1,3 +1,14 @@
+## 1.16.0 — Overhaul ametista e affidabilità
+
+- Sette sezioni aggiornate: layout compatto, introduzioni rimosse, navigazione attiva, safe area, temi ametista/lavanda, contorni pezzi e coach setup compatto. Rimossa realmente la card Momenti su cui lavorare.
+- Frecce manuali indipendenti dal motore: tasto destro/drag, modalità touch esplicita e due tocchi, più frecce, toggle/clear, rotazione, reset al cambio posizione.
+- Materiale dal vivo: catture per colore e vantaggio netto, incluse promozioni e presa al passo, derivato dalla posizione corrente.
+- Accuracy: formula e aggregazione Lichess, metodo versionato e conservato nell’archivio; confronti separati per metodo. Stima Elo arbitraria sospesa; modello empirico ancora da realizzare, componente visibile.
+- Geniali: il recupero tardivo del materiale non esclude più un sacrificio; PV interamente legale e affidabilità richieste.
+- Verifiche: test-overhaul, accuracy-metric, performance-v1131, evidence-v1151, brilliant-v1121, brilliant-engine (Stockfish reale), live, review-practice-v195, review-resume, opening-study, navigation, draw-animation, rapid-analysis. Browser: annotazione a due tocchi, rotazione, analisi PGN matto rapido/ripresa/saliente, cattura dal vivo +1; sezioni a 390 px senza overflow e analisi a 820 px affiancata. Nessun test su hardware iOS o drag fisico touch.
+- Core PC 1.16.0: esportazione nativa preservata, pacchetto con checksum. Nessuna migrazione distruttiva dei dati.
+- Priorità residue dettagliate in PRIORITIES-RECOVERED.md. Overhaul consegnato come base condivisa; ulteriori raffinazioni e QA hardware restano aperti.
+
 ## 1.15.1 — Affidabilità dei giudizi e delle varianti
 
 - Geniale: il sacrificio deve restare tale lungo tutta la PV legale fornita, non soltanto dopo la prima ricattura. Recuperi tardivi e code illegali impediscono il premio.
