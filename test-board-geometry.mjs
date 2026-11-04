@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+let resize,observed=0;
+globalThis.ResizeObserver=class{constructor(callback){resize=callback}observe(){observed++}};
+const {maintainBoardGeometry,syncBoardSize}=await import('./dist/board-geometry.js');
+let width=308,writes=0,height='';
+const board={getBoundingClientRect:()=>({width}),style:{get height(){return height},set height(v){height=v;writes++}}};
+maintainBoardGeometry(board);assert.equal(height,'308px');assert.equal(observed,1);
+maintainBoardGeometry(board);assert.equal(observed,1);assert.equal(writes,1);
+width=355.5;resize([{target:board}]);assert.equal(height,'355.5px');
+resize([{target:board}]);assert.equal(writes,2,'no observer feedback loop');
+width=0;syncBoardSize(board);assert.equal(height,'355.5px','hidden boards retain size until visible');
+width=551;resize([{target:board}]);assert.equal(height,'551px');
+console.log('PASS board geometry: resize, fractional width, hidden/reopened board, single observer, no loop');

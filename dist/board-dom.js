@@ -1,3 +1,4 @@
+import {maintainBoardGeometry} from './board-geometry.js';
 import {mountAnnotations} from './manual-arrows.js';
 // Keep decoded piece images and square buttons alive between board updates.
 export function updateBoard(board,html){
@@ -19,5 +20,5 @@ export function updateBoard(board,html){
   if(board.children[i]!==square)board.insertBefore(square,board.children[i]||null);
  }
  for(const old of [...board.children])if(!old.classList.contains('manual-arrows')&&!desired.some(n=>n.dataset.sq===old.dataset.sq))old.remove();
- mountAnnotations(board);board.dispatchEvent(new Event('board-updated'));
+ maintainBoardGeometry(board);mountAnnotations(board);board.dispatchEvent(new Event('board-updated'));
 }

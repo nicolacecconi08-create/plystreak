@@ -23,7 +23,7 @@ export function fitReviewBoard(){
   const parent=small?document.querySelector('.workspace'):wrap.parentElement;
   const max=parent.getBoundingClientRect().width;
   // Keep squares usable on unusually short screens; normal phone/tablet/desktop fit fully.
-  const size=Math.min(max,Math.max(256+rail,available+rail));
+  const size=Math.min(max,Math.max(256+rail+18,available+rail-2));
   wrap.style.setProperty('--review-board-width',Math.floor(size)+'px');
  });
 }
