@@ -8,7 +8,8 @@ export class UciLines {
   const pv=tail.trim().split(/\s+/);if(!pv.every(u=>/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(u)))return;
   const raw=Number(score[2]),mate=score[1]==='mate'?raw*this.side:null,cp=mate===null?raw*this.side:(raw>0?100000:-100000)*this.side;
   if(!this.depths.has(depth))this.depths.set(depth,new Map());
-  this.depths.get(depth).set(n,{cp,mate,pv,depth});if(n===1)this.latest=Math.max(this.latest,depth);
+  const observed={};for(const key of ['seldepth','nodes','time','hashfull','nps','tbhits']){const i=text.split(' pv ')[0].match(new RegExp('\\b'+key+' (\\d+)'));if(i)observed[key]=Number(i[1])}
+  this.depths.get(depth).set(n,{cp,mate,pv,depth,multipv:n,...observed});if(n===1)this.latest=Math.max(this.latest,depth);
   for(const d of this.depths.keys())if(d<this.latest-2)this.depths.delete(d);
  }
  finish(){

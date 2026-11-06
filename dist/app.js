@@ -6,7 +6,7 @@ import {makeCheckpoint,restoreCheckpoint,continueReview} from './review-checkpoi
 import {celebrateMove} from './move-celebration.js';
 import {performanceEstimate} from './performance-estimate.js';
 import {nextImportant} from './key-moments.js';
-import {reviewArrows,renderReviewArrows,attackArrows,engineCaptureArrows} from './review-arrows.js';
+import {reviewArrows,renderReviewArrows,attackArrows,engineCaptureArrows,verifiedBest,readArrowOptions,saveArrowOptions,displayArrows} from './review-arrows.js';
 import {fitReviewBoard} from './board-fit.js';
 import {lineStory,stepStory} from './line-story.js';
 import {theoryCard} from './opening-study.js';
@@ -31,31 +31,26 @@ document.addEventListener('click',e=>{if(!e.target.closest('#nextImportant'))sto
 document.addEventListener('keydown',e=>{if(['Escape','ArrowLeft','ArrowRight'].includes(e.key))stopRapid();},true);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopRapid();});
 let comparisonBusy=false,comparisonToken=0;
-let arrowMode='both';
-try{arrowMode=localStorage.getItem('plystreak-arrow-mode')||'both'}catch{}
-if(!['both','best','attacks','off'].includes(arrowMode))arrowMode='both';
+let {mode:arrowMode,empty}=readArrowOptions();$('showControlSquares').checked=empty;
 $('arrowMode').value=arrowMode;
 function drawArrows(previous){
- const fen=currentFen(),source=currentResult(),uci=source?.lines?.[0]?.pv?.[0];
- const next=activeBranch?.moves[branchIndex]||((source?.depth>=16&&uci)?{from:uci.slice(0,2),to:uci.slice(2,4),promotion:uci[4]}:null);
+ const fen=currentFen(),source=currentResult();
+ const next=activeBranch?.moves[branchIndex]||verifiedBest(fen,source);
  const comparison=!!activeBranch?.comparison&&branchIndex===0;
  const best=game?reviewArrows({fen,next,played:comparison?moves[index-1]:null,comparison}):[];
  if(!activeBranch)for(const a of best)if(a.kind==='next')a.label='Migliore per chi deve muovere';
- const captures=game?engineCaptureArrows(fen,source):[];
+ const captures=game&&verifiedBest(fen,source)?engineCaptureArrows(fen,source):[];
  for(const a of best){const recommended=captures.find(c=>c.kind==='recommended'&&a.kind==='next'&&c.from===a.from&&c.to===a.to&&c.promotion===a.promotion);if(recommended){a.kind=recommended.kind;a.label=recommended.label}}
  const focus=selected||(previous&&currentChess().get(previous.to)?previous.to:null);
  const attacks=game&&focus?attackArrows(fen,focus,$('showControlSquares').checked):[];
  const arrows=[...(['both','attacks'].includes(arrowMode)?[...attacks,...captures.filter(a=>a.kind==='favorable')]:[]),...(['both','best'].includes(arrowMode)?best:[])];
- const unique=[...new Map(arrows.map(a=>[a.from+a.to+(a.promotion||''),a])).values()];
- renderReviewArrows($('board'),unique,flipped);
- const labels=[...new Map(unique.map(a=>[a.kind,{kind:a.kind,label:a.label}])).values()];
- $('arrowLegend').innerHTML=labels.map(a=>`<span class="arrow-key ${a.kind}">${esc(a.label)}</span>`).join('');
+ displayArrows($('board'),$('arrowLegend'),arrows,flipped);
  $('arrowHelp').hidden=!game||arrowMode==='off';
  $('arrowHelp').textContent=['both','attacks'].includes(arrowMode)?'Rosso: cattura consigliata. Giallo: attacco possibile o cattura alternativa; la legenda distingue quelle con posizione favorevole stimata. Tocca un pezzo per esaminarlo. Nessun guadagno è garantito.':'';
  if(game&&['both','best'].includes(arrowMode)&&!best.length&&!currentChess().isGameOver())$('arrowHelp').textContent+=' La mossa migliore non è ancora disponibile per questa posizione.';
 }
-$('arrowMode').onchange=()=>{arrowMode=$('arrowMode').value;try{localStorage.setItem('plystreak-arrow-mode',arrowMode)}catch{}renderBoard()};
-$('showControlSquares').onchange=()=>renderBoard();
+$('arrowMode').onchange=()=>{arrowMode=$('arrowMode').value;saveArrowOptions(arrowMode,$('showControlSquares').checked);renderBoard()};
+$('showControlSquares').onchange=()=>{saveArrowOptions(arrowMode,$('showControlSquares').checked);renderBoard()};
 let importing=false;
 let archiveId=null,pendingText='',pendingSide=null,resetRequested=false;
 async function persistReview(){if(!game)return;const savedGame=game;const record=await saveGame({id:archiveId,pgn:game.pgn(),side:$('playerSide').value||null,analysis:{...analysisRecord(moves,grades,results),checkpoint:makeCheckpoint(moves,results,grades)}});if(game===savedGame){archiveId=record.id;try{localStorage.setItem('plystreak-last-review',record.id)}catch{}$('saveStatus').textContent=`Salvato sul dispositivo · ${grades.filter(Boolean).length}/${moves.length} mosse`;}return record}

@@ -71,3 +71,17 @@ export function attackArrows(fen,focus,includeEmpty=false){
  for(const m of captures)if((m.to===focus||(m.flags.includes('e')&&(m.from===focus||m.to[0]+m.from[1]===focus)))&&!out.some(a=>a.from===m.from&&a.to===m.to))out.push({from:m.from,to:m.to,kind:'capture',label:'Cattura legale ora'});
  return out;
 }
+
+// A book continuation is never evidence for a recommendation.
+export function verifiedBest(fen,result){
+ const line=result?.lines?.[0],u=line?.pv?.[0];
+ if((result?.fen&&result.fen!==fen)||!u||!Number.isFinite(line.depth)||line.depth<16||!Number.isFinite(line.cp)||[result,line].some(x=>x.reliable===false||x.bound||x.lowerbound||x.upperbound)||(result.best&&result.best!==u))return null;
+ try{const c=new Chess(fen);let first;for(const s of line.pv){if(!/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(s))return null;const m=c.move({from:s.slice(0,2),to:s.slice(2,4),promotion:s[4]});first??=m}return first}catch{return null}
+}
+export function readArrowOptions(){let mode='both',empty=false;try{mode=localStorage.getItem('plystreak-arrow-mode')||mode;empty=localStorage.getItem('plystreak-arrow-empty')==='true'}catch{}return {mode:['both','best','attacks','off'].includes(mode)?mode:'both',empty}}
+export function saveArrowOptions(mode,empty){try{localStorage.setItem('plystreak-arrow-mode',mode);localStorage.setItem('plystreak-arrow-empty',String(empty))}catch{}}
+export function displayArrows(board,legend,arrows,flip){
+ const unique=[...new Map(arrows.map(a=>[a.from+a.to+(a.promotion||''),a])).values()];
+ renderReviewArrows(board,unique,flip);legend.replaceChildren();
+ for(const a of new Map(unique.map(a=>[a.kind,a])).values()){const s=document.createElement('span');s.className='arrow-key '+a.kind;s.textContent=a.label;legend.append(s)}
+}

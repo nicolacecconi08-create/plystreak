@@ -1,8 +1,8 @@
 {
-  "version": "1.17.0",
+  "version": "1.18.0",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.17.0.json.gz",
-  "size": 2781645,
-  "sha256": "ba2e762edd00ca9cca5e0045f671fbda448da29a2ce50294d60e32f70ae03703",
-  "notes": "Nuova tipografia Outfit e Source Sans 3, icone coerenti, testi pi\u00f9 chiari e componenti rinnovati in tutte le sezioni."
+  "path": "/updates/plystreak-core-1.18.0.json.gz",
+  "size": 2784887,
+  "sha256": "5c5f5c74c3e6929b8776b69d63d3aa1bb81025344fd33ad96fe06a61a68995a0",
+  "notes": "Aperture: attacchi sulla posizione visualizzata e verifica Stockfish su richiesta. Migliorati i controlli sulle frecce e i dati di ricerca."
 }
