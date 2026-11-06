@@ -1,0 +1,5 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {Chess} from './dist/vendor/chess.js';import {positionKey} from './dist/move-grade.js';
+const d=JSON.parse(fs.readFileSync('dist/vendor/explorer.json')),node=c=>d.nodes[positionKey(c.fen())];let count=0;
+for(const part of 'abcde'){for(const row of fs.readFileSync('dist/vendor/openings-'+part+'.tsv','utf8').trim().split('\n').slice(1)){const [eco,name,pgn]=row.trimEnd().split('\t');let c=new Chess();for(const s of pgn.split(/\s+/).filter(x=>!/^\d+\.(\.\.)?$/.test(x))){let n=node(c),m=c.move(s);assert(n[1][m.from+m.to+(m.promotion||'')].includes(count))}assert(node(c)[0].includes(count));assert.deepEqual(d.defs[count++],[eco,name])}}
+const at=seq=>{const c=new Chess();for(const s of seq)c.move(s);return node(c)};assert.deepEqual(at(['Nf3','d5','d4']),at(['d4','d5','Nf3']));assert(at(['e4','c5'])[0].some(i=>d.defs[i][1]==='Sicilian Defense'));assert(!at(['e4'])[0].some(i=>d.defs[i][1]==='Sicilian Defense'));assert.equal(at(['a3','a5','h3','h5','Rh2']),undefined);
+console.log(count+' lines: exact endpoints, legal continuations, transpositions and out-of-book PASS');
