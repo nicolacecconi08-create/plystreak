@@ -6,6 +6,13 @@ export function fitReviewBoard(){
   queued=false;
   const wrap=document.querySelector('.analysis-page .board-wrap'),toolbar=document.querySelector('.board-toolbar');
   if(!wrap||!toolbar)return;
+  if(document.body.classList.contains('mobile-review')){
+   const main=document.querySelector('main');
+   const available=main.getBoundingClientRect().height;
+   // Reserve compact player rows, both navigation rows, categories and readable explanation.
+   const width=Math.min(main.clientWidth,Math.max(190,available-330));
+   wrap.style.setProperty('--review-board-width',Math.floor(width)+'px');return;
+  }
   const viewport=window.visualViewport;
   if(viewport&&viewport.scale!==1)return;
   const height=viewport?.height||window.innerHeight,small=window.matchMedia('(max-width:700px)').matches;
