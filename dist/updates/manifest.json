@@ -1,8 +1,8 @@
 {
-  "version": "1.19.1",
+  "version": "1.20.0",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.19.1.json.gz",
-  "size": 3051114,
-  "sha256": "79c63ea6c433be526552f6504eff2702c721ab67c7c9b5cdca81b10d526055d4",
+  "path": "/updates/plystreak-core-1.20.0.json.gz",
+  "size": 3052024,
+  "sha256": "ca7e15f85ff3502cfcd5e3909879cd7fe54439d7767e36bf8757f12544f55aac",
   "notes": "Profili distinti del Bianco e del Nero basati sulle decisioni della singola partita."
 }
