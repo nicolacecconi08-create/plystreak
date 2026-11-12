@@ -28,7 +28,17 @@ export function isSacrifice(move,before){
   return true;
  }catch{return false;}
 }
-export function gradeMove({move,before,after,openings={},previousLoss=0}){const a=before?.lines?.[0]||before,b=after?.lines?.[0]||after;const comparable=comparableEvaluations(before,after);return classify({before,after,side:move.color==='w'?1:-1,uci:move.from+move.to+(move.promotion||''),book:!!openings[positionKey(move.after)],sacrifice:comparable&&isSacrifice(move,before),previousLoss})}
+function legalLine(fen,pv){
+ if(!pv?.length)return false;
+ try{const c=new Chess(fen);return pv.every(u=>!!playUci(c,u))}catch{return false}
+}
+export function gradeMove({move,before,after,openings={},previousLoss=0}){
+ if((before?.fen&&before.fen!==move.before)||(after?.fen&&after.fen!==move.after))throw Error('Valutazione riferita a una posizione diversa: ripeti questa analisi.');
+ const comparable=comparableEvaluations(before,after);
+ const grade=classify({before,after,side:move.color==='w'?1:-1,uci:move.from+move.to+(move.promotion||''),book:!!openings[positionKey(move.after)],sacrifice:comparable&&isSacrifice(move,before),previousLoss});
+ if(grade.type==='great'&&!before.lines.slice(0,2).every(l=>legalLine(move.before,l.pv)))return {...grade,type:'best'};
+ return grade;
+}
 
 export async function checkedGrade(engine,args,{signal,onVerify}={}){
  const check=()=>{if(signal?.aborted)throw Error('Analisi interrotta.');};check();
