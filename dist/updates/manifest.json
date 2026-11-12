@@ -1,8 +1,8 @@
 {
-  "version": "1.21.0",
+  "version": "1.22.0",
   "minShell": "1.3.0",
-  "path": "/updates/plystreak-core-1.21.0.json.gz",
-  "size": 3053681,
-  "sha256": "d087c964fa5501c0268b2bd51fa4c5e103459f51bc26224514dc90cfa468c14e",
-  "notes": "Nuovo layout del catalogo, coach e statistiche."
+  "path": "/updates/plystreak-core-1.22.0.json.gz",
+  "size": 3059641,
+  "sha256": "8eab7b0a42a8f0f59809ee1e4262f308ceb4b4fe10339d6be07a41780cef5bcf",
+  "notes": "Importazione dedicata, navigazione dei progressi e interfaccia semplificata."
 }
