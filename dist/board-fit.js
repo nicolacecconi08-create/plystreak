@@ -10,7 +10,8 @@ export function fitReviewBoard(){
    const main=document.querySelector('main');
    const available=main.getBoundingClientRect().height;
    // Reserve compact player rows, both navigation rows, categories and readable explanation.
-   const width=Math.min(main.clientWidth,Math.max(190,available-330));
+   const workspace=document.querySelector('.workspace');
+   const width=Math.min(workspace.clientWidth-74,Math.max(190,available-286));
    wrap.style.setProperty('--review-board-width',Math.floor(width)+'px');return;
   }
   const viewport=window.visualViewport;
