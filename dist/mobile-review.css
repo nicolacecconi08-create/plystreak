@@ -1,0 +1,58 @@
+/* Accuracy is already labelled in the game summary; keep player rows unambiguous. */
+.analysis-page .player-acc{display:none}
+.review-sections,.review-panels{display:none}
+@media(max-width:700px){
+ body.mobile-review{height:var(--review-vh,100dvh);min-height:0;overflow:hidden;padding:0!important;display:flex;flex-direction:column}
+ body.mobile-review>header{position:relative!important;flex:0 0 auto;width:100%;margin:0!important;min-height:48px!important;padding:calc(4px + env(safe-area-inset-top)) 12px 4px!important;flex-wrap:nowrap!important;box-sizing:border-box}
+ .mobile-review header .brand{font-size:22px!important}.mobile-review header .ply-mascot{height:25px;width:25px}.mobile-review #newGame{min-height:44px;padding:6px 10px;font-size:13px;margin:0!important}
+ .mobile-review main{flex:1;min-height:0;width:100%;max-width:none;padding:0 10px calc(66px + env(safe-area-inset-bottom))!important;margin:0!important;box-sizing:border-box;display:flex;flex-direction:column}
+ .mobile-review main>.page-tools,.mobile-review main>footer{display:none!important}
+ .mobile-review .workspace{display:flex!important;flex-direction:column;width:100%;height:100%;min-height:0;gap:0!important;margin:0!important}
+ .mobile-review .board-column,.mobile-review .review-column,.mobile-review #loadedPanel{display:contents!important}
+ .mobile-review .player{width:100%;height:24px!important;min-height:24px;flex:0 0 24px;padding:0!important;margin:0!important;gap:6px;display:flex;align-items:center;justify-content:space-between}
+ .mobile-review .player .avatar{display:none}.mobile-review .player>div{display:flex;align-items:center;justify-content:space-between;width:100%;min-width:0;gap:8px}.mobile-review .player strong{font-size:13px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mobile-review .player small{font-size:12px;margin:0;white-space:nowrap}
+ .mobile-review .board-wrap{order:1;align-self:center;margin:0 auto!important;flex-shrink:0;max-width:100%;padding-bottom:18px}
+ .mobile-review .board-column>.player:first-child{order:0}.mobile-review .player:has(#bottomName){order:2}
+ .mobile-review .board-toolbar{order:3;flex:0 0 44px;width:100%;min-height:44px;height:44px;padding:0;margin:0!important;gap:0;align-items:center}.mobile-review .board-toolbar button{min-height:44px;min-width:36px;padding:0 4px;font-size:24px}.mobile-review .board-toolbar .nav{gap:0;flex:1;justify-content:space-between}.mobile-review #positionLabel{font-size:12px;min-width:0}
+ .mobile-review .important-navigation{order:4;flex:0 0 44px;min-height:44px;margin:0!important}.mobile-review #nextImportant{height:44px;min-height:44px;padding:8px;font-size:14px}.mobile-review #importantStatus{display:none}
+ .mobile-review .review-sections{order:5;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));flex:0 0 44px;border-bottom:1px solid var(--line);width:100%;gap:0}.review-sections button{background:transparent;color:var(--text-secondary);font-size:14px;padding:0 2px;border:0;border-radius:0;min-height:44px}.review-sections button[aria-pressed=true]{color:var(--ink);box-shadow:inset 0 -3px var(--accent)}
+ .mobile-review .review-panels{display:block;order:6;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;width:100%;padding:0 2px}.review-panels>section[hidden]{display:none!important}
+ .mobile-review .review-panels .card{margin:0;padding:10px 0;border:0}.mobile-review #analysisLesson{position:static;max-height:none;overflow:visible}.mobile-review #moveInsight{padding:10px 0!important}.mobile-review #moveInsight h3{font-size:19px;margin:4px 0}.mobile-review #moveInsight p{font-size:15px;line-height:1.4;margin:6px 0}.mobile-review #showBestMove{margin:8px 0;min-height:44px}.mobile-review .board-note{font-size:13px;line-height:1.4}.mobile-review #moves{max-height:none}.mobile-review #message:not([hidden]){order:7;flex-shrink:0;max-height:64px;overflow:auto;font-size:14px}
+ .mobile-review .app-nav{height:66px!important;min-height:66px!important;box-sizing:content-box;padding:0 4px env(safe-area-inset-bottom)!important;bottom:0!important}.mobile-review .app-nav a,.mobile-review .app-nav button{min-height:54px!important}.mobile-review .annotation-tools{display:flex!important;flex-wrap:wrap;position:static;margin:10px 0}.mobile-review .annotation-tools small{display:block!important;font-size:13px}.mobile-review .arrow-controls{margin:8px 0}.mobile-review .review-panels .tabs{display:flex!important}
+}
+/* Very short landscape windows retain accessible internal scrolling instead of clipping. */
+@media(max-width:700px) and (max-height:500px){.mobile-review .workspace{overflow:auto}.mobile-review .review-panels{flex:none;min-height:180px}.mobile-review .board-wrap{max-width:250px}.mobile-review .review-sections{position:sticky;top:0;background:var(--bg);z-index:5}}
+.mobile-review .review-panels .engine-pill{font-size:13px;max-width:none;padding:10px 0;text-align:left}.mobile-review #review-pane-moves #reviewContent{display:block!important}.mobile-review #review-pane-explore .tabs{position:static}.mobile-review #review-pane-explore .tabs button{font-size:14px;min-height:44px}
+/* Phone review categories stay beside the board, above any lower navigation. */
+@media(max-width:700px){
+ .mobile-review .workspace{display:grid!important;grid-template-columns:minmax(0,1fr) 68px;grid-template-rows:24px auto 24px 44px 44px minmax(0,1fr);column-gap:6px!important;row-gap:0!important;align-items:start}
+ .mobile-review .board-column>.player:first-child{grid-column:1;grid-row:1}
+ .mobile-review .board-wrap{grid-column:1;grid-row:2;width:var(--review-board-width,100%);max-width:100%;justify-self:center;align-self:start}
+ .mobile-review .player:has(#bottomName){grid-column:1;grid-row:3}
+ .mobile-review .board-toolbar{grid-column:1/-1;grid-row:4}
+ .mobile-review .important-navigation{grid-column:1/-1;grid-row:5}
+ .mobile-review .review-sections{grid-column:2;grid-row:2;display:flex;flex-direction:column;align-self:start;gap:4px;width:68px;border:0;padding:0;position:relative;z-index:6}
+ .mobile-review .review-sections button{width:100%;min-height:44px;flex:0 0 44px;padding:4px 2px;font-size:13px;line-height:1.2;border:1px solid var(--line);border-radius:7px;background:var(--panel);overflow-wrap:anywhere}
+ .mobile-review .review-sections button[aria-pressed=true]{box-shadow:inset 3px 0 var(--accent);background:var(--soft);border-color:var(--accent);font-weight:650}
+ .mobile-review .review-panels{grid-column:1/-1;grid-row:6;align-self:stretch;height:100%;border-top:1px solid var(--line);margin-top:4px}
+ .mobile-review #message:not([hidden]){grid-column:1/-1;grid-row:7}
+}
+@media(max-width:700px) and (max-height:500px){.mobile-review .workspace{grid-template-rows:24px auto 24px 44px 44px minmax(180px,auto)}.mobile-review .review-panels{min-height:180px}}
+/* Full-height mobile side panel: category and contents share the right column. */
+.review-category-picker{display:none}
+@media(max-width:700px){
+ .mobile-review .workspace{grid-template-columns:minmax(0,54fr) minmax(0,46fr);grid-template-rows:44px auto 24px 104px 66px minmax(0,1fr);column-gap:8px!important}
+ .mobile-review .board-column>.player:first-child{grid-column:1;grid-row:1;align-self:end}
+ .mobile-review .board-wrap{grid-column:1;grid-row:2;min-width:0;padding-bottom:18px;gap:4px!important}
+ .mobile-review .eval-track{width:10px!important;min-width:10px!important;flex:0 0 10px!important}.mobile-review #evalNumber{font-size:9px}
+ .mobile-review .player:has(#bottomName){grid-column:1;grid-row:3}
+ .mobile-review .board-toolbar{grid-column:1;grid-row:4;height:104px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:60px 44px;min-width:0}
+ .mobile-review .board-toolbar>.nav{grid-column:1/-1;grid-row:1;width:100%;display:grid;grid-template-columns:repeat(4,1fr);position:relative;padding-top:16px;height:60px;box-sizing:border-box}.mobile-review #positionLabel{position:absolute;top:0;left:0;width:100%;text-align:center;font-size:11px}.mobile-review .board-toolbar .nav button{min-width:0;min-height:44px;font-size:24px}.mobile-review .board-toolbar>#flip,.mobile-review .board-toolbar>#export{grid-row:2;min-height:44px}
+ .mobile-review .important-navigation{grid-column:1;grid-row:5;min-height:60px;align-self:start}.mobile-review #nextImportant{white-space:normal;height:auto;min-height:60px;font-size:13px;line-height:1.25}
+ .mobile-review .review-sections{grid-column:2;grid-row:1;width:100%;height:44px;display:block}.mobile-review .review-sections>button{display:none}.mobile-review .review-category-picker{display:block;width:100%;min-height:44px;max-width:100%;padding:8px;font-size:15px;border-color:var(--accent);background:var(--panel)}
+ .mobile-review .review-panels{grid-column:2;grid-row:2/-1;height:100%;min-height:0;margin:0;padding:0 0 0 8px;border-top:0;border-left:1px solid var(--line);box-sizing:border-box;overflow:auto}
+ .mobile-review .review-panels *{max-width:100%;overflow-wrap:anywhere}.mobile-review .review-panels .accuracy-row,.mobile-review .review-panels .performance-row{display:flex;flex-direction:column;gap:8px}.mobile-review .review-panels #moveInsight h3{font-size:17px}.mobile-review .review-panels #moveInsight p{font-size:14px;line-height:1.45}.mobile-review .review-panels button{white-space:normal;font-size:13px;min-height:44px}.mobile-review .review-panels .tabs{flex-wrap:wrap;gap:4px}.mobile-review .review-panels .card{width:100%;min-width:0}.mobile-review .review-panels .arrow-controls{display:flex;flex-direction:column;align-items:stretch}.mobile-review .review-panels .annotation-tools{flex-direction:column}.mobile-review .review-panels .engine-pill{white-space:normal}
+ .mobile-review #message:not([hidden]){grid-column:1;grid-row:6}
+ .mobile-review .review-panels .moves-heading{display:none}.mobile-review .review-panels #moves{padding:0;overflow:visible}.mobile-review .review-panels .move-row{grid-template-columns:18px minmax(0,1fr);border-bottom:1px solid var(--line);padding:4px 0}.mobile-review .review-panels .move-row>span:first-child{grid-column:1;grid-row:1/3;padding:0;align-self:start}.mobile-review .review-panels .move-button{grid-column:2;display:flex;gap:3px;justify-content:space-between;white-space:nowrap;min-width:0;font-size:13px;padding:4px 2px}.mobile-review .review-panels .move-button span{white-space:nowrap;overflow-wrap:normal}.mobile-review .review-panels .move-button:nth-child(2):before{content:'♔';font-size:16px}.mobile-review .review-panels .move-button:nth-child(3):before{content:'♚';font-size:16px}.mobile-review .review-panels .move-button .badge{width:18px;height:18px;min-width:18px}.mobile-review .review-panels .legend{gap:8px;font-size:12px}.mobile-review .review-panels .legend>span{white-space:normal;overflow-wrap:normal}
+ .mobile-review .review-panels .insight-heading{flex-wrap:wrap;gap:4px}.mobile-review .review-panels .insight-heading h3{flex-basis:100%;overflow-wrap:normal;word-break:normal}.mobile-review .review-panels .insight-heading .badge{width:24px;min-width:24px;height:24px}
+}

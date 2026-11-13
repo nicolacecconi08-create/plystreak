@@ -1,0 +1,14 @@
+node_modules/
+.venv/
+__pycache__/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+user-backups/
+plystreak-backup*.json
+research/elo/pilot.json
+research/elo/evaluated.json
+research/elo/features.json
+research/elo/batch-*.json

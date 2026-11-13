@@ -1,0 +1,19 @@
+.analysis-page .lesson-card{padding:0;overflow:hidden}.analysis-page #moveInsight{background:var(--panel);min-height:0;padding:22px}.analysis-page #showBestMove{margin:16px 0}.analysis-page .lesson-card p{color:var(--ink)}.analysis-page .review-column{display:flex;flex-direction:column}.analysis-page .lesson-card{order:-1}.analysis-page .workspace{align-items:start}.analysis-page #loadedPanel{min-width:0}.analysis-page .lesson-card .coach-inline{margin-top:18px}.analysis-page .lesson-card .position-facts p{margin:10px 0}.analysis-page button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media(min-width:701px){.analysis-page .board-column{position:sticky;top:16px}.analysis-page .board{max-height:none;width:100%;min-width:0;aspect-ratio:1}.analysis-page .board-wrap{width:100%;max-width:100%;margin:auto}.analysis-page .review-column{max-width:none}.analysis-page #analysisLesson{max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}}
+@media(max-width:700px){.analysis-page .workspace{display:flex;gap:12px}.analysis-page .board-column,.analysis-page .review-column{display:contents}.analysis-page .board-column>.player:first-child{order:0}.analysis-page .board-wrap{order:1;width:100%}.analysis-page .player:has(#bottomName){order:2;width:100%}.analysis-page .board-toolbar{order:3;width:100%;margin-top:4px}.analysis-page .board-note{order:4;margin:2px 0}.analysis-page #analysisLesson{order:5;width:100%;margin:0}.analysis-page .tabs{order:6;width:100%;position:static}.analysis-page #loadedPanel,.analysis-page #importPanel{order:7;width:100%}.analysis-page #message{order:5;width:100%}.analysis-page .chart-card{order:8;width:100%}.analysis-page #moveInsight{padding:16px}.analysis-page .intro{margin-bottom:12px!important}.analysis-page .board-wrap{max-width:490px;align-self:center}.analysis-page .lesson-card .move-details{margin-top:10px}}
+@media(min-width:701px){.analysis-page .workspace{position:relative}.analysis-page .review-column{max-height:calc(100dvh - 32px);overflow-y:auto;position:sticky;top:16px;scrollbar-width:thin}.analysis-page #analysisLesson{position:sticky;top:0;z-index:4;flex-shrink:0;max-height:65dvh;box-shadow:0 6px 12px #0000000a}.analysis-page .board-wrap{width:100%;max-width:100%}.analysis-page .board{max-height:none}.analysis-page .chart-card{margin-top:6px}.analysis-page .review-column>.tabs{flex-shrink:0}}
+
+/* Keep the board and its move controls together in the visible area. */
+.analysis-page .board-wrap{width:var(--review-board-width,100%);max-width:100%;flex-shrink:0}
+.analysis-page.review-loaded main{padding-top:16px}
+.analysis-page.review-loaded .intro{margin-bottom:12px!important;gap:12px}
+.analysis-page.review-loaded .intro h1{font-size:24px!important;margin:0;letter-spacing:-.6px}
+.analysis-page.review-loaded .intro .eyebrow,.analysis-page.review-loaded .intro p{display:none}
+.analysis-page.review-loaded .player{height:40px;padding-top:4px;padding-bottom:4px}
+.analysis-page.review-loaded .player .avatar{width:30px;height:30px}
+.analysis-page.review-loaded .board-toolbar{margin-top:8px}
+@media(max-width:700px){.analysis-page.review-loaded .intro h1{font-size:20px!important}.analysis-page.review-loaded .intro{flex-wrap:nowrap}.analysis-page.review-loaded .engine-pill{font-size:10px;padding:6px}.analysis-page.review-loaded .workspace{gap:6px}}
+
+/* Keep the salient-move action next to the ordinary move navigation. */
+.analysis-page .important-navigation{margin:6px 0 0 25px;display:flex;flex-direction:column;align-items:stretch;gap:4px}.analysis-page #nextImportant{min-height:44px;font-size:14px;width:100%;font-weight:700}.analysis-page #importantStatus{min-height:16px}
+@media(max-width:700px){.analysis-page .important-navigation{order:4;width:100%;margin:0}.analysis-page .arrow-controls,.analysis-page .arrow-help{order:4;width:100%}.analysis-page .board-note{order:4}.analysis-page #nextImportant{min-height:44px}}
