@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import {createRequire} from 'node:module';
+const {resolveAsset,mime}=createRequire(import.meta.url)('./native/windows/local-files.cjs');
+const root=path.resolve('dist');
+assert.equal(resolveAsset(root,'plystreak://app/'),path.join(root,'index.html'));
+assert.equal(resolveAsset(root,'plystreak://app/vendor/stockfish-19-lite-single.wasm'),path.join(root,'vendor','stockfish-19-lite-single.wasm'));
+for(const url of ['https://example.com/','plystreak://other/index.html','plystreak://app/%2e%2e%2fsecret','plystreak://app/%5csecret','plystreak://app/%00','plystreak://app/%zz'])assert.equal(resolveAsset(root,url),null,url);
+assert.equal(mime['.wasm'],'application/wasm');
+console.log('PASS desktop file routing: origin, traversal, encoding and WASM MIME');

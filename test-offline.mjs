@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const handlers={},entries=new Map(),deleted=[];
+const cache={put:async(request,response)=>entries.set(request.url,response),match:async url=>entries.get(url)};
+const caches={open:async()=>cache,keys:async()=>['other-app-cache','plystreak-offline-old'],delete:async name=>{deleted.push(name)}};
+const context=vm.createContext({self:{registration:{scope:'https://example.org/'},location:{origin:'https://example.org'},addEventListener:(type,fn)=>handlers[type]=fn},caches,URL,Request,Response,Headers,fetch:async request=>{
+  const p=new URL(request.url).pathname.slice(1);assert(fs.existsSync('dist/'+p),p);const response=new Response(fs.readFileSync('dist/'+p));if(p.endsWith('.html')){Object.defineProperty(response,'redirected',{value:true});Object.defineProperty(response,'url',{value:'https://example.org/'+p.slice(0,-5)});}return response;
+}});
+vm.runInContext(fs.readFileSync('dist/sw.js','utf8'),context);
+let pending;handlers.install({waitUntil:p=>pending=p});await pending;
+assert(entries.has('https://example.org/vendor/stockfish-19-lite-single.wasm'));
+assert(![...entries.keys()].some(p=>p.includes('/updates/')));
+handlers.activate({waitUntil:p=>pending=p});await pending;
+assert.deepEqual(deleted,['plystreak-offline-old']);
+let response;handlers.fetch({request:new Request('https://example.org/'),respondWith:p=>response=p});
+assert.match(await (await response).text(),/Plystreak/);
+let intercepted=false;handlers.fetch({request:new Request('https://api.chess.com/pub/player/test'),respondWith:()=>intercepted=true});assert.equal(intercepted,false);
+handlers.fetch({request:new Request('https://example.org/api/private'),respondWith:()=>intercepted=true});assert.equal(intercepted,false);
+console.log(`PASS offline: ${entries.size} assets, offline navigation/WASM, scoped cleanup, remote requests untouched`);
