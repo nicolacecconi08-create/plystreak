@@ -1,0 +1,9 @@
+{
+  "name": "plystreak-desktop",
+  "productName": "Plystreak",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.cjs",
+  "description": "Plystreak Windows desktop preview with local Stockfish",
+  "license": "AGPL-3.0-or-later"
+}

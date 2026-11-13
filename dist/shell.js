@@ -38,3 +38,5 @@ if(brand){
  const icon=document.createElement('img');icon.src=new URL('./mascot-ply.svg',import.meta.url).href;icon.alt='';icon.setAttribute('aria-hidden','true');icon.width=42;icon.height=42;icon.className='ply-mascot';
  const old=brand.querySelector('.brand-icon');if(old)old.replaceWith(icon);else{for(const node of brand.childNodes)if(node.nodeType===Node.TEXT_NODE)node.textContent=node.textContent.replace('♘','');brand.prepend(icon)}
 }
+
+const installLink=document.createElement("a");installLink.href="install.html";installLink.textContent="Installa Plystreak e prepara l’uso offline";installLink.className="text-button";document.querySelector("main")?.append(installLink);
