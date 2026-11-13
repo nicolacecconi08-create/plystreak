@@ -1,0 +1,266 @@
+[
+  {
+    "test": "test-accuracy-metric.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS accuracy formula, clamp, symmetry, incomplete and short analysis\n"
+  },
+  {
+    "test": "test-award-evidence.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS distinct legal alternatives, root consistency, cancelled verification\n"
+  },
+  {
+    "test": "test-board-geometry.mjs",
+    "status": "PASS",
+    "seconds": 0.06,
+    "output": "PASS board geometry: resize, fractional width, hidden/reopened board, single observer, no loop\n"
+  },
+  {
+    "test": "test-brilliant-engine.mjs",
+    "status": "PASS",
+    "seconds": 0.65,
+    "output": "PASS Stockfish: genuine queen sacrifice retained with legal mate continuation; depths 20 20\nPASS Stockfish: ordinary mate is not a sacrifice.\n"
+  },
+  {
+    "test": "test-brilliant-v1121.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS Brilliant: counter-captures, forced moves, truncated/illegal PV, both colors, shallow/mismatched analyses, conservative recheck.\n"
+  },
+  {
+    "test": "test-capture-arrows.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS capture colors: recommended vs possible, favorable alternatives, both colors, depth, bounds, legal continuation, mate, quiet moves\n"
+  },
+  {
+    "test": "test-coach.mjs",
+    "status": "FAIL",
+    "seconds": 0.09,
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'dark' !== 'system'\n\n    at file:///workspace/scratch/e4ac1557ee97/Plystreak-1.24.0/test-coach.mjs:8:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 'dark',\n  expected: 'system',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+  },
+  {
+    "test": "test-difficulty.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS difficulty: 8 verified enriched positions, gradual levels, clean distinct families, no mirror/retry farming, manual levels, theme filters, due priority and no duplicates.\n"
+  },
+  {
+    "test": "test-draw-animation.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS: draw glow, both kings, no repeat, cancellation, reduced motion, rapid arrival, stalemate and repetition history\n"
+  },
+  {
+    "test": "test-engine-black-practice.mjs",
+    "status": "FAIL",
+    "seconds": 0.33,
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(meetsGoal(card,m,c))\n\n    at file:///workspace/scratch/e4ac1557ee97/Plystreak-1.24.0/test-engine-black-practice.mjs:8:272 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+  },
+  {
+    "test": "test-engine-practice.mjs",
+    "status": "FAIL",
+    "seconds": 0.37,
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(meetsGoal(card,m,c))\n\n    at file:///workspace/scratch/e4ac1557ee97/Plystreak-1.24.0/test-engine-practice.mjs:7:272 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+  },
+  {
+    "test": "test-engine-v3.mjs",
+    "status": "PASS",
+    "seconds": 33.09,
+    "output": "PASS live engine combo-sacrificio-linea\nPASS live engine combo-matto-affogato\nPASS live engine combo-promozione\nPASS live engine combo-infilata\nPASS live engine lesson-doppio-1\nPASS live engine lesson-doppio-2\nPASS live engine lesson-doppio-3\nPASS live engine lesson-doppio-4\nPASS live engine lesson-inchiodatura-1\nPASS live engine lesson-inchiodatura-2\nPASS live engine lesson-inchiodatura-3\nPASS live engine lesson-inchiodatura-4\nPASS live engine lesson-presa-1\nPASS live engine lesson-presa-2\nPASS live engine lesson-presa-3\nPASS live engine lesson-presa-4\nPASS live engine lesson-matto-1\nPASS live engine lesson-matto-2\nPASS live engine lesson-matto-3\nPASS live engine lesson-matto-4\nPASS live engine lesson-matto-1-level-2\nPASS live engine lesson-matto-1-level-3\nPASS live engine lesson-doppio-3-level-2\nPASS live engine lesson-doppio-3-level-3\nPASS live engine lesson-inchiodatura-1-level-2\nPASS live engine lesson-inchiodatura-1-level-3\nPASS live engine lesson-presa-3-level-2\nPASS live engine lesson-presa-3-level-3\nPASS live engine: automatic legal replies and all 16 exercise solutions\n"
+  },
+  {
+    "test": "test-evidence-v1151.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS evidence: flags preserved, restored awards rechecked, delayed recovery, illegal PV tail, comparison both colors/ties, promotion story\n"
+  },
+  {
+    "test": "test-explanations.mjs",
+    "status": "PASS",
+    "seconds": 0.17,
+    "output": "PASS: explanations for every move, mate, development, capture, underpromotion, legal PV truncation, evaluation perspective\n"
+  },
+  {
+    "test": "test-game-performance.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS side isolation, opening repeats, same-root tactics, ties/bounds, empty analysis\n"
+  },
+  {
+    "test": "test-key-moments.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS: next important, current skipped, end, partial analysis, changed grades, castling loss, conditional queen exchange, invalid reply and pre-existing loss of rights\n"
+  },
+  {
+    "test": "test-languages.mjs",
+    "status": "PASS",
+    "seconds": 0.11,
+    "output": "PASS languages: five catalogs, placeholders, settings migration, coach/checks/hints, unchanged chess state and notation.\n"
+  },
+  {
+    "test": "test-line-story.mjs",
+    "status": "PASS",
+    "seconds": 0.1,
+    "output": "PASS: plain-language steps, legal replay, invalid PV truncation, verified mate only, balanced exchanges and no notation.\n"
+  },
+  {
+    "test": "test-live.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "Live: clocks, increment, restore, flag, pause, legal moves, mate, repetition, claims, castling, en passant, promotion, material passed\n"
+  },
+  {
+    "test": "test-navigation.mjs",
+    "status": "PASS",
+    "seconds": 0.05,
+    "output": "PASS navigation: public clean URLs, HTML files, trailing slashes and nested paths.\n"
+  },
+  {
+    "test": "test-open-explorer.mjs",
+    "status": "PASS",
+    "seconds": 2.11,
+    "output": "3865 lines: exact endpoints, legal continuations, transpositions and out-of-book PASS\n"
+  },
+  {
+    "test": "test-opening-arrows.mjs",
+    "status": "PASS",
+    "seconds": 0.27,
+    "output": "PASS: 43 lessons, 182 positions; orientation, legal attacks, insufficient/stale engine evidence and observed UCI metrics\n"
+  },
+  {
+    "test": "test-opening-study.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS: opening/gambit identity, uncommon variants, transpositions, selected-ply link, legal replay, malformed/unrecognized input.\n"
+  },
+  {
+    "test": "test-overhaul.mjs",
+    "status": "PASS",
+    "seconds": 0.06,
+    "output": "PASS overhaul: arrow state/rotation; material captures, en passant, promotion, undo, restore, reset; page structure\n"
+  },
+  {
+    "test": "test-performance-v1131.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS no fabricated rating without validated model\n"
+  },
+  {
+    "test": "test-puzzle-lines-engine.mjs",
+    "status": "PASS",
+    "seconds": 15.38,
+    "output": "PASS Stockfish full solution combo-sacrificio-linea\nPASS Stockfish full solution combo-matto-affogato\nPASS Stockfish full solution combo-promozione\nPASS Stockfish full solution combo-infilata\nPASS Stockfish full solution lesson-matto-1-level-2\nPASS Stockfish full solution lesson-matto-1-level-3\nPASS Stockfish full solution lesson-doppio-3-level-2\nPASS Stockfish full solution lesson-doppio-3-level-3\nPASS Stockfish full solution lesson-inchiodatura-1-level-2\nPASS Stockfish full solution lesson-inchiodatura-1-level-3\nPASS Stockfish full solution lesson-presa-3-level-2\nPASS Stockfish full solution lesson-presa-3-level-3\n"
+  },
+  {
+    "test": "test-puzzle-rating.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS: speed, attempts, streak, help, repeats, milestones, legacy data and 25 continuous problems\nPASS: rating survives validated backup roundtrip\n"
+  },
+  {
+    "test": "test-puzzles-v111.mjs",
+    "status": "FAIL",
+    "seconds": 0.11,
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(performanceEstimate(moves,grades.map(g=>({...g,accuracy:30,loss:.3})),'w',results).high<performanceEstimate(moves,grades,'w',results).high)\n\n    at file:///workspace/scratch/e4ac1557ee97/Plystreak-1.24.0/test-puzzles-v111.mjs:22:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+  },
+  {
+    "test": "test-rapid-analysis.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS: every intermediate move, reduced motion, cancellation/reentrancy, exact positions/repetition, separate engine cache keys and reuse\n"
+  },
+  {
+    "test": "test-rating-fixes.mjs",
+    "status": "PASS",
+    "seconds": 0.06,
+    "output": "PASS Great recheck, wrong-root sacrifice rejection, monotonic learned weights\n"
+  },
+  {
+    "test": "test-review-arrows.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS: arrow orientation, same-position comparison, duplicate suppression, legal moves, no stale arrows, knight elbow, castling, underpromotion\nPASS attacks: forks, absolute pins, side to move, pawn control, en passant, ray blockers\n"
+  },
+  {
+    "test": "test-review-practice-v195.mjs",
+    "status": "PASS",
+    "seconds": 0.06,
+    "output": "PASS: coherent MultiPV, bound rejection, White/Black perspective, cautious Great, root comparison, mate vs centipawn, saturated scores, uncertain searches.\n"
+  },
+  {
+    "test": "test-review-refinement-v1111.mjs",
+    "status": "PASS",
+    "seconds": 0.09,
+    "output": "PASS: exchange balance, legal captures, invalid PV, immediate mate priority, severe-error focus, empty color summary, no false error list, incomplete puzzle rejection.\n"
+  },
+  {
+    "test": "test-review-resume.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS: interruption, resume skips saved evaluations, reload/backup, corrupt checkpoints, storage failure, animation lifecycle, normalized progress\n"
+  },
+  {
+    "test": "test-review-v19.mjs",
+    "status": "PASS",
+    "seconds": 0.07,
+    "output": "PASS v1.9: conservative sacrifices, exchange and shallow-search rejection, legal PV, both evaluation perspectives, equality, uncertainty, mate and coordinate-free comments.\n"
+  },
+  {
+    "test": "test-training-v196.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS 1.9.6: catalog legal scenarios, color symmetry, objectives, themed sessions, due priority, diverse fresh themes, verified positional facts, no false passed pawn or promotion.\n"
+  },
+  {
+    "test": "test-v161.mjs",
+    "status": "PASS",
+    "seconds": 0.09,
+    "output": "PASS 1.6.1: untrusted move labels normalized; king/pawn and rook endgame coaching.\n"
+  },
+  {
+    "test": "test-v17.mjs",
+    "status": "PASS",
+    "seconds": 0.06,
+    "output": "PASS v1.7: progressive hints, early development focus, attacked pieces, king-pawn guidance.\n"
+  },
+  {
+    "test": "test-v2.mjs",
+    "status": "PASS",
+    "seconds": 0.09,
+    "output": "PASS: mirrored legal moves including castling/en passant/promotion; personal stats/trends; concise comments; 43 legal opening lines; sequential API and failures\n"
+  },
+  {
+    "test": "test-v3.mjs",
+    "status": "PASS",
+    "seconds": 0.09,
+    "output": "PASS: legal tactical goals; false-pin rejection; factual concise comments; review intervals, early retries and assistance; backup round trip and invalid-analysis rejection.\n"
+  },
+  {
+    "test": "test-v4.mjs",
+    "status": "FAIL",
+    "seconds": 0.06,
+    "output": "node:internal/modules/run_main:107\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'best'\n- 'brilliant'\n\n    at file:///workspace/scratch/e4ac1557ee97/Plystreak-1.24.0/test-v4.mjs:3:72\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\n    at async node:internal/modules/esm/loader:647:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 'best',\n  expected: 'brilliant',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v24.22.1\n"
+  },
+  {
+    "test": "test-v5.mjs",
+    "status": "PASS",
+    "seconds": 0.11,
+    "output": "PASS v1.5: latest 30 ordering/origin; per-move checkpoints, abort/resume; critical recheck; summaries and legal endgames.\n"
+  },
+  {
+    "test": "test-v6.mjs",
+    "status": "PASS",
+    "seconds": 0.08,
+    "output": "PASS v1.6: >30 new games since watermark; weekly rates and insufficient samples; v2 backup/settings/meta validation; distinct factual coach answers and varied comments.\n"
+  },
+  {
+    "test": "test.mjs",
+    "status": "PASS",
+    "seconds": 0.1,
+    "output": "PASS: PGN, checkmate sign, branch independence, castling, underpromotion, en passant, black loss classification, invalid PGN\n"
+  }
+]

@@ -1,0 +1,8 @@
+# 1.18.0 — Frecce nelle aperture e pilota Elo
+Catalogo: attacchi dal pezzo appena mosso o selezionato, caselle controllate opzionali, legenda, orientamento e filtri condivisi con Analisi; annotazioni manuali indipendenti. Stockfish su richiesta dalla FEN mostrata, risposta conservata per FEN; scartati PV illegali, bound, profondità insufficiente e divergenza fra bestmove e prima PV. La sequenza di teoria non genera consigli da sola. I prossimi rilasci conservano il QA touch fisico e il lavoro sulle lezioni più profonde.
+ 
+UCI: osservazioni seldepth, nodes, time, nps, hashfull e tbhits raccolte solo quando emesse; limiti richiesti, build, hash e MultiPV associati alla posizione. Dati storici non riscritti. Le osservazioni disponibili nel checkpoint non costituiscono uno schema archivio completo per ogni vecchia analisi.
+ 
+Elo: primi 131072 byte degli export gennaio 2024, 2025 e 2026. 1035 record delimitati completi, 907 ammessi, 91 PGN scelti in 48 strati. Una partita di collaudo (12 semimosse, 13 posizioni) analizzata con il motore del sito. Nessun modello addestrato né metriche di validazione. Manifesto e comandi in research/elo.
+ 
+Verifiche: 43 lezioni, 182 posizioni dopo mossa, regole su inchiodature, prese al passo, mosse equivalenti, scelte non verificate, qualità UCI e colori; regressioni geometria, lingue, accuracy, ripresa, Brilliant. Chrome desktop: attacco dopo tre semimosse dell’Italiana, rotazione, verifica Stockfish, avanti/indietro, nessuna freccia obsoleta, modalità Nessuna. Screenshot in qa. Nessun test fisico Safari/iPhone/iPad. Nessuna modifica ai dati dei giocatori.

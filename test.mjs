@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {Chess} from './dist/vendor/chess.js';
+import {classify,terminal,accuracy} from './dist/analysis.js';
+const c=new Chess();c.loadPgn('1. Nf3 d6 2. e4 Nf6 3. e5 dxe5 4. Nxe5 g6 5. Bc4 Be6 6. Bxe6 fxe6 7. d3 Bg7 8. Qf3 Nd5 9. Qf7#');assert.equal(c.history().length,17);assert.equal(terminal(c).cp,100000);
+const h=c.history({verbose:true}),branch=new Chess(h[15].before);branch.move('O-O');assert.notEqual(branch.fen(),h[15].after);assert.equal(c.history().at(-1),'Qf7#');
+const promotion=new Chess('7k/P7/8/8/8/8/8/7K w - - 0 1');assert.equal(promotion.moves({square:'a7',verbose:true}).filter(m=>m.to==='a8').length,4);promotion.move({from:'a7',to:'a8',promotion:'n'});assert.equal(promotion.get('a8').type,'n');
+const ep=new Chess();['e4','a6','e5','d5','exd6'].forEach(m=>ep.move(m));assert.equal(ep.get('d5'),undefined);
+const r=classify({before:{cp:-200,lines:[{pv:['a7a6']}]},after:{cp:500},side:-1,uci:'h7h6'});assert.equal(r.type,'blunder');assert(r.accuracy<50);assert(accuracy(0)>99.99);
+assert.throws(()=>new Chess().loadPgn('1. e4 e5 2. Ke7'));
+console.log('PASS: PGN, checkmate sign, branch independence, castling, underpromotion, en passant, black loss classification, invalid PGN');

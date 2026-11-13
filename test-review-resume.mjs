@@ -1,0 +1,31 @@
+import assert from 'node:assert/strict';
+import {Chess} from './dist/vendor/chess.js';
+import {continueReview,makeCheckpoint,restoreCheckpoint} from './dist/review-checkpoint.js';
+import {validateBackup} from './dist/backup.js';
+import {improvementStats} from './dist/improvement-stats.js';
+import {celebrateMove} from './dist/move-celebration.js';
+const c=new Chess();c.loadPgn('1. e4 e5 2. Nf3 Nc6 3. Bb5 a6');const moves=c.history({verbose:true}),positions=[moves[0].before,...moves.map(m=>m.after)];
+let results=[],grades=[],stop=false,evals=[],saved=0;
+const evaluate=async(fen,i)=>{evals.push(i);return {cp:0,depth:20,mate:null,lines:[]}},grade=async()=>({type:'good',loss:.01,accuracy:95});
+await continueReview({positions,moves,results,grades,evaluate,grade,stopped:()=>stop,onSaved:async n=>{saved++;if(n===2)stop=true;}});
+assert.equal(grades.length,2);assert.equal(saved,2);
+const checkpoint=makeCheckpoint(moves,results,grades);const restored=restoreCheckpoint(JSON.parse(JSON.stringify(checkpoint)),moves);assert.equal(restored.grades.length,2);
+results=restored.results;grades=restored.grades;evals=[];
+await continueReview({positions,moves,results,grades,evaluate,grade});assert.equal(grades.length,6);assert.deepEqual(evals,[3,4,5,6]);
+assert.equal(restoreCheckpoint({...checkpoint,method:'old'},moves),null);
+assert.equal(restoreCheckpoint({...checkpoint,positions:positions.map((p,i)=>i? p:'invalid')},moves),null);
+const hole={...checkpoint,grades:[checkpoint.grades[0],null]};assert.equal(restoreCheckpoint(hole,moves).grades.length,1);
+const record={id:'test',pgn:c.pgn(),analysis:{version:2,complete:false,details:[],checkpoint}};
+const backup=validateBackup({format:'plystreak-backup',version:2,games:[record]});assert.equal(backup.games[0].analysis.checkpoint.grades.length,2);
+// A storage error stops further work, keeping already computed results for retry.
+results=[];grades=[];await assert.rejects(continueReview({positions,moves,results,grades,evaluate,grade,onSaved:async()=>{throw Error('quota')}}));assert.equal(grades.length,1);
+// Only visual animation, no permanent state, cancellation on navigation, no repeat render.
+let calls=0,cancels=0;const target={animate:(_frames,opts)=>{calls++;assert.equal(opts.fill,'none');return {cancel(){cancels++}}}},board={querySelector:()=>target};
+celebrateMove(board,{key:'a',square:'e4',type:'brilliant'});celebrateMove(board,{key:'a',square:'e4',type:'brilliant'});assert.equal(calls,1);
+celebrateMove(board,{key:'b',square:'e5',type:'great'});assert.equal(calls,2);assert.equal(cancels,1);
+celebrateMove(board,{key:'c',square:'e5',type:'great',enabled:false});assert.equal(calls,2);assert.equal(cancels,2);
+const games=Array.from({length:10},(_,i)=>({side:'w',playedAt:i,headers:{Result:'1-0'},analysis:{version:2,complete:true,details:Array.from({length:i<5?10:20},(_,j)=>({side:'w',type:'good',accuracy:i<5?70:90,loss:j===0?.3:0}))}}));
+const stats=improvementStats(games);assert(stats.comparable);assert.equal(stats.recent.errors,5);assert.equal(stats.previous.errors,10);assert.equal(stats.delta.errors,-5);assert.equal(stats.delta.accuracy,20);
+assert.equal(improvementStats(games.map(g=>({...g,analysis:{...g.analysis,complete:false}}))).recent.games,0);
+assert.equal(improvementStats(games.map(g=>({...g,side:null}))).recent.games,0);
+console.log('PASS: interruption, resume skips saved evaluations, reload/backup, corrupt checkpoints, storage failure, animation lifecycle, normalized progress');

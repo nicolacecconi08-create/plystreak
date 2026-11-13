@@ -1,0 +1,4 @@
+import assert from 'node:assert/strict';
+import {winPercent,moveAccuracy,gameAccuracy,resultAccuracy} from './dist/accuracy-metric.js';
+const near=(a,b)=>assert(Math.abs(a-b)<1e-9,`${a} != ${b}`);
+near(winPercent(0),50);near(winPercent(10000),winPercent(1000));near(winPercent(-10000),100-winPercent(1000));assert.equal(winPercent(null),null);assert.equal(moveAccuracy(50,51),100);near(moveAccuracy(60,50),64.57982845372067);assert.deepEqual(gameAccuracy([0,0,0,0]),{w:100,b:100});assert.deepEqual(gameAccuracy([]),{w:null,b:null});assert.deepEqual(gameAccuracy([0]),{w:null,b:null});assert.deepEqual(gameAccuracy([0,null,0]),{w:null,b:null});const a=gameAccuracy([0,-100,-100,50,0]),b=gameAccuracy([0,100,100,-50,0],'b');near(a.w,b.b);near(a.b,b.w);assert.equal(resultAccuracy([{color:'b'}],[{cp:0},{cp:100}]).w,null);assert(resultAccuracy([{color:'b'}],[{cp:0},{cp:100}]).b<100);console.log('PASS accuracy formula, clamp, symmetry, incomplete and short analysis');

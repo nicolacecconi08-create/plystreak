@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {Chess} from './dist/vendor/chess.js';
+import {expandedCatalog,mirrorMove,makeDeck,reviewQueue} from './dist/repetition.js';
+import {mirrorFen} from './dist/archive.js';
+import {playUci} from './dist/tactics.js';
+import {meetsGoal} from './dist/practice-review.js';
+import {positionalFacts} from './dist/positional-facts.js';
+const bank=JSON.parse(fs.readFileSync('dist/vendor/training-catalog.json')),expanded=expandedCatalog(bank);
+assert.equal(expanded.length,bank.length*2);assert.equal(new Set(expanded.map(c=>c.id)).size,bank.length*2);
+for(const card of expanded){const c=new Chess(card.fen),m=playUci(c,card.solution);assert(m,card.id);if(!card.line)assert(meetsGoal(card,m,c),card.id);if(card.mirrored){assert.equal(new Chess(card.fen).turn(),'b');assert.equal(mirrorFen(card.fen),bank.find(p=>card.id===p.id+':opposite').fen);assert.equal(mirrorMove(mirrorMove(card.solution)),card.solution);}}
+const deck=makeDeck([],bank),queue=reviewQueue(deck.cards,[],{now:1,random:()=>0});assert.equal(new Set(queue.slice(0,4).map(c=>c.theme)).size,4);
+assert(reviewQueue(deck.cards,[],{theme:'king'}).every(c=>c.theme==='king'));
+assert.equal(reviewQueue(deck.cards,[],{theme:'position'}).length,0);
+const attempt={id:'a',sessionId:'s',cardId:deck.cards[2].id,at:0,success:false};assert.equal(reviewQueue(deck.cards,[attempt],{now:700000})[0].id,attempt.cardId);
+const c=new Chess(),development=c.move('e4');assert(positionalFacts(development).some(t=>t.includes('diagonale')));
+const lose=new Chess('k6r/8/8/8/7Q/5N2/8/6K1 w - - 0 1'),move=lose.move('Ne5');assert(positionalFacts(move).some(t=>t.includes('donna senza protezione')));
+const passed=new Chess('7k/p7/8/8/4P3/8/8/K7 w - - 0 1');assert(positionalFacts(passed.move('e5')).some(t=>t.includes('promozione')));
+const blocked=new Chess('7k/3p4/8/8/4P3/8/8/K7 w - - 0 1');assert(!positionalFacts(blocked.move('e5')).some(t=>t.includes('promozione')));
+const promo=new Chess('7k/P7/8/8/8/8/8/K7 w - - 0 1');assert(!positionalFacts(promo.move('a8=Q+')).some(t=>t.includes('Questo pedone')));
+for(const text of positionalFacts(development).concat(positionalFacts(move)))assert(!/\b[a-h][1-8]\b/.test(text));
+console.log('PASS 1.9.6: catalog legal scenarios, color symmetry, objectives, themed sessions, due priority, diverse fresh themes, verified positional facts, no false passed pawn or promotion.');

@@ -1,0 +1,48 @@
+{
+  "originalHashMismatches": [],
+  "credentialPatternFlags": [],
+  "http": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "mime": "text/html",
+      "bytes": 12377
+    },
+    {
+      "path": "coach.html",
+      "status": 200,
+      "mime": "text/html",
+      "bytes": 6703
+    },
+    {
+      "path": "practice.html",
+      "status": 200,
+      "mime": "text/html",
+      "bytes": 6075
+    },
+    {
+      "path": "openings.html",
+      "status": 200,
+      "mime": "text/html",
+      "bytes": 4797
+    },
+    {
+      "path": "live.html",
+      "status": 200,
+      "mime": "text/html",
+      "bytes": 4516
+    },
+    {
+      "path": "vendor/stockfish-19-lite-single.wasm",
+      "status": 200,
+      "mime": "application/wasm",
+      "bytes": 1845971
+    },
+    {
+      "path": "vendor/chess.js",
+      "status": 200,
+      "mime": "text/javascript",
+      "bytes": 107052
+    }
+  ]
+}

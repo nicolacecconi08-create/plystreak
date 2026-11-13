@@ -1,0 +1,183 @@
+
+== test-accuracy-metric.mjs
+PASS accuracy formula, clamp, symmetry, incomplete and short analysis
+
+== test-award-evidence.mjs
+PASS distinct legal alternatives, root consistency, cancelled verification
+
+== test-board-geometry.mjs
+PASS board geometry: resize, fractional width, hidden/reopened board, single observer, no loop
+
+== test-brilliant-engine.mjs
+PASS Stockfish: genuine queen sacrifice retained with legal mate continuation; depths 20 20
+PASS Stockfish: ordinary mate is not a sacrifice.
+
+== test-brilliant-v1121.mjs
+PASS Brilliant: counter-captures, forced moves, truncated/illegal PV, both colors, shallow/mismatched analyses, conservative recheck.
+
+== test-capture-arrows.mjs
+PASS capture colors: recommended vs possible, favorable alternatives, both colors, depth, bounds, legal continuation, mate, quiet moves
+
+== test-coach.mjs
+PASS: undo for both sides, terminal mate, four-step coaching, progressive hints, level order, safe settings and avatar
+
+== test-difficulty.mjs
+PASS difficulty: 8 verified enriched positions, gradual levels, clean distinct families, no mirror/retry farming, manual levels, theme filters, due priority and no duplicates.
+
+== test-draw-animation.mjs
+PASS: draw glow, both kings, no repeat, cancellation, reduced motion, rapid arrival, stalemate and repetition history
+
+== test-engine-black-practice.mjs
+PASS root comparison combo-sacrificio-linea:opposite
+PASS root comparison lesson-doppio-1:opposite
+PASS root comparison lesson-inchiodatura-1:opposite
+PASS root comparison lesson-presa-1:opposite
+PASS live practice: fork, pin, capture, mate; legal solution replay
+
+== test-engine-practice.mjs
+PASS root comparison combo-sacrificio-linea
+PASS root comparison lesson-doppio-1
+PASS root comparison lesson-inchiodatura-1
+PASS root comparison lesson-presa-1
+PASS live practice: fork, pin, capture, mate; legal solution replay
+
+== test-engine-v3.mjs
+PASS live engine combo-sacrificio-linea
+PASS live engine combo-matto-affogato
+PASS live engine combo-promozione
+PASS live engine combo-infilata
+PASS live engine lesson-doppio-1
+PASS live engine lesson-doppio-2
+PASS live engine lesson-doppio-3
+PASS live engine lesson-doppio-4
+PASS live engine lesson-inchiodatura-1
+PASS live engine lesson-inchiodatura-2
+PASS live engine lesson-inchiodatura-3
+PASS live engine lesson-inchiodatura-4
+PASS live engine lesson-presa-1
+PASS live engine lesson-presa-2
+PASS live engine lesson-presa-3
+PASS live engine lesson-presa-4
+PASS live engine lesson-matto-1
+PASS live engine lesson-matto-2
+PASS live engine lesson-matto-3
+PASS live engine lesson-matto-4
+PASS live engine lesson-matto-1-level-2
+PASS live engine lesson-matto-1-level-3
+PASS live engine lesson-doppio-3-level-2
+PASS live engine lesson-doppio-3-level-3
+PASS live engine lesson-inchiodatura-1-level-2
+PASS live engine lesson-inchiodatura-1-level-3
+PASS live engine lesson-presa-3-level-2
+PASS live engine lesson-presa-3-level-3
+PASS live engine: automatic legal replies and all 16 exercise solutions
+
+== test-evidence-v1151.mjs
+PASS evidence: flags preserved, restored awards rechecked, delayed recovery, illegal PV tail, comparison both colors/ties, promotion story
+
+== test-explanations.mjs
+PASS: explanations for every move, mate, development, capture, underpromotion, legal PV truncation, evaluation perspective
+
+== test-game-performance.mjs
+PASS side isolation, opening repeats, same-root tactics, ties/bounds, empty analysis
+
+== test-key-moments.mjs
+PASS: next important, current skipped, end, partial analysis, changed grades, castling loss, conditional queen exchange, invalid reply and pre-existing loss of rights
+
+== test-languages.mjs
+PASS languages: five catalogs, placeholders, settings migration, coach/checks/hints, unchanged chess state and notation.
+
+== test-line-story.mjs
+PASS: plain-language steps, legal replay, invalid PV truncation, verified mate only, balanced exchanges and no notation.
+
+== test-live.mjs
+Live: clocks, increment, restore, flag, pause, legal moves, mate, repetition, claims, castling, en passant, promotion, material passed
+
+== test-navigation.mjs
+PASS navigation: public clean URLs, HTML files, trailing slashes and nested paths.
+
+== test-open-explorer.mjs
+3865 lines: exact endpoints, legal continuations, transpositions and out-of-book PASS
+
+== test-opening-arrows.mjs
+PASS: 43 lessons, 182 positions; orientation, legal attacks, insufficient/stale engine evidence and observed UCI metrics
+
+== test-opening-study.mjs
+PASS: opening/gambit identity, uncommon variants, transpositions, selected-ply link, legal replay, malformed/unrecognized input.
+
+== test-overhaul.mjs
+PASS overhaul: arrow state/rotation; material captures, en passant, promotion, undo, restore, reset; page structure
+
+== test-performance-v1131.mjs
+PASS no fabricated rating without validated model
+
+== test-puzzle-lines-engine.mjs
+PASS Stockfish full solution combo-sacrificio-linea
+PASS Stockfish full solution combo-matto-affogato
+PASS Stockfish full solution combo-promozione
+PASS Stockfish full solution combo-infilata
+PASS Stockfish full solution lesson-matto-1-level-2
+PASS Stockfish full solution lesson-matto-1-level-3
+PASS Stockfish full solution lesson-doppio-3-level-2
+PASS Stockfish full solution lesson-doppio-3-level-3
+PASS Stockfish full solution lesson-inchiodatura-1-level-2
+PASS Stockfish full solution lesson-inchiodatura-1-level-3
+PASS Stockfish full solution lesson-presa-3-level-2
+PASS Stockfish full solution lesson-presa-3-level-3
+
+== test-puzzle-rating.mjs
+PASS: speed, attempts, streak, help, repeats, milestones, legacy data and 25 continuous problems
+PASS: rating survives validated backup roundtrip
+
+== test-puzzles-v111.mjs
+PASS: full legal paths, mates, no premature completion, invalid paths, family deduplication, guarded performance ranges.
+
+== test-rapid-analysis.mjs
+PASS: every intermediate move, reduced motion, cancellation/reentrancy, exact positions/repetition, separate engine cache keys and reuse
+
+== test-rating-fixes.mjs
+PASS Great recheck, wrong-root sacrifice rejection, monotonic learned weights
+
+== test-review-arrows.mjs
+PASS: arrow orientation, same-position comparison, duplicate suppression, legal moves, no stale arrows, knight elbow, castling, underpromotion
+PASS attacks: forks, absolute pins, side to move, pawn control, en passant, ray blockers
+
+== test-review-practice-v195.mjs
+PASS: coherent MultiPV, bound rejection, White/Black perspective, cautious Great, root comparison, mate vs centipawn, saturated scores, uncertain searches.
+
+== test-review-refinement-v1111.mjs
+PASS: exchange balance, legal captures, invalid PV, immediate mate priority, severe-error focus, empty color summary, no false error list, incomplete puzzle rejection.
+
+== test-review-resume.mjs
+PASS: interruption, resume skips saved evaluations, reload/backup, corrupt checkpoints, storage failure, animation lifecycle, normalized progress
+
+== test-review-v19.mjs
+PASS v1.9: conservative sacrifices, exchange and shallow-search rejection, legal PV, both evaluation perspectives, equality, uncertainty, mate and coordinate-free comments.
+
+== test-training-v196.mjs
+PASS 1.9.6: catalog legal scenarios, color symmetry, objectives, themed sessions, due priority, diverse fresh themes, verified positional facts, no false passed pawn or promotion.
+
+== test-v161.mjs
+PASS 1.6.1: untrusted move labels normalized; king/pawn and rook endgame coaching.
+
+== test-v17.mjs
+PASS v1.7: progressive hints, early development focus, attacked pieces, king-pawn guidance.
+
+== test-v2.mjs
+PASS: mirrored legal moves including castling/en passant/promotion; personal stats/trends; concise comments; 43 legal opening lines; sequential API and failures
+
+== test-v3.mjs
+PASS: legal tactical goals; false-pin rejection; factual concise comments; review intervals, early retries and assistance; backup round trip and invalid-analysis rejection.
+
+== test-v4.mjs
+PASS v1.4: shared book/best/miss grading; independent board animation state; forward/undo/castling; mate effect once, reset and reduced motion.
+
+== test-v5.mjs
+PASS v1.5: latest 30 ordering/origin; per-move checkpoints, abort/resume; critical recheck; summaries and legal endgames.
+
+== test-v6.mjs
+PASS v1.6: >30 new games since watermark; weekly rates and insufficient samples; v2 backup/settings/meta validation; distinct factual coach answers and varied comments.
+
+== test.mjs
+PASS: PGN, checkmate sign, branch independence, castling, underpromotion, en passant, black loss classification, invalid PGN
+FAILED: []
