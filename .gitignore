@@ -12,3 +12,7 @@ research/elo/pilot.json
 research/elo/evaluated.json
 research/elo/features.json
 research/elo/batch-*.json
+
+dist/desktop-updates/*.json.gz
+
+native/windows/test-work-*/

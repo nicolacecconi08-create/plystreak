@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';
+let phone=true,width=366,viewportHeight=844,queued=[],resize;
+let applied='',writes=0;
+const wrap={offsetTop:40,getBoundingClientRect:()=>({top:140,bottom:500}),style:{setProperty(key,value){assert.equal(key,'--review-board-width');applied=value;writes++}},querySelector:()=>({getBoundingClientRect:()=>({width:16})}),parentElement:{getBoundingClientRect:()=>({width})}};
+const workspace={get clientWidth(){return width},getBoundingClientRect:()=>({width,top:100})};
+const toolbar={getBoundingClientRect:()=>({bottom:560})};
+const selectors={'.analysis-page .board-wrap':wrap,'.workspace':workspace,'.board-toolbar':toolbar,'.important-navigation':{getBoundingClientRect:()=>({bottom:610})}};
+globalThis.document={body:{classList:{contains:()=>phone}},querySelector:s=>selectors[s]};
+globalThis.window={get innerHeight(){return viewportHeight},scrollY:0,addEventListener(){},matchMedia:()=>({matches:phone}),visualViewport:{scale:1,get height(){return viewportHeight},addEventListener(){}}};
+globalThis.getComputedStyle=()=>({gap:'8px'});
+globalThis.requestAnimationFrame=fn=>queued.push(fn);
+globalThis.ResizeObserver=class{constructor(fn){resize=fn}observe(){}};
+const {fitReviewBoard}=await import('./dist/board-fit.js');
+const flush=()=>{const frame=queued;queued=[];for(const fn of frame)fn()};
+flush();assert.equal(applied,'366px','390px phone uses full content width');
+for(const contentWidth of [296,351,406,676]){width=contentWidth;fitReviewBoard();flush();assert.equal(applied,contentWidth+'px','phone does not reserve a second panel column')}
+viewportHeight=320;fitReviewBoard();flush();assert.equal(applied,'676px','short landscape scrolls instead of shrinking cells');
+width=351;resize();resize();fitReviewBoard();assert.equal(queued.length,1,'resize notifications share one frame');flush();assert.equal(applied,'351px');
+phone=false;width=420;viewportHeight=900;fitReviewBoard();flush();assert.equal(applied,'420px','desktop constrained by column width');
+viewportHeight=500;fitReviewBoard();flush();assert.equal(applied,'298px','short desktop keeps usable minimum board');
+width=270;fitReviewBoard();flush();assert.equal(applied,'270px','narrow tablet column never overflows');
+const before=writes;window.visualViewport.scale=2;fitReviewBoard();flush();assert.equal(writes,before,'pinch zoom does not force desktop geometry');
+delete selectors['.analysis-page .board-wrap'];fitReviewBoard();flush();assert.equal(writes,before,'non-review pages are safe');
+console.log('PASS review layout: full-width phones, short landscape, resized workspace, desktop fit, narrow columns, pinch zoom and frame coalescing');

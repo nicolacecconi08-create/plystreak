@@ -1,20 +1,32 @@
-# Chess.com: importazione e analisi
+# Prestazioni dell’analisi batch
 
-Segnalazione utente: almeno 90 minuti per collegamento/importazione/analisi. Non è ancora disponibile un benchmark sul suo iPhone o PC con numero di partite e mosse.
+## Intervento misurato — 14 novembre 2026
 
-## Causa identificata
+La qualità Stockfish non cambia: profondità massima 20 / 2200 ms per posizione, ricontrolli profondità 24 / 5000 ms per giudizi critici, stessa accuracy e classificazione. Il metodo rimane `plystreak-1.5-verified`.
 
-Il submit del collegamento eseguiva latestAndAnalyze, che avviava automaticamente runBatch dopo aver scaricato fino a 30 partite. Ogni posizione usa il preset deep (massimo 2200 ms), con ricontrolli fino a 5000 ms per mosse speciali. A titolo di budget teorico, 30 partite da 80 semimosse comportano circa 89 minuti a 2200 ms per posizione, prima dei ricontrolli; profondità raggiunta prima del limite, cache e hardware cambiano il tempo reale. Non è una misura del download API.
+Prima, ogni semimossa ricostruiva tutti i dettagli tattici precedenti tramite `analysisRecord`, poi `saveGame` rileggeva e riparsava l’intero PGN. Per N semimosse questo comportava N(N+1)/2 elaborazioni di dettagli, oltre al riepilogo finale, e N+1 parsing del PGN per i salvataggi.
 
-## Primo intervento
+Ora il batch costruisce il dettaglio della sola nuova semimossa; aggiorna accuracy e indicatori aggregati usando l’intera serie, e calcola il riepilogo completo finale con la funzione originale. Il salvataggio legge il record attuale, conserva i metadati aggiornati e scrive l’analisi senza riparsare il PGN. Non ricrea partite eliminate e rifiuta di scrivere su un PGN sostituito. Nessun salvataggio viene saltato: resta una transazione IndexedDB attesa per ogni semimossa completata, più il salvataggio finale. Le scansioni aggregate e la copia del checkpoint restano proporzionali alla lunghezza della partita; non si dichiara eliminato ogni costo quadratico.
 
-Collega e importa 30 partite ora termina dopo il salvataggio e mostra i secondi trascorsi nell'importazione. Importa nuove partite aggiorna il registro senza avviare Stockfish. Analizza / riprendi è esplicito e conserva profondità, verifiche, deduplicazione e ripresa attuali. L'archivio è accessibile prima dell'analisi; le statistiche non vengono inventate per le partite non analizzate.
+I nuovi checkpoint includono metodo e lista delle posizioni e sono validati prima della ripresa. I vecchi checkpoint batch vengono riutilizzati solo se ogni risultato riporta la FEN attesa; in caso contrario l’analisi viene ricalcolata. Il metodo di analisi non cambia e le analisi complete restano valide. Il formato comune è anche riconoscibile dal validatore dei backup.
 
-Test di integrazione con API e persistenza simulate: test-import-separation.mjs prova importazione senza avvio del motore, avvio esplicito e cancellazione. Non è stato effettuato un import remoto di dati personali né dimostrata una riduzione del tempo totale Stockfish.
+## Misure riproducibili
 
-## Passi successivi
+Comando: `node test-batch-performance.mjs`, Node 24.22.1, Windows.
+Fixture sintetica di 20 semimosse, 10 ripetizioni, motore simulato e nessuna misura IndexedDB/browser:
 
-1. Misurare separatamente API, parsing PGN, scritture IndexedDB, analisi e ricontrolli con partite sintetiche/riproducibili.
-2. Ridurre ricalcoli e salvataggi ridondanti, preservando checkpoint affidabili e cancellazione.
-3. Valutare un primo passaggio preliminare chiaramente distinto dall'analisi definitiva, con benchmark di accuratezza prima di cambiare i preset.
-4. Collaudare iPhone (memoria, sospensione, calore) e Windows. Definire obiettivi sulla baseline osservata, senza promettere un fattore di accelerazione non misurato.
+| Segmento | Tempo osservato |
+| --- | ---: |
+| Riepiloghi ripetuti col percorso precedente | 2548,97 ms |
+| Riepiloghi incrementali nuovi | 259,44 ms |
+| Intera analisi nuova con motore simulato | 820,37 ms |
+
+La misura riguarda il costo JavaScript dei riepiloghi e varia col dispositivo/JIT; non è una misura di accelerazione dell’analisi Stockfish, dell’importazione di rete o di una sessione reale di 30 partite. I test confrontano tutti i riepiloghi parziali e quello finale con `analysisRecord`, verificano una persistenza per semimossa, ripresa senza ricalcoli inutili, checkpoint di altra partita, interruzione, errore di salvataggio, conservazione metadati e protezione da eliminazione/sostituzione.
+
+Ulteriori regressioni eseguite: `node test-review-resume.mjs`, `node test-accuracy-metric.mjs`, `node test-award-evidence.mjs`, `node test-v5.mjs`: PASS.
+
+## Perché 30 partite possono richiedere 90 minuti
+
+Esempio di budget, non benchmark: 30 partite di 80 semimosse richiedono fino a 81 posizioni ciascuna. A 2,2 secondi per ricerca, 30 × 81 × 2,2 = 5346 secondi, cioè **89,1 minuti**, prima dei ricontrolli e degli altri costi. Un giudizio critico può aggiungere due ricerche da 5 secondi. Il motore può fermarsi prima per profondità raggiunta, riusare la cache o gestire terminali senza ricerca: la durata reale non è garantita da questa formula.
+
+Questo intervento riduce lavoro evitabile senza ridurre il budget del motore; non promette di trasformare 90 minuti in pochi minuti. Per misurare il carico reale, `runBatch` e `analyzeRecord` accettano `onTiming(event)`: fasi `resume`, `engine-and-grade`, `summary`, `checkpoint`, `complete`, con tempi in millisecondi e avanzamento numerico. Nessun PGN, FEN, nome utente o dato di account è incluso; nessun dato viene inviato all’esterno. La callback è facoltativa e un suo errore non interrompe l’analisi. `engine-and-grade` include cache/attese motore e ricontrolli, non è tempo CPU puro. Non sono ancora misurati i tempi su iPhone/iPad fisici o una sessione reale Chess.com completa.

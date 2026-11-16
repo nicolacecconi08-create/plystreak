@@ -1,5 +1,7 @@
 # Plystreak 1.24.0 — esportazione per GitHub e Codex
 
+> Stato di sviluppo successivo all’esportazione: core 1.24.1 e preview Windows 0.2.0. Sono stati aggiunti backup corretti, installazione web/offline, importazione separata dall’analisi, ottimizzazioni batch, aggiornamenti Windows dall’app, suoni e revisione dell’interfaccia. Vedere `docs/DEVELOPMENT-LOG.md`, `docs/APPS.md` e `docs/WINDOWS-UPDATES.md`. La descrizione dello snapshot e i rapporti di esportazione sotto restano storici.
+
 Snapshot Site 51, commit `64bc30194f2562e3f6ce1bccd5219b49f0d06b4f`, preparato il 13 novembre 2026. Il codice applicativo è invariato; cinque test storici sono stati corretti su richiesta durante l’esportazione. Questa esportazione non modifica il sito online né i dati dei suoi visitatori. L’automazione delle 03:00 è disattivata e non deve essere riattivata.
 
 ## Avvio rapido

@@ -1,5 +1,15 @@
 # Registro sviluppo
 
+## 2026-11-16 — Core 1.24.1 e Windows 0.2.0
+
+Aggiornamenti del core da Impostazioni → App per PC: download HTTPS dal canale ufficiale, verifica dimensione/SHA-256, preparazione separata, attivazione al riavvio e ritorno alla versione precedente se l'avvio non viene confermato. Dettagli e limiti in WINDOWS-UPDATES.md. La preview 0.1.0 richiede una sola sostituzione manuale; Electron e la shell restano aggiornamenti separati.
+
+Suoni sintetizzati originali per mosse, catture, scacco ed esiti, volume e anteprima; preferenze conservate ed esiti esclusi dai replay. Revisione mobile con scacchiera a tutta larghezza e cinque sezioni sotto; rifiniture tablet/desktop nei temi esistenti. Nessun ascolto su iPhone fisico verificato.
+
+Batch: riepiloghi incrementali e salvataggio senza rilettura del PGN a ogni mossa, conservando qualità motore e checkpoint per ogni semimossa. La riduzione misurata riguarda il lavoro JavaScript delle fixture, non dimostra una riduzione dei 90 minuti di analisi reale; vedere PERFORMANCE.md.
+
+Verifica: 52 file di test Node PASS, zero fallimenti, incluso updater; eseguiti direttamente con Node perché gli alias Python locali non erano utilizzabili. Pacchetto Windows confrontato byte per byte con i sorgenti runtime e nativi verificati. Nessuna migrazione dei dati.
+
 ## 2026-11-13 — Backup: preservare le statistiche
 
 Base: esportazione 1.24.0 / Site 51, commit 92ecfd6.
