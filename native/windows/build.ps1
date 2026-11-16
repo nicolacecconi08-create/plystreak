@@ -19,10 +19,10 @@ $appDir=Join-Path $destination 'Plystreak-Windows'
 Expand-Archive -LiteralPath $archive -DestinationPath $appDir
 $resources=Join-Path $appDir 'resources/app'
 New-Item -ItemType Directory -Path $resources | Out-Null
-Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'main.cjs'),(Join-Path $PSScriptRoot 'local-files.cjs'),(Join-Path $PSScriptRoot 'package.json') -Destination $resources
+Get-ChildItem -LiteralPath $PSScriptRoot -File | Where-Object {$_.Extension -eq '.cjs' -and $_.Name -notlike 'test-*' -or $_.Name -in @('package.json','core-version.json')} | Copy-Item -Destination $resources
 $dist=Join-Path $resources 'dist'
 New-Item -ItemType Directory -Path $dist | Out-Null
-Get-ChildItem -LiteralPath (Join-Path $root 'dist') | Where-Object {$_.Name -notin @('updates','sw.js')} | Copy-Item -Destination $dist -Recurse
+Get-ChildItem -LiteralPath (Join-Path $root 'dist') | Where-Object {$_.Name -notin @('updates','desktop-updates','sw.js')} | Copy-Item -Destination $dist -Recurse
 Copy-Item -LiteralPath (Join-Path $root 'LICENSE'),(Join-Path $root 'THIRD_PARTY_NOTICES.md') -Destination $resources
 Rename-Item -LiteralPath (Join-Path $appDir 'electron.exe') -NewName 'Plystreak.exe'
 Write-Output "Prepared unsigned Windows x64 preview: $appDir"

@@ -1,3 +1,4 @@
+import {playMoveSound} from './settings.js';
 import {ratingHistory,ratingMilestones,nextContinuousQueue} from './puzzle-rating.js';
 import {LEVELS,cardDifficulty,difficultyQueue,difficultyNote} from './practice-difficulty.js';
 import {trainingPath,pathMove,pathComplete,verifiedPath,goalReached} from './puzzle-path.js';
@@ -68,7 +69,7 @@ $('practiceBoard').onclick=async e=>{
  const sq=b.dataset.sq,p=chess.get(sq),candidates=selected?chess.moves({square:selected,verbose:true}).filter(m=>m.to===sq):[];
  if(!candidates.length){selected=p?.color===chess.turn()?sq:null;render();return}
  let promotion;if(candidates.some(m=>m.promotion)){busy=true;render();promotion=await choosePiece(chess.turn());busy=false;if(!promotion){render();return}}
- const current=chess.fen();busy=true;const m=chess.move({from:selected,to:sq,promotion:promotion||'q'});selected=null;lastMove=m;render();
+ const current=chess.fen();busy=true;const m=chess.move({from:selected,to:sq,promotion:promotion||'q'});selected=null;lastMove=m;playMoveSound(chess,m,{terminal:false});render();
  try{
   const u=m.from+m.to+(m.promotion||'');
   if(!pathMove(path,ply,u)){
@@ -90,7 +91,7 @@ $('practiceBoard').onclick=async e=>{
   render();
   if(!pathComplete(path,ply)){
    await new Promise(resolve=>setTimeout(resolve,450));
-   const reply=path.moves[ply];lastMove=chess.move({from:reply.from,to:reply.to,promotion:reply.promotion});ply++;
+   const reply=path.moves[ply];lastMove=chess.move({from:reply.from,to:reply.to,promotion:reply.promotion});playMoveSound(chess,lastMove,{terminal:false});ply++;
    $('practiceFeedback').textContent+=' L’avversario risponde: '+stepStory(lastMove)+' Ora continua tu.';
   }
   if(pathComplete(path,ply)){

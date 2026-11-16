@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {Chess} from './dist/vendor/chess.js';
+import {createBoardAudio,moveSound,outcomeSound,createOutcomeObserver} from './dist/board-audio.js';
+import {sanitizeSettings} from './dist/settings.js';
+
+const chess=new Chess();
+assert.equal(moveSound(chess,chess.move('e4')),'move');
+chess.move('d5');assert.equal(moveSound(chess,chess.move('exd5')),'capture');
+const mate=new Chess();let last;for(const san of ['f3','e5','g4','Qh4#'])last=mate.move(san);
+assert.equal(moveSound(mate,last,{side:'w'}),'loss');
+assert.equal(moveSound(mate,last,{side:'b'}),'win');
+assert.equal(moveSound(mate,last),'mate');
+assert.equal(moveSound(mate,last,{terminal:false}),'check');
+assert.equal(moveSound(new Chess('8/8/8/8/8/5k2/8/7K w - - 0 1'),null),'draw');
+assert.equal(outcomeSound('0-1','b'),'win');
+assert.equal(outcomeSound('1-0','b'),'loss');
+assert.equal(outcomeSound('*','w'),null);
+const observe=createOutcomeObserver();
+assert.equal(observe({id:'restored',result:'1-0',side:'w'}),null);
+assert.equal(observe({id:'new',result:'*',side:'w'}),null);
+assert.equal(observe({id:'new',result:'1/2-1/2',side:'w'}),'draw');
+assert.equal(observe({id:'new',result:'1/2-1/2',side:'w'}),null);
+assert.equal(observe({id:'other',result:'0-1',side:'w'}),null);
+assert.equal(sanitizeSettings({sound:true}).sound,true);
+assert.equal(sanitizeSettings({sound:false}).sound,false);
+assert.equal(sanitizeSettings({volume:Infinity}).volume,.5);
+assert.equal(sanitizeSettings({volume:-1}).volume,0);
+assert.equal(sanitizeSettings({volume:2}).volume,1);
+
+let preferences={sound:false,volume:.5},created=0;
+const nodes=[],gains=[];
+const param=()=>({values:[],setValueAtTime(v){this.values.push(v)},linearRampToValueAtTime(v){this.values.push(v)},exponentialRampToValueAtTime(v){this.values.push(v)}});
+const context={state:'running',currentTime:0,destination:{},resume(){this.resumes=(this.resumes||0)+1;return Promise.resolve()},
+ createOscillator(){const osc={frequency:param(),connect(){},disconnect(){this.disconnected=true},start(at){this.at=at},stop(){this.stopped=true}};nodes.push(osc);return osc},
+ createGain(){const gain={gain:param(),connect(){},disconnect(){this.disconnected=true}};gains.push(gain);return gain}};
+const audio=createBoardAudio({getPreferences:()=>preferences,createContext:()=>{created++;return context}});
+assert.equal(audio.play(),false);assert.equal(created,0);
+preferences.sound=true;assert.equal(audio.play(),true);assert.equal(created,1);
+assert.equal(gains[0].gain.values[1],.06);
+audio.play('capture');assert.equal(created,1);assert.equal(nodes[0].disconnected,true);
+assert.equal(nodes.length,3);assert.equal(nodes[1].frequency.values[0],240);
+preferences.volume=0;assert.equal(audio.play(),false);assert.ok(nodes.every(n=>n.disconnected));
+preferences.volume=.25;audio.play('win');assert.equal(gains.at(-1).gain.values[1],.03);
+for(const node of nodes.slice(-3))node.onended();assert.ok(gains.every(g=>g.disconnected));
+context.state='suspended';const count=nodes.length;
+assert.equal(audio.play('loss'),false);await Promise.resolve();assert.equal(nodes.length,count);
+context.state='running';await Promise.resolve();audio.play('draw');assert.equal(created,1);
+preferences.sound=false;audio.stop();assert.ok(nodes.every(n=>n.disconnected));
+const unsupported=createBoardAudio({getPreferences:()=>({sound:true,volume:.5}),createContext(){throw Error('Unsupported')}});
+assert.equal(unsupported.play(),false);
+console.log('PASS board audio: real chess cues, result perspective, no replay, preferences, context reuse, gain, cleanup and autoplay suspension');
