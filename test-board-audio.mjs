@@ -38,7 +38,7 @@ assert.equal(audio.play(),false);assert.equal(created,0);
 preferences.sound=true;assert.equal(audio.play(),true);assert.equal(created,1);
 assert.equal(gains[0].gain.values[1],.06);
 audio.play('capture');assert.equal(created,1);assert.equal(nodes[0].disconnected,true);
-assert.equal(nodes.length,3);assert.equal(nodes[1].frequency.values[0],240);
+assert.equal(nodes.length,3);assert.equal(nodes[1].frequency.values[0],210);
 preferences.volume=0;assert.equal(audio.play(),false);assert.ok(nodes.every(n=>n.disconnected));
 preferences.volume=.25;audio.play('win');assert.equal(gains.at(-1).gain.values[1],.03);
 for(const node of nodes.slice(-3))node.onended();assert.ok(gains.every(g=>g.disconnected));

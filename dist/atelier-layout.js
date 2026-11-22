@@ -9,6 +9,7 @@ const identity={
  'practice.html':['ALLENAMENTO','Allena il tuo sguardo','Riconosci le idee. Trova la tua mossa.'],
  'openings.html':['IL TUO REPERTORIO','Le prime mosse contano','Esplora le aperture, comprendi i piani.'],
  'progress.html':['IL TUO PERCORSO','Dai valore a ogni partita','Partite, progressi e obiettivi in un solo posto.'],
+ 'settings.html':['LA TUA ESPERIENZA','Impostazioni','Personalizza Plystreak.'],
  'live.html':['DALL’ALTRA PARTE DEL TAVOLO','Una scacchiera, due giocatori','Il piacere di una partita dal vivo.']
 };
 if(main){

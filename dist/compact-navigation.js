@@ -8,6 +8,7 @@ export function compactNavigation(nav,openSettings){
  const dialog=document.createElement('dialog');dialog.id='moreNavigation';dialog.setAttribute('aria-labelledby','moreNavigationTitle');dialog.innerHTML='<button type="button" class="dialog-close" aria-label="Chiudi menu">×</button><h2 id="moreNavigationTitle">Esplora Plystreak</h2><div class="more-links"></div>';
  const links=dialog.querySelector('.more-links');
  for(const href of secondary){const link=nav.querySelector('a[href="'+href+'"]').cloneNode(true);link.classList.remove('nav-overflow');links.append(link);if(link.hasAttribute('aria-current')){more.dataset.active='true';more.setAttribute('aria-label','Altro · '+link.textContent.trim())}}
+ if(location.pathname.replace(/\/$/,'').split('/').pop().replace(/\.html$/,'')==='settings')more.dataset.active='true';
  const settings=document.createElement('button');settings.type='button';settings.innerHTML=uiIcon('settings')+'<span>Impostazioni</span>';settings.onclick=()=>{dialog.close();openSettings()};links.append(settings);
  dialog.querySelector('.dialog-close').onclick=()=>dialog.close();dialog.addEventListener('close',()=>more.setAttribute('aria-expanded','false'));more.onclick=()=>{dialog.showModal();more.setAttribute('aria-expanded','true')};
  const mq=matchMedia('(max-width:700px)');mq.addEventListener('change',()=>{if(!mq.matches&&dialog.open)dialog.close()});nav.append(more);document.body.append(dialog);
