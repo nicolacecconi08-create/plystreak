@@ -17,9 +17,6 @@ if(main){
  if(info&&heading){const group=document.createElement('div');group.className='page-heading';heading.before(group);const eyebrow=document.createElement('span');eyebrow.className='eyebrow';eyebrow.textContent=info[0];const description=document.createElement('p');description.textContent=info[2];heading.textContent=info[1];group.append(eyebrow,heading,description)}
 }
 if($('.analysis-page')){
- const intro=document.createElement('section');intro.className='analysis-welcome';
- intro.innerHTML='<span class="eyebrow">GUARDA OLTRE LA MOSSA</span><h2>La tua partita.<br>Una nuova prospettiva.</h2><p>Ripercorri le scelte, confronta le alternative e trasforma gli errori in idee per la prossima partita.</p><div class="welcome-board" aria-hidden="true"><span>♜</span><span></span><span>♚</span><span></span><span></span><span>♞</span><span></span><span>♟</span><span>♙</span><span></span><span>♗</span><span></span><span></span><span>♔</span><span></span><span>♖</span></div><ol><li><b>01</b> Importa la partita</li><li><b>02</b> Scopri le mosse decisive</li><li><b>03</b> Prova le tue alternative</li></ol>';
- $('.workspace').prepend(intro);
  const chart=$('.chart-card');chart.classList.add('review-chart');$('.review-column').append(chart);
  const status=document.createElement('section');status.className='analysis-status';status.setAttribute('aria-label','Stato dell’analisi');for(const selector of ['#progressArea','#resumeAnalysis','#saveStatus','#reanalyze']){const node=$(selector);if(node)status.append(node)}$('.review-column').append(status);
  const accuracy=$('.accuracy-row');accuracy.classList.add('review-accuracy');$('.review-column').insertBefore(accuracy,$('#loadedPanel'));

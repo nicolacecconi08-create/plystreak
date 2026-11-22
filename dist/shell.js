@@ -1,5 +1,4 @@
 import './atelier-layout.js';
-import './desk-layout.js';
 import {compactNavigation} from './compact-navigation.js';
 import './workspace-ux.js';
 import {uiIcon} from './ui-icons.js';

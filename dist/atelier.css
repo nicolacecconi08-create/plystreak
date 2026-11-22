@@ -91,3 +91,7 @@ body[data-screen=live] .live-panel{padding:20px}body[data-screen=live] .clock{bo
 @media(max-width:700px){.app-nav .nav-icon{width:28px;height:28px}.analysis-welcome ol{grid-template-columns:repeat(3,minmax(0,1fr))}.analysis-welcome li{padding:9px;font-size:12px}.desk-shortcuts{gap:7px;margin-top:16px}.desk-shortcuts a{min-height:96px;padding:10px}.desk-shortcuts small{font-size:11px}.page-heading h1,.analysis-page .page-heading h1{font-size:25px}.card{padding:16px}body[data-screen=coach] .coach-portrait{display:flex}}
 .game-outcome{margin:8px 0;padding:11px 14px;border:1px solid var(--accent);border-radius:9px;background:var(--soft);font-weight:700;color:var(--ink)}.game-outcome[hidden]{display:none}.game-outcome[data-kind=mate],.game-outcome[data-kind=resign]{border-left:4px solid var(--accent)}
 #undoMove{width:100%;margin:6px 0}#undoMove:disabled{opacity:.48}
+/* Importazione in primo piano, senza scorciatoie duplicate. */
+.analysis-page:not(.review-loaded) .workspace{display:block;max-width:680px;margin:24px auto}
+.analysis-page:not(.review-loaded) #importPanel{width:100%;box-sizing:border-box}
+@media(max-width:700px){body>header{padding-top:max(8px,env(safe-area-inset-top))!important}.analysis-page:not(.review-loaded) .workspace{display:block!important;margin:8px auto}.analysis-page:not(.review-loaded) #importPanel{padding:20px 16px}}
