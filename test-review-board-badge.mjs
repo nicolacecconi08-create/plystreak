@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {Chess} from './dist/vendor/chess.js';
+const source=fs.readFileSync('dist/app.js','utf8');
+const boardFunction=source.slice(source.indexOf('function renderBoard(){'),source.indexOf('\nfunction ',source.indexOf('function renderBoard(){')));
+const chess=new Chess(),move=chess.move('e4'),elements=new Map();
+const element=id=>{if(!elements.has(id))elements.set(id,{dataset:{},style:{},textContent:''});return elements.get(id)};
+let boardHTML='';
+const context={Chess,game:{},activeBranch:null,index:1,moves:[move],positions:[move.before,move.after],headers:{},grades:[{type:'good'}],selected:null,exploring:false,flipped:false,busy:false,rapid:{running:false},names:{p:'pedone'},TYPES:{good:{label:'Buona'}},$:element,currentChess:()=>chess,gameOutcome:()=>null,badge:type=>`<img data-grade="${type}">`,updateBoard:(_,html)=>boardHTML=html,animateBoard(){},drawAt:()=>false,celebrateMove(){},getSettings:()=>({animation:'off'}),matchMedia:()=>({matches:false}),drawArrows(){},renderImportant(){},currentResult:()=>null,labelScore:()=>'',t:s=>s};
+vm.runInNewContext(boardFunction+'\nrenderBoard()',context);
+assert.match(boardHTML,/<span class="board-badge"><img data-grade="good"><\/span>/);
+assert.equal(element('gameOutcome').hidden,true);
+console.log('PASS review board renders an analysed move and its evaluation badge');
