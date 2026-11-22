@@ -63,3 +63,29 @@ dialog,#preferences{background:var(--panel);color:var(--ink);border:1px solid va
  .analysis-page.review-loaded .board-toolbar{max-width:var(--review-board-width,100%);margin-inline:auto}
 }
 @media(min-width:701px) and (max-width:1049px){.analysis-page.review-loaded .workspace{gap:18px}.analysis-page.review-loaded .review-column{padding:14px}}
+/* App-wide chess workspace: shared navigation, compact panels, clear actions. */
+:root{--desk-edge:color-mix(in srgb,var(--line) 70%,transparent);--desk-shadow:0 3px 0 #100a1370,0 10px 24px #100a1312}
+body{font-family:var(--font-body);font-size:15px}h1,h2,h3{font-family:var(--font-body);font-weight:700;letter-spacing:-.025em}
+.page-heading h1,.analysis-page .page-heading h1{font-family:var(--font-body);font-size:clamp(25px,2.3vw,34px);font-weight:750;letter-spacing:-.035em}
+.page-heading>.eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em}.page-heading>p{font-size:14px;margin-top:4px}
+.page-tools{padding-bottom:14px;margin-bottom:20px;border-bottom:1px solid var(--desk-edge)}
+.card,.opening-card,.stat,.live-panel,.coach-dialogue,.coach-portrait,.chart-card{border-radius:12px;box-shadow:var(--desk-shadow)}
+.card h2,.opening-card strong{font-family:var(--font-body);font-weight:750;font-size:20px}.card h3{font-family:var(--font-body);font-weight:700;font-size:17px}
+.card p{font-size:14px;line-height:1.5}.card{padding:18px}
+button:not(.square),.file-button{font-family:var(--font-body);font-weight:700}.primary,.secondary,.subtle,.file-button{border-radius:9px;min-height:44px}.primary{box-shadow:inset 0 -3px #0003,0 2px 0 #100a1350}.secondary,.subtle,.file-button{box-shadow:inset 0 -2px #0002}
+input:not([type=checkbox]):not([type=range]),select,textarea{min-height:42px;border:1px solid var(--desk-edge);padding:10px 12px}
+body>header .brand{font-family:var(--font-body);font-size:22px;font-weight:800;letter-spacing:-.045em;text-transform:uppercase}
+.app-nav a,.app-nav button{font-weight:700}.app-nav .nav-icon{display:grid;place-items:center;width:34px;height:34px;background:var(--soft);border-radius:8px}.app-nav a[aria-current=page],.app-nav button[data-active=true]{box-shadow:inset 0 -3px var(--accent)!important}
+@media(min-width:1280px){body>header{width:225px;padding:22px 12px;gap:22px;background:var(--panel);border-right:1px solid var(--desk-edge)}body>header .brand{flex-direction:row;align-items:center;font-size:22px;padding:0 8px;gap:8px}body>header .brand .ply-mascot{width:34px;height:38px}body>header .app-nav{gap:7px}body>header .app-nav a,body>header .app-nav button{min-height:51px;padding:7px 10px;background:var(--field);border:1px solid var(--desk-edge);border-radius:10px;font-size:15px;box-shadow:0 3px #0003}body>header #preferencesButton{margin-top:12px;border-top:1px solid var(--desk-edge)}body>main{margin-left:225px;width:calc(100% - 225px);padding:26px 30px 0}}
+/* A functional starting desk: direct access to the existing tools. */
+.analysis-welcome h2{font-family:var(--font-body);font-size:clamp(28px,3vw,42px);font-weight:800;line-height:1.12}.welcome-board{display:none}
+.analysis-welcome ol{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.analysis-welcome li{display:block;padding:14px;background:var(--panel);border:1px solid var(--desk-edge);border-radius:10px;box-shadow:var(--desk-shadow);font-weight:700}.analysis-welcome li b{display:block;margin-bottom:6px}
+.desk-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}.desk-shortcuts a{display:flex;flex-direction:column;gap:8px;min-height:110px;padding:14px;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--desk-edge);border-radius:11px;box-shadow:var(--desk-shadow)}.desk-shortcuts a:hover,.desk-shortcuts a:focus-visible{border-color:var(--accent)}.desk-shortcuts svg{width:23px;height:23px;color:var(--accent)}.desk-shortcuts strong{font-size:15px}.desk-shortcuts small{font-size:12px;line-height:1.3;color:var(--muted)}
+/* Each destination keeps its own controls, with the same visual hierarchy. */
+body[data-screen=coach] .coach-setup{max-width:1050px;align-items:start}body[data-screen=coach] .coach-portrait{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}body[data-screen=coach] .lesson-setup{display:grid;gap:9px}body[data-screen=coach] .lesson-setup label{font-weight:700}
+body[data-screen=practice] .practice-plan,body[data-screen=practice] .puzzle-rating-card{padding:20px}body[data-screen=practice] .study-grid>aside{align-self:start}body[data-screen=practice] .practice-buttons{gap:8px}
+body[data-screen=openings] .opening-card{border-radius:10px;padding:15px}body[data-screen=openings] .opening-card.selected-opening{box-shadow:inset 3px 0 var(--accent),var(--desk-shadow)}body[data-screen=openings] .opening-detail{border-radius:12px}
+body[data-screen=progress] .stat{border-radius:10px;padding:18px}body[data-screen=progress] .stat strong{font-family:var(--font-body);font-weight:800;font-size:30px}body[data-screen=progress] .section-switcher button{min-height:44px}
+body[data-screen=live] .live-panel{padding:20px}body[data-screen=live] .clock{border-radius:10px}
+.analysis-page #analysisLesson h3,.analysis-page #moveInsight h3{font-family:var(--font-body);font-weight:750;font-size:22px}.analysis-page .review-column>.tabs button{font-weight:750}.analysis-page .move-button.current{border-radius:6px}
+@media(max-width:700px){.app-nav .nav-icon{width:28px;height:28px}.analysis-welcome ol{grid-template-columns:repeat(3,minmax(0,1fr))}.analysis-welcome li{padding:9px;font-size:12px}.desk-shortcuts{gap:7px;margin-top:16px}.desk-shortcuts a{min-height:96px;padding:10px}.desk-shortcuts small{font-size:11px}.page-heading h1,.analysis-page .page-heading h1{font-size:25px}.card{padding:16px}body[data-screen=coach] .coach-portrait{display:flex}}

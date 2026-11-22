@@ -1,4 +1,5 @@
 import './atelier-layout.js';
+import './desk-layout.js';
 import {compactNavigation} from './compact-navigation.js';
 import './workspace-ux.js';
 import {uiIcon} from './ui-icons.js';
@@ -39,6 +40,7 @@ window.plystreakDesktop?.healthy().catch(()=>{});
 // The mascot replaces the existing brand glyph without adding a floating overlay.
 const brand=document.querySelector('.brand');
 if(brand){
+ brand.href='index.html';
  const icon=document.createElement('img');icon.src=new URL('./mascot-ply.svg',import.meta.url).href;icon.alt='';icon.setAttribute('aria-hidden','true');icon.width=42;icon.height=42;icon.className='ply-mascot';
  const old=brand.querySelector('.brand-icon');if(old)old.replaceWith(icon);else{for(const node of brand.childNodes)if(node.nodeType===Node.TEXT_NODE)node.textContent=node.textContent.replace('♘','');brand.prepend(icon)}
 }
