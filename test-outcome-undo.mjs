@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {LiveGame} from './dist/live-game.js';
+import {gameOutcome} from './dist/game-outcome.js';
+import {Chess} from './dist/vendor/chess.js';
+const g=new LiveGame({minutes:1,increment:2},1000);g.move('e4',6000);g.move('e5',9000);const saved=LiveGame.restore(g.snapshot());
+assert(saved.undo(12000));assert.equal(saved.chess.history().join(' '),'e4');assert.deepEqual(saved.data.remaining,{w:57000,b:57000});assert(saved.data.paused);assert.equal(saved.remaining('b',50000),57000);
+assert(saved.undo(50000));assert.equal(saved.chess.history().length,0);assert.equal(saved.data.remaining.w,55000);assert(!saved.undo(50000));saved.pause(51000);assert(saved.move('d4',52000));
+const end=new LiveGame({minutes:0},0);for(const m of ['f3','e5','g4','Qh4#'])end.move(m,0);assert(end.undo(10));assert.equal(end.data.result,'*');assert(!end.chess.isCheckmate());assert.equal(end.snapshot().pgn.includes('[Termination "Scacco matto"]'),false);
+const resign=new LiveGame({minutes:0},0);resign.move('e4',0);resign.resign(0);const pgn=resign.snapshot().pgn;const parsed=new Chess();parsed.loadPgn(pgn);assert.equal(gameOutcome(parsed.getHeaders(),parsed.fen()).text,'Abbandono del Nero · vince il Bianco');
+assert.match(gameOutcome({Result:'1-0',Termination:'Normal'},new Chess().fen()).text,/motivo non specificato/);
+assert.match(gameOutcome({Result:'0-1',Termination:'Time forfeit'},new Chess().fen()).text,/Tempo esaurito/);
+assert.match(gameOutcome({Result:'1/2-1/2',Termination:'Normal'},new Chess().fen()).text,/Patta/);
+console.log('PASS live undo clocks, persistence, mate rollback and explicit termination');
