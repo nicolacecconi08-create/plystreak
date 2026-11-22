@@ -50,7 +50,7 @@ function buildNarrative(move,after){
   }
  }
  const attacked=threats(now,move.to);
- if(attacked.length>=2&&attacked.filter(p=>p.type!=='p').length>=2)facts.push(`${cap(name(moved))} crea un doppio attacco contro ${attacked.map(name).join(' e ')}. Gli attacchi sono presenti sulla scacchiera; un guadagno materiale richiede di verificare la difesa avversaria.`);
+ if(attacked.length>=2&&attacked.filter(p=>p.type!=='p').length>=2)facts.push(`${cap(name(moved))} attacca contemporaneamente ${attacked.map(name).join(' e ')}. Gli attacchi sono presenti sulla scacchiera; un guadagno materiale richiede di verificare la difesa avversaria.`);
  else if(attacked.length)facts.push(`${cap(name(moved))} attacca ${attacked.slice(0,2).map(name).join(' e ')}.`);
  const newPin=pins(now,side).find(p=>!pins(old,side).some(q=>q.pinned.square===p.pinned.square&&q.attacker.square===p.attacker.square));
  if(newPin)facts.push(`${cap(name(newPin.attacker))} inchioda ${name(newPin.pinned)} al re: quel pezzo non può lasciare la linea scoperta.`);
