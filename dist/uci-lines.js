@@ -12,8 +12,9 @@ export class UciLines {
   this.depths.get(depth).set(n,{cp,mate,pv,depth,multipv:n,...observed});if(n===1)this.latest=Math.max(this.latest,depth);
   for(const d of this.depths.keys())if(d<this.latest-2)this.depths.delete(d);
  }
- finish(){
-  const set=this.depths.get(this.latest);if(!set?.has(1))return [];
+ finish(required=2){
+  const depth=required>2?[...this.depths.keys()].sort((a,b)=>b-a).find(d=>this.depths.get(d).size>=required)??this.latest:this.latest;
+  const set=this.depths.get(depth);if(!set?.has(1))return [];
   const first=set.get(1),out=[first];
   for(const [n,line]of [...set].sort((a,b)=>a[0]-b[0]))if(n>1&&line.pv[0]!==first.pv[0])out.push(line);
   return out;

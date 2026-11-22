@@ -1,3 +1,5 @@
+import './atelier-layout.js';
+import {compactNavigation} from './compact-navigation.js';
 import './workspace-ux.js';
 import {uiIcon} from './ui-icons.js';
 import './manual-arrows.js';
@@ -30,7 +32,7 @@ dialog.querySelector('#previewSound').onclick=()=>playSound('move');
 dialog.querySelector('[data-setting="volume"]').oninput=e=>{dialog.querySelector('#soundVolumeValue').textContent=Math.round(Number(e.target.value)*100)+'%'};
 dialog.querySelector('#resetSettings').onclick=async()=>{const {defaults}=await import('./settings.js');saveSettings(defaults);renderSettings();dialog.querySelector('#resetSettings').focus()}}
 export function openSettings(){renderSettings();dialog.showModal()}
-const header=document.querySelector('header');const nav=document.createElement('nav');nav.className='app-nav';nav.setAttribute('aria-label','Menu principale');const page=navigationPage(location.pathname);nav.innerHTML=[['live.html','Dal vivo'],['coach.html','Gioca'],['index.html','Analizza'],['progress.html','Progressi'],['practice.html','Esercizi'],['openings.html','Aperture']].map(([url,label])=>`<a href="${url}" ${page===url?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${uiIcon(({'live.html':'live','coach.html':'coach','index.html':'analysis','progress.html':'progress','practice.html':'practice','openings.html':'openings'})[url])}</span><span>${label}</span></a>`).join('')+`<button id="preferencesButton" aria-label="Impostazioni e avatar"><span class="nav-icon" aria-hidden="true">${uiIcon('settings')}</span><span class="settings-label-full">Impostazioni</span><span class="settings-label-short">Opzioni</span></button>`;header.append(nav);document.querySelector('#preferencesButton').onclick=openSettings;document.querySelectorAll('[data-open-settings]').forEach(b=>b.onclick=openSettings);
+const header=document.querySelector('header');const nav=document.createElement('nav');nav.className='app-nav';nav.setAttribute('aria-label','Menu principale');const page=navigationPage(location.pathname);nav.innerHTML=[['index.html','Analizza'],['coach.html','Gioca'],['practice.html','Esercizi'],['progress.html','Progressi'],['live.html','Dal vivo'],['openings.html','Aperture']].map(([url,label])=>`<a href="${url}" ${page===url?'aria-current="page"':''}><span class="nav-icon" aria-hidden="true">${uiIcon(({'live.html':'live','coach.html':'coach','index.html':'analysis','progress.html':'progress','practice.html':'practice','openings.html':'openings'})[url])}</span><span>${label}</span></a>`).join('')+`<button id="preferencesButton" aria-label="Impostazioni e avatar"><span class="nav-icon" aria-hidden="true">${uiIcon('settings')}</span><span class="settings-label-full">Impostazioni</span><span class="settings-label-short">Opzioni</span></button>`;header.append(nav);compactNavigation(nav,openSettings);document.querySelector('#preferencesButton').onclick=openSettings;document.querySelectorAll('[data-open-settings]').forEach(b=>b.onclick=openSettings);
 
 window.plystreakDesktop?.healthy().catch(()=>{});
 
@@ -41,4 +43,4 @@ if(brand){
  const old=brand.querySelector('.brand-icon');if(old)old.replaceWith(icon);else{for(const node of brand.childNodes)if(node.nodeType===Node.TEXT_NODE)node.textContent=node.textContent.replace('♘','');brand.prepend(icon)}
 }
 
-const installLink=document.createElement("a");installLink.href="install.html";installLink.textContent="Installa Plystreak e prepara l’uso offline";installLink.className="text-button";document.querySelector("main")?.append(installLink);
+const installLink=document.createElement("a");installLink.href="install.html";installLink.textContent="Installa Plystreak e prepara l’uso offline";installLink.className="text-button install-shortcut";document.querySelector("main")?.append(installLink);

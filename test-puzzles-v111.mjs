@@ -20,7 +20,7 @@ assert(!performanceEstimate(moves,grades.map(g=>({...g,type:'book'})),'w',result
 assert(!performanceEstimate(moves,grades,'w',results.map(r=>({...r,depth:9}))).low);
 assert(!performanceEstimate(moves,grades,'w',results.map(r=>({...r,mate:3}))).low);
 // Numerical estimates remain unavailable until independent calibration.
-for(const gs of [grades,grades.map(g=>({...g,accuracy:30,loss:.3}))]){const estimate=performanceEstimate(moves,gs,'w',results);assert.equal(estimate.status,'uncalibrated');assert.equal(estimate.low,undefined);assert.equal(estimate.high,undefined);}
+for(const gs of [grades,grades.map(g=>({...g,accuracy:30,loss:.3}))]){const estimate=performanceEstimate(moves,gs,'w',results);assert.equal(estimate.status,'pending');assert.equal(estimate.low,undefined);assert.equal(estimate.high,undefined);}
 console.log('PASS: full legal paths, mates, no premature completion, invalid paths, family deduplication, guarded performance ranges.');
 
 assert(!goalReached({...combo,source:'catalog'},trainingPath(combo.fen,combo.line,1)));

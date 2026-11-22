@@ -1,0 +1,14 @@
+Revisione recuperata|Review restored|Revisión recuperada|Analyse restaurée|Analyse wiederhergestellt
+{0}/{1} mosse|{0}/{1} moves|{0}/{1} jugadas|{0}/{1} coups|{0}/{1} Züge
+Revisione completata|Review complete|Revisión completada|Analyse terminée|Analyse abgeschlossen
+{0} mosse analizzate|{0} moves analysed|{0} jugadas analizadas|{0} coups analysés|{0} Züge analysiert
+Analisi posizione {0} di {1}…|Analysing position {0} of {1}…|Analizando posición {0} de {1}…|Analyse de la position {0} sur {1}…|Stellung {0} von {1} wird analysiert…
+Analisi salvata recuperata. Puoi riprenderla oppure ricalcolarla da capo.|Saved analysis restored. You can resume it or calculate it again.|Análisis guardado recuperado. Puedes reanudarlo o calcularlo de nuevo.|Analyse sauvegardée restaurée. Tu peux la reprendre ou la recalculer.|Gespeicherte Analyse wiederhergestellt. Du kannst sie fortsetzen oder neu berechnen.
+Salvato sul dispositivo|Saved on this device|Guardado en este dispositivo|Enregistré sur cet appareil|Auf diesem Gerät gespeichert
+Accuracy: {0}|Accuracy: {0}|Precisión: {0}|Précision : {0}|Genauigkeit: {0}
+Scelte tattiche trovate: {0}/{1}|Tactical choices found: {0}/{1}|Decisiones tácticas encontradas: {0}/{1}|Choix tactiques trouvés : {0}/{1}|Gefundene taktische Entscheidungen: {0}/{1}
+Stesso pezzo mosso di nuovo nei primi 10 turni: {0}/{1}|Same piece moved again in the first 10 moves: {0}/{1}|Misma pieza movida de nuevo en las primeras 10 jugadas: {0}/{1}|Même pièce rejouée dans les 10 premiers coups : {0}/{1}|Dieselbe Figur in den ersten 10 Zügen erneut gezogen: {0}/{1}
+Valutazione in corso: i fatti descritti sotto non sono un giudizio definitivo sulla mossa.|Evaluation in progress: the facts below are not a final judgement of the move.|Evaluación en curso: los hechos siguientes no son un juicio definitivo sobre la jugada.|Évaluation en cours : les faits ci-dessous ne constituent pas un jugement définitif du coup.|Bewertung läuft: Die folgenden Fakten sind noch kein abschließendes Urteil über den Zug.
+Ripeti analisi|Repeat analysis|Repetir análisis|Relancer l’analyse|Analyse wiederholen
+Altri momenti possono emergere durante l’analisi.|More key moments may emerge during analysis.|Pueden aparecer más momentos clave durante el análisis.|D’autres moments clés peuvent apparaître pendant l’analyse.|Während der Analyse können weitere Schlüsselmomente auftauchen.
+Stockfish sta analizzando. Puoi già leggere le mosse completate.|Stockfish is analysing. You can already review completed moves.|Stockfish está analizando. Ya puedes revisar las jugadas completadas.|Stockfish analyse la partie. Tu peux déjà consulter les coups terminés.|Stockfish analysiert. Bereits abgeschlossene Züge kannst du schon ansehen.

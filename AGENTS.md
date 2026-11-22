@@ -1,7 +1,6 @@
 # Sviluppo Plystreak
-Leggere README.md, docs/EXPORT.md, docs/VERIFICATION.md, ROADMAP.md e PRIORITIES-RECOVERED.md prima di modificare il codice.
-Il runtime è in dist/. Non servono build o npm install per avviarlo.
-Preservare dati locali, integrazioni native, licenze e funzioni esistenti. Non inventare Elo, tattiche o esiti certi. Verificare PV legali e valutazioni dalla stessa radice.
-Le istruzioni storiche di pubblicazione e manutenzione automatica non sono attive: automazione 03:00 disattivata. Non riattivarla e non pubblicare sul Site originale senza nuova richiesta esplicita.
-Non aggiungere backup utente, segreti o credenziali. Usare fixture sintetiche per i test.
-Eseguire test pertinenti; riportare anche fallimenti preesistenti, senza presentarli come PASS. I test completi si avviano con python3 scripts/test-all.py.
+Runtime statico in dist/: nessuna build o installazione npm per avviarlo. Consultare README e documentazione pertinente alla modifica; esportazioni e roadmap sono anche storiche.
+Preservare funzioni, dati locali, integrazioni native e licenze. Non includere dati utente o segreti; test con dati sintetici.
+Analisi: varianti legali, valutazioni dalla stessa posizione, nessuna tattica o certezza inventata. Elo: modello documentato, limiti espliciti, nessuna conversione arbitraria dalla precisione.
+Preferenza del proprietario: versionare tutte le modifiche su Git, eseguire push su GitHub e pubblicare sul Site esistente dopo i controlli. Conservare URL e accessi attuali; non riattivare l’automazione delle 03:00.
+Eseguire i test pertinenti e riportare i fallimenti. Suite completa: python3 scripts/test-all.py.

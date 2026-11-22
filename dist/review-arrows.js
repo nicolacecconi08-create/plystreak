@@ -46,9 +46,16 @@ export function arrowGeometry(move,flipped=false){
  const tip=[to[0]-ux*9,to[1]-uy*9],neck=[to[0]-ux*36,to[1]-uy*36];
  return {path:`M ${from.join(' ')} ${knight?'L '+bend.join(' ')+' ':''}L ${neck.join(' ')}`,head:[tip,[neck[0]-uy*20,neck[1]+ux*20],[neck[0]+uy*20,neck[1]-ux*20]].map(p=>p.join(',')).join(' ')};
 }
+const legends=new WeakMap();
+export function dismissArrows(board){
+ board.classList.add('arrows-dismissed');
+ board.querySelector('.review-arrows')?.remove();
+ legends.get(board)?.replaceChildren();
+}
+export function resumeArrows(board){board.classList.remove('arrows-dismissed')}
 export function renderReviewArrows(board,arrows,flipped){
  board.querySelector('.review-arrows')?.remove();
- if(!arrows.length)return;
+ if(!arrows.length||board.classList.contains('arrows-dismissed'))return;
  const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');
  svg.setAttribute('viewBox','0 0 800 800');svg.setAttribute('class','review-arrows');svg.setAttribute('aria-hidden','true');
  for(const arrow of arrows){const shape=arrowGeometry(arrow,flipped);if(!shape)continue;const g=document.createElementNS(ns,'g');g.setAttribute('class','review-arrow '+arrow.kind);const path=document.createElementNS(ns,'path');path.setAttribute('d',shape.path);const head=document.createElementNS(ns,'polygon');head.setAttribute('points',shape.head);g.append(path,head);svg.append(g);}
@@ -81,6 +88,8 @@ export function verifiedBest(fen,result){
 export function readArrowOptions(){let mode='both',empty=false;try{mode=localStorage.getItem('plystreak-arrow-mode')||mode;empty=localStorage.getItem('plystreak-arrow-empty')==='true'}catch{}return {mode:['both','best','attacks','off'].includes(mode)?mode:'both',empty}}
 export function saveArrowOptions(mode,empty){try{localStorage.setItem('plystreak-arrow-mode',mode);localStorage.setItem('plystreak-arrow-empty',String(empty))}catch{}}
 export function displayArrows(board,legend,arrows,flip){
+ legends.set(board,legend);
+ if(board.classList.contains('arrows-dismissed'))arrows=[];
  const unique=[...new Map(arrows.map(a=>[a.from+a.to+(a.promotion||''),a])).values()];
  renderReviewArrows(board,unique,flip);legend.replaceChildren();
  for(const a of new Map(unique.map(a=>[a.kind,a])).values()){const s=document.createElement('span');s.className='arrow-key '+a.kind;s.textContent=a.label;legend.append(s)}

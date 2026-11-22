@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {Chess} from './dist/vendor/chess.js';
-import {squareCenter,arrowGeometry,reviewArrows,attackArrows} from './dist/review-arrows.js';
+import {squareCenter,arrowGeometry,reviewArrows,attackArrows,dismissArrows,resumeArrows,renderReviewArrows} from './dist/review-arrows.js';
 assert.deepEqual(squareCenter('a8'),[50,50]);
 assert.deepEqual(squareCenter('h1',true),[50,50]);
 assert.equal(squareCenter('z9'),null);
@@ -36,3 +36,11 @@ const ep='7k/8/8/3pP3/8/8/8/7K w - d6 0 2';
 assert(attackArrows(ep,'d5').some(a=>a.from==='e5'&&a.to==='d6'&&a.kind==='capture'));
 assert(!attackArrows('7k/8/8/8/8/8/P7/R6K w - - 0 1','a1',true).some(a=>a.to==='a3'),'No arrow through own blocker');
 console.log('PASS attacks: forks, absolute pins, side to move, pawn control, en passant, ray blockers');
+
+const classes=new Set();let removed=0;
+const board={classList:{add:x=>classes.add(x),remove:x=>classes.delete(x),contains:x=>classes.has(x)},querySelector:()=>({remove:()=>removed++})};
+dismissArrows(board);assert(classes.has('arrows-dismissed'));assert.equal(removed,1);
+renderReviewArrows(board,[{from:'e2',to:'e4'}],false);
+assert(classes.has('arrows-dismissed'),'Refresh must not restore dismissed arrows');
+resumeArrows(board);assert(!classes.has('arrows-dismissed'));
+console.log('PASS arrow dismissal persists across redraws and can resume');

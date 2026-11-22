@@ -1,3 +1,5 @@
+import {strategicIdeas} from './strategic-ideas.js';
+import {positionNarrative,moveDescription} from './position-narrative.js';
 import {humanFacts,humanReason} from './human-coach.js';
 import {t,getLanguage} from './i18n.js';
 import {localComment,pieceName} from './coach-localized.js';
@@ -33,10 +35,13 @@ export function explainMove({move,before,after,grade,opening}){
  }
  if(grade&&after?.mate!=null&&after.mate!==0&&Math.sign(after.cp)!==(side==='w'?1:-1)&&reply.length){reason=`La mossa permette all’avversario di avviare una linea di matto con ${reply[0].san}. `+reason;}
  let tip=b.isCheckmate()?'Ripercorri la posizione precedente: quali case di fuga mancavano al re e quali pezzi le controllavano?':b.isCheck()?'Quando c’è scacco, verifica prima tutte le risposte legali al re; solo dopo confronta i piani.':grade&&grade.loss>.05?'Prima di confermare una mossa, cerca scacchi e catture dell’avversario. Poi confronta la tua scelta con la prima mossa della linea migliore.':move.captured?'Una cattura non è automaticamente un guadagno: conta anche le possibili ricatture nella linea successiva.':a.moveNumber()<=10?'In apertura confronta sviluppo dei pezzi, controllo del centro e possibilità di arroccare. Prima di inseguire un attacco, controlla che il re e i pezzi rimasti indietro siano al sicuro.':'Confronta la risposta più forte dell’avversario con il tuo piano: una buona mossa deve reggere anche contro quella risposta.';
- if(getLanguage()!=='it')return {action:t('c.move',[pieceName(move.piece),move.from,move.to]),reason:grade?t('c.reason.'+grade.type)+' '+t('c.loss',[(grade.loss*100).toFixed(1)]):t('c.noeval'),facts:[localComment(move,before,after,grade,'quiet')],tip:t('c.tip'),best,reply,same,balance,delta,controlledA,controlledB};
- action=move.captured?`${who} cattura un ${pieces[move.captured]} con il ${pieces[move.piece]}.`:`${who} muove ${{p:'il pedone',n:'il cavallo',b:'l’alfiere',r:'la torre',q:'la donna',k:'il re'}[move.piece]}.`;
- if(move.flags.includes('k')||move.flags.includes('q'))action=`${who} arrocca e porta in gioco la torre.`;
- if(move.promotion)action+=` Il pedone viene promosso a ${pieces[move.promotion]}.`;
- reason=humanReason(grade);
- return{action,reason,facts:humanFacts(move,after),tip,best,reply,same,balance,delta,controlledA,controlledB};
+ const ideas=strategicIdeas(move);
+ if(getLanguage()!=='it')return {action:t('c.move',[pieceName(move.piece),move.from,move.to]),reason:'',facts:[localComment(move,before,after,grade,'quiet'),...ideas],tip:ideas[0]||t('c.tip'),best,reply,same,balance,delta,controlledA,controlledB};
+ action=moveDescription(move);
+ const concrete=positionNarrative(move,after);
+ if(ideas.length)concrete.splice(Math.min(1,concrete.length),0,...ideas);
+ reason=opening?.name?'Posizione del repertorio: '+opening.name+(opening.eco?' · '+opening.eco:'')+'.':'';
+ if(!grade)reason='Valutazione in corso: i fatti descritti sotto non sono un giudizio definitivo sulla mossa.';
+ tip=ideas[0]||concrete[0]||tip;
+ return{action,reason,facts:concrete,tip,best,reply,same,balance,delta,controlledA,controlledB};
 }
