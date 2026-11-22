@@ -53,3 +53,15 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
     check();
   }).catch(() => { /* Online use remains available if offline storage is denied. */ });
 }
+
+if (window.plystreakDesktop) {
+  window.plystreakDesktop.check().then(result => {
+    if (result.status !== 'available' && result.status !== 'shell') return;
+    const link = document.createElement('a');
+    const labels = {it:'Aggiornamento disponibile',en:'Update available',es:'Actualización disponible',fr:'Mise à jour disponible',de:'Update verfügbar'};
+    link.textContent = labels[getSettings().language] || labels.it;
+    link.href = 'settings.html#app';
+    link.style.cssText = 'position:fixed;z-index:10000;top:12px;right:12px;padding:12px 16px;border-radius:10px;background:#e9a173;color:#21111b;font:700 15px system-ui;box-shadow:0 5px 20px #0008';
+    document.body.append(link);
+  }).catch(() => {});
+}

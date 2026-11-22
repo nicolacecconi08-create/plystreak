@@ -4,3 +4,5 @@ Preservare funzioni, dati locali, integrazioni native e licenze. Non includere d
 Analisi: varianti legali, valutazioni dalla stessa posizione, nessuna tattica o certezza inventata. Elo: modello documentato, limiti espliciti, nessuna conversione arbitraria dalla precisione.
 Preferenza del proprietario: versionare tutte le modifiche su Git, eseguire push su GitHub e pubblicare sul Site esistente dopo i controlli. Conservare URL e accessi attuali; non riattivare l’automazione delle 03:00.
 Eseguire i test pertinenti e riportare i fallimenti. Suite completa: python3 scripts/test-all.py.
+
+Per ogni pubblicazione che modifica il runtime, incrementare native/windows/core-version.json, rigenerare node scripts/build-desktop-update.mjs, includere manifest e pacchetto gzip nel commit e nella pubblicazione del sito; verificare il canale Windows dopo il deploy. Non cambiare le versioni già distribuite.

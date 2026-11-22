@@ -5,6 +5,7 @@ const required=['index.html','app.js','shell.js','vendor/chess.js','vendor/stock
 function fixture(version='1.24.2',extra=[]){const body=zlib.gzipSync(JSON.stringify({version,files:[...required.map(path=>({path,data:Buffer.from('fixture').toString('base64')})),...extra]}));return {body,manifest:{version,minShell:'0.2.0',path:`/desktop-updates/plystreak-core-${version}.json.gz`,size:body.length,sha256:crypto.createHash('sha256').update(body).digest('hex')}};}
 (async()=>{
  const f=fixture();assert.equal(unpack(f.body,validateManifest(f.manifest)).length,6);
+ const models=fixture('1.24.2',[{path:'vendor/elo/model.onnx',data:'eA=='},{path:'vendor/elo/ort.mjs',data:'eA=='}]);assert.equal(unpack(models.body,models.manifest).length,8);
  assert.throws(()=>unpack(Buffer.from('corrupt'),f.manifest));
  for(const name of ['../escape.js','a/../../escape.js','/absolute.js','a\\b.js','C:/escape.js','CON.js','updates/payload.js','desktop-updates/manifest.json','sw.js','main.cjs','app.js']){const x=fixture('1.24.2',[{path:name,data:'eA=='}]);assert.throws(()=>unpack(x.body,x.manifest),name);}
  assert.throws(()=>validateManifest({...f.manifest,path:'https://evil.example/a'}));

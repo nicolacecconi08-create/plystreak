@@ -8,8 +8,8 @@ New-Item -ItemType Directory -Path $destination | Out-Null
 $archive=Join-Path $destination 'electron.zip'
 $base="https://github.com/electron/electron/releases/download/v$version"
 $name="electron-v$version-win32-x64.zip"
-if($ElectronArchive){Copy-Item -LiteralPath $ElectronArchive -Destination $archive}else{Invoke-WebRequest "$base/$name" -OutFile $archive}
-$sums=(Invoke-WebRequest "$base/SHASUMS256.txt").Content
+if($ElectronArchive){Copy-Item -LiteralPath $ElectronArchive -Destination $archive}else{Invoke-WebRequest "$base/$name" -OutFile $archive -UseBasicParsing}
+$sums=(Invoke-WebRequest "$base/SHASUMS256.txt" -UseBasicParsing).Content
 if($sums -is [byte[]]){$sums=[Text.Encoding]::UTF8.GetString($sums)}
 $match=($sums -split "`n" | Where-Object {$_ -match "\s+\*?$([regex]::Escape($name))\s*$"})
 if(!$match){throw 'Missing official checksum.'}

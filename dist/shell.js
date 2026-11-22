@@ -13,7 +13,7 @@ const settingsPage=navigationPage(location.pathname)==='settings.html';
 const dialog=document.createElement(settingsPage?'section':'dialog');dialog.id='preferences';if(settingsPage)document.querySelector('#settingsMount').append(dialog);else document.body.append(dialog);
 const settingsStyle=document.createElement('link');settingsStyle.rel='stylesheet';settingsStyle.href=new URL('./preferences.css',import.meta.url).href;document.head.append(settingsStyle);
 const switches=(keys,s)=>`<div class="preference-switches">${keys.map(([key,label])=>`<label class="preference-switch"><span>${label}</span><input type="checkbox" role="switch" data-setting="${key}" ${s[key]?'checked':''}><span class="switch-track" aria-hidden="true"></span></label>`).join('')}</div>`;
-let settingsSection=settingsPage&&location.hash==='#coach'?'coach':'appearance';
+let settingsSection=settingsPage&&location.hash==='#coach'?'coach':settingsPage&&location.hash==='#app'?'app':'appearance';
 function selectSettingsSection(name){settingsSection=name;dialog.querySelectorAll('[data-settings-section]').forEach(p=>p.hidden=p.dataset.settingsSection!==name);dialog.querySelectorAll('[data-settings-nav]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.settingsNav===name)));dialog.querySelector('.preferences-content').scrollTop=0}
 export function renderSettings(){const s=getSettings();dialog.setAttribute('aria-labelledby','preferencesTitle');dialog.innerHTML=`
 <div class="preferences-header"><div><h2 id="preferencesTitle">Impostazioni</h2></div><button class="dialog-close" aria-label="Chiudi impostazioni" id="closePreferences">×</button></div>

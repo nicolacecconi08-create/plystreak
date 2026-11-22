@@ -26,7 +26,7 @@ function unpack(bytes,manifest) {
   if(payload.version!==manifest.version||!Array.isArray(payload.files)||payload.files.length>1000||!payload.files.length)throw Error('Pacchetto aggiornamento non valido.');
   const names=new Set();let size=0;
   const files=payload.files.map(f=>{
-    if(!f||typeof f.path!=='string'||f.path.length>240||!f.path.split('/').every(s=>/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(s)&&!/[. ]$/.test(s)&&! /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(s))||/^(updates|desktop-updates)(\/|$)/i.test(f.path)||f.path==='sw.js'||!/\.(?:js|html|css|json|png|svg|woff2?|ttf|txt|tsv|wasm|webmanifest|md)$|(?:^|\/)[A-Za-z0-9_-]*LICENSE$/i.test(f.path))throw Error('Percorso aggiornamento non valido.');
+    if(!f||typeof f.path!=='string'||f.path.length>240||!f.path.split('/').every(s=>/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(s)&&!/[. ]$/.test(s)&&! /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(s))||/^(updates|desktop-updates)(\/|$)/i.test(f.path)||f.path==='sw.js'||!/\.(?:m?js|html|css|json|png|svg|woff2?|ttf|txt|tsv|wasm|onnx|webmanifest|md)$|(?:^|\/)[A-Za-z0-9_-]*LICENSE$/i.test(f.path))throw Error('Percorso aggiornamento non valido.');
     const key=f.path.toLowerCase();if(names.has(key))throw Error('File duplicato.');names.add(key);
     if(typeof f.data!=='string'||f.data.length%4||/[^A-Za-z0-9+/=]/.test(f.data))throw Error('Contenuto aggiornamento non valido.');
     const data=Buffer.from(f.data,'base64');if(data.toString('base64')!==f.data)throw Error('Base64 non valido.');size+=data.length;if(size>MAX_DECODED)throw Error('Pacchetto espanso troppo grande.');return {path:f.path,data};
