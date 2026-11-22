@@ -95,3 +95,12 @@ body[data-screen=live] .live-panel{padding:20px}body[data-screen=live] .clock{bo
 .analysis-page:not(.review-loaded) .workspace{display:block;max-width:680px;margin:24px auto}
 .analysis-page:not(.review-loaded) #importPanel{width:100%;box-sizing:border-box}
 @media(max-width:700px){body>header{padding-top:max(8px,env(safe-area-inset-top))!important}.analysis-page:not(.review-loaded) .workspace{display:block!important;margin:8px auto}.analysis-page:not(.review-loaded) #importPanel{padding:20px 16px}}
+/* Richer chess-inspired detail without adding new controls. */
+body[data-screen=coach] .coach-portrait{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 33%,color-mix(in srgb,var(--accent) 17%,var(--panel)),var(--panel) 68%);border-color:var(--line)}
+body[data-screen=coach] .coach-portrait::before{content:'';position:absolute;inset:10px;border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);border-radius:9px;pointer-events:none}
+body[data-screen=coach] .big-avatar{position:relative;width:min(235px,72%);height:auto;aspect-ratio:1;filter:drop-shadow(0 12px 12px #140a1660)}
+body[data-screen=coach] .coach-portrait h2{font-family:Georgia,serif;font-size:30px;letter-spacing:-.02em}
+body[data-screen=coach] .coach-portrait button{position:relative}
+body[data-screen=coach] .coach-dialogue{border-top:3px solid var(--accent);background:linear-gradient(150deg,var(--panel),color-mix(in srgb,var(--soft) 55%,var(--panel)))}
+body[data-screen=coach] .coach-title .mini-avatar{border:1px solid var(--line);border-radius:50%;background:var(--soft)}
+@media(max-width:700px){body[data-screen=coach] .big-avatar{width:150px}body[data-screen=coach] .coach-portrait h2{font-size:25px}}
