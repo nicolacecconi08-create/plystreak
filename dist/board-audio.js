@@ -1,12 +1,12 @@
 // Original synthesized cues: no recordings, downloads or third-party audio licenses.
 const cues={
- move:[[390,170,0,.065,'triangle']],
- capture:[[210,75,0,.13,'triangle'],[620,230,.018,.085,'sine']],
- check:[[660,660,0,.09,'sine'],[990,990,.11,.17,'sine']],
- mate:[[392,392,0,.12,'sine'],[523,523,.12,.12,'sine'],[784,784,.24,.28,'sine']],
- win:[[523,523,0,.12,'sine'],[659,659,.11,.12,'sine'],[1047,1047,.22,.3,'sine']],
- loss:[[392,392,0,.14,'sine'],[311,311,.15,.14,'sine'],[233,233,.30,.3,'sine']],
- draw:[[440,440,0,.17,'sine'],[523,523,.08,.17,'sine']]
+ move:[[260,115,0,.065,'triangle'],[940,420,0,.025,'sine']],
+ capture:[[180,70,0,.10,'triangle'],[660,190,.014,.055,'triangle'],[1100,510,.014,.025,'sine']],
+ check:[[660,660,0,.10,'triangle'],[880,880,.10,.18,'sine']],
+ mate:[[392,392,0,.15,'triangle'],[523,523,.13,.15,'sine'],[659,659,.26,.15,'sine'],[784,784,.39,.35,'sine']],
+ win:[[523,523,0,.12,'triangle'],[659,659,.12,.12,'triangle'],[784,784,.24,.12,'sine'],[1047,1047,.36,.36,'sine']],
+ loss:[[392,392,0,.16,'sine'],[330,330,.16,.16,'sine'],[262,262,.32,.34,'triangle']],
+ draw:[[440,440,0,.20,'sine'],[554,554,.07,.20,'sine'],[440,440,.29,.24,'sine']]
 };
 
 export function outcomeSound(result,side){
