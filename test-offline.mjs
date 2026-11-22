@@ -1,13 +1,14 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-const handlers={},entries=new Map(),deleted=[];
+const handlers={},entries=new Map(),deleted=[]; let skipped=0;
 const cache={put:async(request,response)=>entries.set(request.url,response),match:async url=>entries.get(url)};
 const caches={open:async()=>cache,keys:async()=>['other-app-cache','plystreak-offline-old'],delete:async name=>{deleted.push(name)}};
-const context=vm.createContext({self:{registration:{scope:'https://example.org/'},location:{origin:'https://example.org'},addEventListener:(type,fn)=>handlers[type]=fn},caches,URL,Request,Response,Headers,fetch:async request=>{
+const context=vm.createContext({self:{skipWaiting:()=>skipped++,registration:{scope:'https://example.org/'},location:{origin:'https://example.org'},addEventListener:(type,fn)=>handlers[type]=fn},caches,URL,Request,Response,Headers,fetch:async request=>{
   const p=new URL(request.url).pathname.slice(1);assert(fs.existsSync('dist/'+p),p);const response=new Response(fs.readFileSync('dist/'+p));if(p.endsWith('.html')){Object.defineProperty(response,'redirected',{value:true});Object.defineProperty(response,'url',{value:'https://example.org/'+p.slice(0,-5)});}return response;
 }});
 vm.runInContext(fs.readFileSync('dist/sw.js','utf8'),context);
+handlers.message({data:{type:'OTHER'}});assert.equal(skipped,0);handlers.message({data:{type:'SKIP_WAITING'}});assert.equal(skipped,1);
 let pending;handlers.install({waitUntil:p=>pending=p});await pending;
 assert(entries.has('https://example.org/vendor/stockfish-19-lite-single.wasm'));
 assert(![...entries.keys()].some(p=>p.includes('/updates/')));
