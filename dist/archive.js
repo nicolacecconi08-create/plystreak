@@ -25,7 +25,10 @@ async function writeGame({id,pgn,source='import',side,analysis,playedAt,extra={}
   request.onsuccess=()=>{
    const old=request.result;
    record={...old,id,pgn,source:old?.source||source,headers,side:side===undefined?(old?.side||inferSide(headers)):side,playedAt:playedAt||old?.playedAt||pgnDate(headers)||Date.now(),recordedAt:old?.recordedAt||Date.now(),updatedAt:Date.now(),plies:chess.history().length,...extra};
-   const preserve=analysis?.coverage==='player'&&old?.analysis&&old.analysis.coverage!=='player'&&(old.analysis.complete||old.analysis.checkpoint)&&sameMoves(old.pgn,chess);
+   const previous=old?.analysis;
+   const keeper=analysis&&previous&&(previous.complete&&!analysis?.complete||
+    analysis?.coverage==='player'&&previous.coverage!=='player'&&(previous.complete||previous.checkpoint));
+   const preserve=keeper&&(old.pgn===pgn||sameMoves(old.pgn,chess));
    if(analysis!==undefined&&!preserve)record.analysis=analysis;
    store.put(record);
   };

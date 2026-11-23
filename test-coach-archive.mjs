@@ -19,3 +19,11 @@ assert.deepEqual((await getRecord(id)).analysis,review);
 await saveGame({id,pgn:'1. d4 d5 *',source:'coach',analysis:coach});
 assert.deepEqual((await getRecord(id)).analysis,coach);
 console.log('PASS Coach preserves full review for identical moves, invalidates it for changed moves');
+
+const recalculation={version:2,complete:false,checkpoint:{grades:[{type:'good'}]}};
+await saveGame({id,pgn,analysis:review});
+await saveGame({id,pgn,analysis:recalculation});
+assert.deepEqual((await getRecord(id)).analysis,review);
+const replacement={...recalculation,complete:true};
+await saveGame({id,pgn,analysis:replacement});
+assert.deepEqual((await getRecord(id)).analysis,replacement);

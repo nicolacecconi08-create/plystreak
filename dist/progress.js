@@ -25,7 +25,10 @@ async function playerReport(){
 }
 async function performBatch(task){
  if(controller)return;controller=new AbortController();for(const id of ['connect','disconnect','syncGames','analyzeLatest','username'])$(id).disabled=true;$('cancelSync').hidden=false;
- try{const work=async()=>task(controller.signal);await withBatchLock(work)}
+ try{
+  const result=await withBatchLock(()=>task(controller.signal));
+  if(result===null)$('syncStatus').textContent='Sincronizzazione in corso in un’altra scheda. Riprova quando termina.';
+ }
  catch(e){$('syncStatus').textContent=e.message+' I progressi già completati sono salvati.'}
  finally{controller=null;for(const id of ['connect','disconnect','username'])$(id).disabled=false;$('syncGames').disabled=$('analyzeLatest').disabled=!profile;$('cancelSync').hidden=true;await refresh();await playerReport()}
 }

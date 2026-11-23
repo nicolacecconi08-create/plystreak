@@ -56,7 +56,20 @@ $('arrowMode').onchange=()=>{arrowMode=$('arrowMode').value;saveArrowOptions(arr
 $('showControlSquares').onchange=()=>{saveArrowOptions(arrowMode,$('showControlSquares').checked);renderBoard()};
 let importing=false;
 let archiveId=null,pendingText='',pendingSide=null,resetRequested=false;
-async function persistReview(){if(!game)return;const savedGame=game;const record=await saveGame({id:archiveId,pgn:game.pgn(),side:$('playerSide').value||null,analysis:{...analysisRecord(moves,grades,results),checkpoint:makeCheckpoint(moves,results,grades)}});if(game===savedGame){archiveId=record.id;try{localStorage.setItem('plystreak-last-review',record.id)}catch{}$('saveStatus').textContent=`Salvato sul dispositivo · ${grades.filter(Boolean).length}/${moves.length} mosse`;}return record}
+async function persistReview(){
+ if(!game)return;
+ const savedGame=game;
+ const analysis={...analysisRecord(moves,grades,results),checkpoint:makeCheckpoint(moves,results,grades)};
+ const record=await saveGame({id:archiveId,pgn:game.pgn(),side:$('playerSide').value||null,analysis});
+ if(game===savedGame){
+  archiveId=record.id;
+  try{localStorage.setItem('plystreak-last-review',record.id)}catch{}
+  $('saveStatus').textContent=record.analysis!==analysis
+   ?'La revisione completa precedente resta in archivio.'
+   :`Salvato sul dispositivo · ${analysis.details.length}/${analysis.total} mosse`;
+ }
+ return record;
+}
 
 const fenKey=fen=>fen.split(' ').slice(0,4).join(' ');
 const currentFen=()=>activeBranch?activeBranch.positions[branchIndex]:positions[index];
@@ -118,7 +131,10 @@ async function importGame(){if(busy||importing)return;rapid.cancel();notify('');
 async function analyzeGame(resume=false){
  if(busy||!game)return;setTab(false);busy=true;const id=++runId;
  $('reanalyze').hidden=true;$('cancel').hidden=false;$('cancel').disabled=false;$('progressArea').hidden=false;$('analyze').disabled=true;$('exploreTab').disabled=true;
- if(!resume){results=[];grades=[];}updateAccuracy();render();
+ if(!resume){results=[];grades=[];}
+ $('progressText').textContent='Avvio di Stockfish…';
+ $('progressFill').style.width=100*grades.length/moves.length+'%';
+ updateAccuracy();render();
  try{
   await Promise.all([engine.init(),loadBook()]);
   const historyPosition=reviewHistory(moves,positions[0]);
