@@ -1,0 +1,23 @@
+name: Windows portable release
+on:
+  push:
+    tags: ['windows-*']
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Windows x64
+        shell: pwsh
+        run: ./native/windows/build.ps1 -OutputDirectory "$env:RUNNER_TEMP/ply-build"
+      - name: Publish portable archive
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $zip = "$env:RUNNER_TEMP/Plystreak-Windows-x64.zip"
+          tar.exe -a -cf $zip -C "$env:RUNNER_TEMP/ply-build" Plystreak-Windows
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          gh release create $env:GITHUB_REF_NAME $zip --verify-tag --title "Plystreak per Windows x64" --notes "Estrai lo ZIP e avvia Plystreak.exe. Gli aggiornamenti del contenuto arrivano dal sito."
