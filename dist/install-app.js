@@ -1,7 +1,10 @@
 import {getSettings} from './settings.js';
+import {startupUpdateGuard} from './auto-update.js';
+const startup=startupUpdateGuard({storage:sessionStorage,referrer:document.referrer,origin:location.origin});
+for(const event of ['pointerdown','keydown','touchstart','input'])window.addEventListener(event,()=>startup.interact(),{capture:true,passive:true});
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  let requested = false, banner;
+  let requested = false, banner, checkingClients = false;
   const labels = {
     it: ['Aggiornamento disponibile', 'Salva prima il lavoro in corso.', 'Aggiorna ora'],
     en: ['Update available', 'Save your current work first.', 'Update now'],
@@ -15,6 +18,16 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
   navigator.serviceWorker.register(new URL('./sw.js', import.meta.url), {updateViaCache: 'none'}).then(registration => {
     const showUpdate = () => {
       if (!registration.waiting || !navigator.serviceWorker.controller || banner) return;
+      if(startup.canApply()&&!checkingClients&&window.MessageChannel){
+        checkingClients=true;const candidate=registration.waiting,channel=new MessageChannel();
+        const timer=setTimeout(()=>{channel.port1.close();checkingClients=false;startup.interact();showUpdate()},3000);
+        channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();checkingClients=false;
+          if(e.data===true&&startup.canApply()&&registration.waiting===candidate){requested=true;candidate.postMessage({type:'SKIP_WAITING'})}
+          else{startup.interact();showUpdate()}
+        };
+        candidate.postMessage({type:'CAN_AUTO_UPDATE'},[channel.port2]);return;
+      }
+      if(checkingClients)return;
       const [title, hint, action] = labels[getSettings().language] || labels.it;
       banner = document.createElement('div');
       banner.setAttribute('role', 'status');
@@ -76,7 +89,9 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 
 if (window.plystreakDesktop) {
   let desktopNotice;
-  const checkDesktop=()=>window.plystreakDesktop.check().then(result => {
+  let checking=false;
+  const checkDesktop=async()=>{if(checking)return;checking=true;try{const result=await window.plystreakDesktop.check();
+    if(result.status==='available'&&startup.canApply()){await window.plystreakDesktop.install();if(startup.canApply()){await window.plystreakDesktop.restart();return;}}
     if (result.status !== 'available' && result.status !== 'shell') return;
     if(desktopNotice)return;
     const link = document.createElement('a');desktopNotice=link;
@@ -85,7 +100,7 @@ if (window.plystreakDesktop) {
     link.href = 'settings.html#app';
     link.style.cssText = 'position:fixed;z-index:10000;top:12px;right:12px;padding:12px 16px;border-radius:10px;background:#e9a173;color:#21111b;font:700 15px system-ui;box-shadow:0 5px 20px #0008';
     document.body.append(link);
-  }).catch(() => {});
+  }catch{}finally{checking=false}};
   checkDesktop();
   setInterval(()=>{if(document.visibilityState==='visible')checkDesktop()},300000);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkDesktop()});
