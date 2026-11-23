@@ -1,3 +1,4 @@
+import './batch-background.js';
 import './atelier-layout.js';
 import {compactNavigation} from './compact-navigation.js';
 import './workspace-ux.js';
