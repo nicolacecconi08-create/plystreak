@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {Chess} from './dist/vendor/chess.js';
+import {legalVariation,compareEvaluations,uciOf} from './dist/best-comparison.js';
+const source=fs.readFileSync('dist/app.js','utf8');
+const fn=source.match(/async function showBestMove\(\)\{[\s\S]*?(?=function updateAccuracy)/)[0];
+const chess=new Chess(),move=chess.move('d4'),seen=[];
+const best={lines:[{pv:['e2e4','e7e5'],cp:40,depth:20}],cp:40,depth:20};
+const played={lines:[{pv:['d2d4','d7d5'],cp:10,depth:20}],cp:10,depth:20};
+const ctx=vm.createContext({busy:false,comparisonBusy:false,comparisonToken:0,game:{},index:1,moves:[move],grades:[{}],results:[best],activeBranch:null,branchIndex:0,selected:null,legalVariation,compareEvaluations,uciOf,engine:{evaluate:async(_fen,_q,forced)=>forced?played:best},notify(){},renderMoves(){},renderBoard(){seen.push(ctx.branchIndex)},render(){seen.push(ctx.branchIndex)}});
+vm.runInContext(fn,ctx);await ctx.showBestMove();
+assert.deepEqual(seen,[0,1]);assert.equal(ctx.branchIndex,1);assert.equal(ctx.activeBranch.moves[0].san,'e4');assert.equal(new Chess(ctx.activeBranch.positions[1]).get('e4').type,'p');assert.equal(ctx.moves[0].san,'d4');
+console.log('PASS best move played on board while original game remains unchanged');
