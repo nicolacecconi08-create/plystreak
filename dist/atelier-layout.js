@@ -26,6 +26,6 @@ if($('.analysis-page')){
  for(const selector of ['.arrow-controls','#arrowHelp']){const node=$(selector);if(node)tools.append(node)}
  const wire=()=>{const node=$('.annotation-tools');if(node&&!tools.contains(node)&&!document.body.classList.contains('mobile-review'))tools.append(node)};
  wire();queueMicrotask(wire);
- const toolbar=$('.board-toolbar');for(const [id,icon] of [['first','⏮'],['prev','‹'],['next','›'],['last','⏭'],['flip','⇅'],['export','↓']]){const button=$('#'+id);if(button){button.textContent=icon;button.title=button.getAttribute('aria-label')}}
+ const toolbar=$('.board-toolbar');for(const id of ['first','prev','next','last','flip','export']){const button=$('#'+id);if(button)button.title=button.getAttribute('aria-label')}
  toolbar.setAttribute('aria-label','Navigazione della partita');
 }

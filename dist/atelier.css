@@ -184,3 +184,14 @@ body[data-screen=settings] #preferences .preferences-layout,body[data-screen=set
 main .card{transition:border-color .22s ease,box-shadow .22s ease}
 @media(hover:hover){main .card:hover{border-color:color-mix(in srgb,var(--accent) 42%,var(--line))}}
 @media(prefers-reduced-motion:reduce){main .card{transition:none}}
+
+/* A more tactile chess-club surface throughout the app. */
+main .card{position:relative;border-color:color-mix(in srgb,var(--accent) 24%,var(--line));box-shadow:0 10px 28px #08040d35,inset 0 1px #ffffff0d}
+main .card::after{content:'';position:absolute;top:0;left:18px;right:18px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.36;pointer-events:none}
+.page-heading .eyebrow{display:inline-flex;align-items:center;gap:8px}
+.page-heading .eyebrow::before{content:'◆';font-size:9px;color:var(--accent)}
+.review-accuracy{background:linear-gradient(130deg,var(--panel),var(--soft));box-shadow:inset 0 1px #ffffff12,0 5px 18px #09050c25}
+.review-accuracy strong{color:var(--accent);font-variant-numeric:tabular-nums}
+.analysis-page .board-toolbar button svg{width:22px;height:22px;stroke-width:2.2}
+.analysis-page .board-toolbar #last,.analysis-page .board-toolbar #first{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 18%,var(--soft)),var(--panel))}
+@media(prefers-reduced-motion:no-preference){.analysis-page .board-toolbar #next:not(:disabled){animation:review-control-glow 3s ease-in-out infinite}@keyframes review-control-glow{0%,100%{box-shadow:0 3px 0 #8d4d39,0 0 8px #e9a17333}50%{box-shadow:0 3px 0 #8d4d39,0 0 20px #e9a17388}}}
