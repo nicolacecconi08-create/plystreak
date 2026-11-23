@@ -24,3 +24,5 @@ assert.equal(analyses,2,'subsequent analysis continues');
 await assert.rejects(context.latestAndAnalyze({aborted:true}),/interrotta/);
 assert.equal(analyses,2);
 console.log('PASS Chess.com import: three initial games, automatic analysis, cancellation');
+
+records.set('batch-fixture',{id:'batch-fixture',ids:['old1','old2','old3','old4'],lastSeen:100});for(let i=1;i<=4;i++)records.set('old'+i,{id:'old'+i,playedAt:i});await context.latestAndAnalyze({aborted:false});assert(records.get('batch-fixture').ids.includes('old1'),'legacy queue must retain older games');

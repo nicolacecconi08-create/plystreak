@@ -33,7 +33,7 @@ async function continueBatch(signal){await runBatch(profile.username,{signal,onP
 async function latestAndAnalyze(signal,{analyze=true}={}){
  const importStarted=performance.now();
  let previous=await getRecord('batch-'+profile.username,'meta');
- if(previous&&!previous.initialThree){const old=await Promise.all((previous.ids||[]).map(id=>getRecord(id)));previous={...previous,ids:old.filter(Boolean).sort((a,b)=>b.playedAt-a.playedAt).slice(0,3).map(g=>g.id),initialThree:true};await putRecord(previous,'meta')}
+ if(previous&&!previous.initialThree){previous={...previous,initialThree:true};await putRecord(previous,'meta')}
  const since=previous?.lastSeen??null;
  const records=await fetchLatestGames(profile.username,since===null?3:Infinity,{signal,since,onProgress:i=>$('syncStatus').textContent=`Lettura delle partite più recenti · archivio ${i+1}…`}),ids=[];let newest=since;
  for(const record of records){if(signal.aborted)throw Error('Importazione interrotta.');try{const c=new Chess();c.loadPgn(record.pgn);if(!c.history().length)continue}catch{continue}const saved=await saveGame(record);ids.push(saved.id);newest=Math.max(newest||0,saved.playedAt)}

@@ -6,3 +6,6 @@ assert(!startupUpdateGuard({storage,now:()=>time,origin:'https://test'}).canAppl
 const late=startupUpdateGuard({storage,now:()=>time,origin:'https://test'});time+=30001;assert(!late.canApply());data.clear();
 assert(!startupUpdateGuard({storage,referrer:'https://test/coach',origin:'https://test'}).canApply());
 console.log('PASS automatic update guard: first entry, interaction, timeout and internal navigation');
+
+assert.equal(startupUpdateGuard({storage:undefined,origin:'https://test'}).canApply(),false);
+const blocked={getItem(){throw Error('blocked')},setItem(){throw Error('blocked')}};assert.equal(startupUpdateGuard({storage:blocked,origin:'https://test'}).canApply(),false);

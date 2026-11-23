@@ -94,3 +94,6 @@ for (const [label, corrupt] of malformed) {
   assert.throws(() => validateBackup(envelope([bad])), undefined, label);
 }
 console.log('PASS backup round trip: v1/v2 statistics, metric separation, legacy compatibility, decision evidence and invalid metadata');
+
+const queueBackup={...envelope([original]),meta:[{id:"batch-fixture",ids:[original.id],lastSeen:1000,initialThree:true}]};
+assert.equal(validateBackup(queueBackup).meta[0].initialThree,true);

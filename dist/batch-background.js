@@ -3,7 +3,8 @@ import {runBatch} from './batch-analysis.js';
 import {withBatchLock} from './batch-lock.js';
 let running=false;
 async function resume(){
- if(running||localStorage.getItem('plystreak-batch-paused')==='1')return;
+ if(running)return;
+ try{if(localStorage.getItem('plystreak-batch-paused')==='1')return}catch{return}
  running=true;
  try{await withBatchLock(async()=>{
   const profile=await getRecord('chess-profile','meta');

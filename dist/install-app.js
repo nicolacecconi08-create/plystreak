@@ -1,6 +1,7 @@
 import {getSettings} from './settings.js';
 import {startupUpdateGuard} from './auto-update.js';
-const startup=startupUpdateGuard({storage:sessionStorage,referrer:document.referrer,origin:location.origin});
+let sessionStore;try{sessionStore=window.sessionStorage}catch{}
+const startup=startupUpdateGuard({storage:sessionStore,referrer:document.referrer,origin:location.origin});
 for(const event of ['pointerdown','keydown','touchstart','input'])window.addEventListener(event,()=>startup.interact(),{capture:true,passive:true});
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {

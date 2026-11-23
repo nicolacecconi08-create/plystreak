@@ -18,3 +18,6 @@ setLanguage('it');
 
 for(const lang of languages.filter(x=>x!=='it')){setLanguage(lang);for(const label of ['Migliore e attacchi','Anche caselle vuote','Importa una partita','Riprova questa mossa','Analizza / riprendi'])assert.notEqual(t(label),label,`${lang}: ${label}`)}
 setLanguage('it');
+
+for(const lang of languages.filter(x=>x!=='it')){setLanguage(lang);for(const label of ['Mostra la mossa migliore','Confronto in corso…','Importa nuove partite'])assert.notEqual(t(label),label,`${lang}: ${label}`)}
+setLanguage('it');
