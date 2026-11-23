@@ -26,3 +26,11 @@ assert.equal(lessonBoard(example,2).move.san,'e5');
 assert.equal(lessonBoard(example,3).board.fen(),position);
 assert.equal(lessonBoard({...example,before:{lines:[{pv:['e2e8']}]}},1).board.fen(),position);
 assert.equal(practice.fen(),position);
+
+const guided=lessonFor(played,example.before,example.after,example);
+assert.match(guided[0].title,/f3/);
+assert.match(guided[1].title,/e4/);
+assert.match(guided[2].title,/e5/);
+const mismatched={...example,before:{...example.before,fen:played.after}};
+assert.doesNotMatch(lessonFor(played,mismatched.before,mismatched.after,mismatched)[1].title,/e4/);
+assert.equal(lessonBoard(mismatched,1).board.fen(),position);

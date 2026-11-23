@@ -1,0 +1,14 @@
+La tua mossa · {0}|Your move · {0}|Tu jugada · {0}|Ton coup · {0}|Dein Zug · {0}
+Scelta di Stockfish · {0}|Stockfish choice · {0}|Elección de Stockfish · {0}|Choix de Stockfish · {0}|Stockfish-Empfehlung · {0}
+Scelta di Stockfish|Stockfish choice|Elección de Stockfish|Choix de Stockfish|Stockfish-Empfehlung
+Stockfish sceglierebbe la stessa mossa.|Stockfish would play the same move.|Stockfish jugaría la misma jugada.|Stockfish jouerait le même coup.|Stockfish würde denselben Zug spielen.
+Nessuna alternativa calcolata per questa posizione.|No alternative was calculated for this position.|No se ha calculado una alternativa para esta posición.|Aucune alternative calculée pour cette position.|Für diese Stellung wurde keine Alternative berechnet.
+Risposta possibile · {0}|Possible reply · {0}|Respuesta posible · {0}|Réponse possible · {0}|Mögliche Antwort · {0}
+Risposta avversaria|Opponent reply|Respuesta del rival|Réponse adverse|Gegnerische Antwort
+Nessuna risposta calcolata per questa posizione.|No reply was calculated for this position.|No se ha calculado una respuesta para esta posición.|Aucune réponse calculée pour cette position.|Für diese Stellung wurde keine Antwort berechnet.
+Presa in {0} con il pezzo da {1}.|The piece from {1} captures on {0}.|La pieza de {1} captura en {0}.|La pièce de {1} prend en {0}.|Die Figur von {1} schlägt auf {0}.
+Prima della prossima mossa|Before your next move|Antes de tu próxima jugada|Avant ton prochain coup|Vor deinem nächsten Zug
+Controlla se puoi ricatturare in {0} e chi guadagna dallo scambio.|Check if you can recapture on {0} and who benefits from the trade.|Comprueba si puedes recapturar en {0} y quién sale ganando con el cambio.|Vérifie si tu peux reprendre en {0} et qui profite de l’échange.|Prüfe, ob du auf {0} zurückschlagen kannst und wer vom Abtausch profitiert.
+Prima di giocare, verifica gli scacchi che lasci all’avversario.|Before moving, check which checks your opponent will have.|Antes de jugar, revisa qué jaques dejas al rival.|Avant de jouer, vérifie les échecs que tu laisses à ton adversaire.|Prüfe vor deinem Zug, welche Schachgebote du zulässt.
+Prima di confermare la mossa, controlla scacchi e catture disponibili all’avversario.|Before committing, check your opponent’s available checks and captures.|Antes de confirmar la jugada, revisa los jaques y capturas del rival.|Avant de jouer, examine les échecs et les prises de l’adversaire.|Prüfe vor deinem Zug die Schachgebote und Schlagzüge des Gegners.
+Lezione e comandi accanto alla scacchiera, con spiegazioni più brevi.|Lesson and controls next to the board, with shorter explanations.|Lección y controles junto al tablero, con explicaciones más breves.|Leçon et commandes près de l’échiquier, avec des explications plus courtes.|Lektion und Bedienelemente direkt am Brett mit kürzeren Erklärungen.

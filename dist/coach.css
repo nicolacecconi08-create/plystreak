@@ -2,3 +2,19 @@
 @media(max-width:900px){.coach-setup{gap:20px}.big-avatar{width:160px;height:160px}#training .workspace{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);gap:20px}.coach-title{flex-wrap:wrap}.phase-badge{margin-left:0}.coach-title .eyebrow{font-size:9px}}
 @media(max-width:700px){.coach-setup{grid-template-columns:1fr}.coach-portrait{padding:22px}.big-avatar{width:128px;height:128px}.coach-portrait h2{font-size:26px}.coach-portrait p{margin:8px 0 16px}.coach-portrait .muted{display:none}#training .workspace{display:flex}.coach-side{width:100%}.coach-title{flex-wrap:nowrap}.phase-badge{margin-left:auto}.training-tools button{min-width:42%}.coach-dialogue{padding:22px}#coachContent h3{font-size:22px}.intro{margin-bottom:22px}.coach-setup .card{margin-bottom:0}}
 .coach-grade{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;padding:12px;background:var(--soft);border-radius:10px}.coach-grade img{flex:none}.coach-grade span{font-size:12px}.coach-eval{font-size:12px!important}#trainingBoard .square:disabled{opacity:1}
+
+#boardLesson {
+  margin-block: 8px;
+  padding: 10px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.lesson-board-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.lesson-board-actions button { width: auto; flex: 1 1 125px; min-height: 44px; }
+#boardLessonText h3 { margin: 8px 0 4px; font-size: 1rem; }
+#boardLessonText p { margin: 0; line-height: 1.4; }
+#boardLesson button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+@media (max-width: 700px) {
+  #training #boardLesson { grid-row: 4; min-width: 0; margin: 0; }
+}
