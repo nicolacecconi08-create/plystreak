@@ -1,2 +1,1 @@
-Chess sounds from chessvault-app/chess-sounds-gen, GPL-3.0-or-later. Source: https://github.com/chessvault-app/chess-sounds-gen
-Files: move-self, capture, game-end, game-win, game-lose, game-draw (MP3, embedded unmodified in chess-sounds.js). Check remains synthesized. GPL license: https://www.gnu.org/licenses/gpl-3.0.html
+Original Plystreak board sounds. Mono 24 kHz PCM, rendered with scripts/render-board-sounds.mjs.

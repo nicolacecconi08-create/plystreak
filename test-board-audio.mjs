@@ -1,3 +1,4 @@
+import {chessSounds} from './dist/chess-sounds.js';
 import assert from 'node:assert/strict';
 import {Chess} from './dist/vendor/chess.js';
 import {createBoardAudio,moveSound,outcomeSound,createOutcomeObserver} from './dist/board-audio.js';
@@ -50,5 +51,12 @@ const unsupported=createBoardAudio({getPreferences:()=>({sound:true,volume:.5}),
 assert.equal(unsupported.play(),false);
 let played=0,paused=0,playedSrc='';
 const clips=createBoardAudio({getPreferences:()=>({sound:true,volume:.4}),createContext:()=>context,createAudio:src=>({set volume(v){assert.equal(v,.4)},play(){played++;playedSrc=src;return Promise.resolve()},pause(){paused++}})});
-assert.equal(clips.play('move'),true);assert.match(playedSrc,/^data:audio\/mpeg;base64,/);assert.equal(clips.play('capture'),true);assert.equal(played,2);assert.equal(paused,1);clips.stop();assert.equal(paused,2);
+assert.equal(clips.play('move'),true);assert.ok(playedSrc===chessSounds.move);assert.equal(clips.play('capture'),true);assert.equal(played,2);assert.equal(paused,1);clips.stop();assert.equal(paused,2);
 console.log('PASS board audio: real chess cues, result perspective, no replay, preferences, context reuse, gain, cleanup and autoplay suspension');
+
+for(const cue of ['move','capture','check','mate','win','loss','draw']){
+ const bytes=Buffer.from(chessSounds[cue].split(',')[1],'base64');
+ assert.equal(bytes.toString('ascii',8,12),'WAVE');
+ assert.equal(bytes.readUInt32LE(40),bytes.length-44);
+ assert.equal(bytes.readUInt32LE(24),24000);
+}
