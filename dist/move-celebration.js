@@ -2,9 +2,11 @@ const states=new WeakMap();
 export function celebrateMove(board,{key,square,type,enabled=true}){
  const old=states.get(board);if(old?.key===key)return;
  old?.animation?.cancel();const state={key};states.set(board,state);
- if(!enabled||!['brilliant','great'].includes(type))return;
+ const colors={brilliant:'#287f80',great:'#7162a8',best:'#4f795d',excellent:'#68864c',good:'#747968',inaccuracy:'#a47a24',mistake:'#b76532',blunder:'#b5485d',miss:'#a05c80'};
+ if(!enabled||!colors[type])return;
  const target=board.querySelector(`[data-sq="${square}"]`);if(!target?.animate)return;
- const color=type==='brilliant'?'#287f80':'#7162a8';
- state.animation=target.animate([{boxShadow:`inset 0 0 0 0 ${color}00`,filter:'brightness(1)'},{boxShadow:`inset 0 0 0 6px ${color}, inset 0 0 30px 12px ${color}99`,filter:'brightness(1.28)',offset:.4},{boxShadow:`inset 0 0 0 0 ${color}00`,filter:'brightness(1)'}],{duration:1000,easing:'ease-out',fill:'none'});
+ const color=colors[type];
+ state.animation=target.animate([{boxShadow:`inset 0 0 0 0 ${color}00`,filter:'brightness(1)'},{boxShadow:`inset 0 0 0 6px ${color}, inset 0 0 30px 12px ${color}99`,filter:'brightness(1.28)',offset:.4},{boxShadow:`inset 0 0 0 0 ${color}00`,filter:'brightness(1)'}],{duration:1500,easing:'cubic-bezier(.16,1,.3,1)',fill:'none'});
+ const piece=target.querySelector('img');if(['brilliant','great'].includes(type)&&piece?.animate)piece.animate([{transform:'scale(1) rotate(0deg)'},{transform:'scale(1.22) rotate(-7deg)',offset:.28},{transform:'scale(.96) rotate(3deg)',offset:.58},{transform:'scale(1) rotate(0deg)'}],{duration:1250,easing:'ease-out'});
  state.animation.onfinish=()=>{state.animation=null;};
 }

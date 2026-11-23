@@ -48,4 +48,7 @@ context.state='running';await Promise.resolve();audio.play('draw');assert.equal(
 preferences.sound=false;audio.stop();assert.ok(nodes.every(n=>n.disconnected));
 const unsupported=createBoardAudio({getPreferences:()=>({sound:true,volume:.5}),createContext(){throw Error('Unsupported')}});
 assert.equal(unsupported.play(),false);
+let played=0,paused=0,playedSrc='';
+const clips=createBoardAudio({getPreferences:()=>({sound:true,volume:.4}),createContext:()=>context,createAudio:src=>({set volume(v){assert.equal(v,.4)},play(){played++;playedSrc=src;return Promise.resolve()},pause(){paused++}})});
+assert.equal(clips.play('move'),true);assert.match(playedSrc,/^data:audio\/mpeg;base64,/);assert.equal(clips.play('capture'),true);assert.equal(played,2);assert.equal(paused,1);clips.stop();assert.equal(paused,2);
 console.log('PASS board audio: real chess cues, result perspective, no replay, preferences, context reuse, gain, cleanup and autoplay suspension');

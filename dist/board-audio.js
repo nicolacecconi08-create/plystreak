@@ -1,3 +1,4 @@
+import {chessSounds} from './chess-sounds.js';
 // Original synthesized cues: no recordings, downloads or third-party audio licenses.
 const cues={
  move:[[260,115,0,.065,'triangle'],[940,420,0,.025,'sine']],
@@ -25,11 +26,11 @@ export function createOutcomeObserver(){
  let previous=null;
  return data=>{const cue=previous?.id===data.id&&previous.result==='*'?outcomeSound(data.result,data.side):null;previous={id:data.id,result:data.result};return cue;};
 }
-export function createBoardAudio({createContext,getPreferences}){
- let context=null,resuming=null;
+export function createBoardAudio({createContext,getPreferences,createAudio}){
+ let context=null,resuming=null,clip=null;
  const voices=new Set();
  const enabled=()=>{const p=getPreferences();return p.sound&&p.volume>0;};
- function stop(){for(const voice of voices){try{voice.osc.stop()}catch{}voice.osc.disconnect();voice.gain.disconnect()}voices.clear()}
+ function stop(){if(clip){clip.pause();clip=null}for(const voice of voices){try{voice.osc.stop()}catch{}voice.osc.disconnect();voice.gain.disconnect()}voices.clear()}
  function unlock(){
   if(!enabled())return false;
   try{
@@ -40,6 +41,7 @@ export function createBoardAudio({createContext,getPreferences}){
  }
  function play(kind='move'){
   if(!enabled()){stop();return false}
+  if(createAudio&&chessSounds[kind]){stop();try{clip=createAudio(chessSounds[kind]);clip.volume=Math.max(0,Math.min(1,getPreferences().volume));clip.play().catch(()=>{});return true}catch{clip=null}}
   // A suspended context must never queue a delayed chorus after a later gesture.
   if(!unlock())return false;
   stop();

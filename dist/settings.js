@@ -22,7 +22,7 @@ export function avatarSVG(s=settings){
  </svg>`;
 
 }
-const boardAudio=createBoardAudio({getPreferences:()=>settings,createContext:()=>new(window.AudioContext||window.webkitAudioContext)()});
+const boardAudio=createBoardAudio({getPreferences:()=>settings,createContext:()=>new(window.AudioContext||window.webkitAudioContext)(),createAudio:src=>new Audio(src)});
 export function playSound(kind='move'){if(typeof document!=='undefined'&&document.hidden)return false;return boardAudio.play(kind)}
 export function playMoveSound(chess,move,options){return playSound(moveSound(chess,move,options))}
 if(typeof window!=='undefined'){window.addEventListener('pointerdown',()=>boardAudio.unlock(),{passive:true});window.addEventListener('pointerup',()=>boardAudio.unlock(),{passive:true});window.addEventListener('keydown',()=>boardAudio.unlock());window.addEventListener('ply-settings',()=>{boardAudio.stop();boardAudio.unlock()});document.addEventListener('visibilitychange',()=>{if(document.hidden)boardAudio.stop()});applySettings();matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applySettings);window.addEventListener('storage',e=>{if(e.key==='plystreak-settings'){try{settings=sanitizeSettings(JSON.parse(e.newValue));applySettings();window.dispatchEvent(new CustomEvent('ply-settings',{detail:settings}))}catch{}}})}
