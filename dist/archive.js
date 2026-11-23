@@ -9,7 +9,30 @@ export async function getRecord(id,store='games'){const d=await db();return new 
 export async function putRecord(record,store='games'){const d=await db();return new Promise((resolve,reject)=>{const t=d.transaction(store,'readwrite');t.objectStore(store).put(record);t.oncomplete=()=>resolve(record);t.onerror=t.onabort=()=>reject(t.error||Error('Salvataggio interrotto. Riprova prima di chiudere.'))})}
 export async function gameId(pgn){const c=new Chess();c.loadPgn(pgn);const h=c.getHeaders();const identity=[h.Site,h.Date,h.UTCDate,h.UTCTime,h.White,h.Black,c.history({verbose:true})[0]?.before,c.history().join(' ')].join('|');return 'pgn-'+stableId(identity)}
 export function inferSide(headers){let name='';try{name=localStorage.getItem('plystreak-chess-user')||''}catch{}return headers.White?.toLowerCase()===name.toLowerCase()&&name?'w':headers.Black?.toLowerCase()===name.toLowerCase()&&name?'b':null}
-async function writeGame({id,pgn,source='import',side,analysis,playedAt,extra={}}){const c=new Chess();c.loadPgn(pgn);const headers=c.getHeaders();id=id||await gameId(pgn);const old=await getRecord(id);const record={...old,id,pgn,source:old?.source||source,headers,side:side===undefined?(old?.side||inferSide(headers)):side,playedAt:playedAt||old?.playedAt||pgnDate(headers)||Date.now(),recordedAt:old?.recordedAt||Date.now(),updatedAt:Date.now(),plies:c.history().length,...extra};if(analysis!==undefined)record.analysis=analysis;return putRecord(record)}
+function sameMoves(pgn, chess) {
+ const previous=new Chess();
+ try{previous.loadPgn(pgn)}catch{return false}
+ const oldMoves=previous.history({verbose:true}),newMoves=chess.history({verbose:true});
+ return oldMoves.length===newMoves.length&&oldMoves.every((move,i)=>move.before===newMoves[i].before&&move.after===newMoves[i].after);
+}
+async function writeGame({id,pgn,source='import',side,analysis,playedAt,extra={}}){
+ const chess=new Chess();chess.loadPgn(pgn);const headers=chess.getHeaders();
+ id=id||await gameId(pgn);
+ const database=await db();
+ return new Promise((resolve,reject)=>{
+  const transaction=database.transaction('games','readwrite'),store=transaction.objectStore('games'),request=store.get(id);
+  let record;
+  request.onsuccess=()=>{
+   const old=request.result;
+   record={...old,id,pgn,source:old?.source||source,headers,side:side===undefined?(old?.side||inferSide(headers)):side,playedAt:playedAt||old?.playedAt||pgnDate(headers)||Date.now(),recordedAt:old?.recordedAt||Date.now(),updatedAt:Date.now(),plies:chess.history().length,...extra};
+   const preserve=analysis?.coverage==='player'&&old?.analysis&&old.analysis.coverage!=='player'&&(old.analysis.complete||old.analysis.checkpoint)&&sameMoves(old.pgn,chess);
+   if(analysis!==undefined&&!preserve)record.analysis=analysis;
+   store.put(record);
+  };
+  transaction.oncomplete=()=>resolve(record);
+  transaction.onerror=transaction.onabort=()=>reject(transaction.error||Error('Salvataggio interrotto. Riprova prima di chiudere.'));
+ });
+}
 export const THEMES={material:'Pezzi e catture',king:'Sicurezza del re',position:'Scelte di posizione',fork:'Doppi attacchi',pin:'Inchiodature',hanging:'Pezzi indifesi'};
 export const mistakeTheme=tacticalTheme;
 export function analysisRecord(moves,grades,results){const details=moves.map((m,i)=>grades[i]?{ply:i,side:m.color,san:m.san,from:m.from,to:m.to,promotion:m.promotion,fen:m.before,afterFen:m.after,loss:grades[i].loss,accuracy:grades[i].accuracy,type:grades[i].type,theme:mistakeTheme(m,grades[i].reviewAfter||results[i+1]),best:(grades[i].reviewBefore||results[i])?.lines?.[0]?.pv?.[0],verification:grades[i].verification}:null).filter(Boolean);return {performanceBasis:{version:1,w:gameDecisions(moves,results,'w'),b:gameDecisions(moves,results,'b')},accuracyMethod:ACCURACY_METHOD,gameAccuracy:resultAccuracy(moves,results),version:2,complete:details.length===moves.length,total:moves.length,details,at:Date.now(),method:'Stockfish 19 Lite · profondità massima 20 / 2200 ms'}}

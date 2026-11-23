@@ -61,6 +61,7 @@ export async function runBatch(username,{signal,onProgress,onSaved,onTiming,engi
  try{
   const job=await getRecord('batch-'+username,'meta');if(!job)return;
   const records=await Promise.all(job.ids.map(id=>getRecord(id)));const pending=records.filter(r=>r&&!(r.analysis?.complete&&r.analysis.methodId===ANALYSIS_METHOD));
+  if(!pending.length)return;
   let completed=0;const started=Date.now();let remaining=pending.reduce((n,r)=>n+Math.max(0,r.plies||0),0);
   const response=await fetch('vendor/openings.json');if(!response.ok)throw Error('Catalogo aperture non disponibile.');const openings=await response.json();
   for(const [i,record] of pending.entries()){

@@ -1,5 +1,6 @@
 name: Windows portable release
 on:
+  workflow_dispatch:
   push:
     tags: ['windows-*']
 permissions:
@@ -12,12 +13,18 @@ jobs:
       - name: Build Windows x64
         shell: pwsh
         run: ./native/windows/build.ps1 -OutputDirectory "$env:RUNNER_TEMP/ply-build"
-      - name: Publish portable archive
+      - name: Package portable archive
+        shell: pwsh
+        run: |
+          $zip = "$env:RUNNER_TEMP/Plystreak-Windows-x64.zip"
+          tar.exe -a -cf $zip -C "$env:RUNNER_TEMP/ply-build" Plystreak-Windows
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          tar.exe -tf $zip | Select-String 'Plystreak-Windows/Plystreak.exe' -Quiet | ForEach-Object { if (-not $_) { throw 'Missing app executable' } }
+      - name: Publish tagged release
+        if: github.ref_type == 'tag'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           $zip = "$env:RUNNER_TEMP/Plystreak-Windows-x64.zip"
-          tar.exe -a -cf $zip -C "$env:RUNNER_TEMP/ply-build" Plystreak-Windows
-          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           gh release create $env:GITHUB_REF_NAME $zip --verify-tag --title "Plystreak per Windows x64" --notes "Estrai lo ZIP e avvia Plystreak.exe. Gli aggiornamenti del contenuto arrivano dal sito."

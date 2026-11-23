@@ -15,12 +15,15 @@ const context=vm.createContext({Chess,performance,profile:{username:'fixture'},A
   refresh:async()=>{},playerReport:async()=>{},$:()=>status,
   continueBatch:async()=>{analyses++},
 });
+const importer=fs.readFileSync('dist/batch-import.js','utf8');
+vm.runInContext(importer.slice(importer.indexOf('export async function')).replace('export async','async'),context);
 vm.runInContext(source.slice(start,end),context);
 await context.latestAndAnalyze({aborted:false});
 assert.equal(imports,1);assert.equal(limit,3);assert.equal(analyses,1,'connection starts analysis');
 assert(records.has('fixture-game'));
 await context.latestAndAnalyze({aborted:false},{analyze:true});
 assert.equal(analyses,2,'subsequent analysis continues');
+assert.equal(limit,Infinity,'next sync checks all games since the cursor');
 await assert.rejects(context.latestAndAnalyze({aborted:true}),/interrotta/);
 assert.equal(analyses,2);
 console.log('PASS Chess.com import: three initial games, automatic analysis, cancellation');

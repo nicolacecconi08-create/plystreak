@@ -20,7 +20,7 @@ const backup=validateBackup({format:'plystreak-backup',version:2,games:[record]}
 // A storage error stops further work, keeping already computed results for retry.
 results=[];grades=[];await assert.rejects(continueReview({positions,moves,results,grades,evaluate,grade,onSaved:async()=>{throw Error('quota')}}));assert.equal(grades.length,1);
 // Only visual animation, no permanent state, cancellation on navigation, no repeat render.
-let calls=0,cancels=0;const target={animate:(_frames,opts)=>{calls++;assert.equal(opts.fill,'none');return {cancel(){cancels++}}}},board={querySelector:()=>target};
+let calls=0,cancels=0;const target={querySelector:()=>null,animate:(_frames,opts)=>{calls++;assert.equal(opts.fill,'none');return {cancel(){cancels++}}}},board={querySelector:()=>target};
 celebrateMove(board,{key:'a',square:'e4',type:'brilliant'});celebrateMove(board,{key:'a',square:'e4',type:'brilliant'});assert.equal(calls,1);
 celebrateMove(board,{key:'b',square:'e5',type:'great'});assert.equal(calls,2);assert.equal(cancels,1);
 celebrateMove(board,{key:'c',square:'e5',type:'great',enabled:false});assert.equal(calls,2);assert.equal(cancels,2);
