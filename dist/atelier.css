@@ -195,3 +195,17 @@ main .card::after{content:'';position:absolute;top:0;left:18px;right:18px;height
 .analysis-page .board-toolbar button svg{width:22px;height:22px;stroke-width:2.2}
 .analysis-page .board-toolbar #last,.analysis-page .board-toolbar #first{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 18%,var(--soft)),var(--panel))}
 @media(prefers-reduced-motion:no-preference){.analysis-page .board-toolbar #next:not(:disabled){animation:review-control-glow 3s ease-in-out infinite}@keyframes review-control-glow{0%,100%{box-shadow:0 3px 0 #8d4d39,0 0 8px #e9a17333}50%{box-shadow:0 3px 0 #8d4d39,0 0 20px #e9a17388}}}
+
+/* Plystreak personalization and chess-club identity. */
+:root[data-accent=jade]{--accent:#72b8a5;--focus:#72b8a5}
+:root[data-accent=violet]{--accent:#bca0db;--focus:#bca0db}
+:root[data-theme=light][data-accent=jade]{--accent:#287663;--focus:#287663}
+:root[data-theme=light][data-accent=violet]{--accent:#7952a4;--focus:#7952a4}
+[data-board=ocean] .square{background:#e1e7dc}[data-board=ocean] .square.dark{background:#557d86}
+[data-board=sand] .square{background:#f1dfbe}[data-board=sand] .square.dark{background:#b38b65}
+[data-board=rose] .square{background:#f1ded8}[data-board=rose] .square.dark{background:#a56d7a}
+[data-board-frame=wood] .board{border:7px solid #6d4636;border-radius:8px;box-shadow:0 10px 25px #0005,inset 0 0 0 1px #dfb48c}
+[data-board-frame=light] .board{border:2px solid var(--accent);border-radius:7px;box-shadow:0 0 22px color-mix(in srgb,var(--accent) 35%,transparent)}
+.page-heading{position:relative;padding-left:14px;border-left:3px solid var(--accent)}
+.brand{position:relative}.brand::after{content:'♟';font:14px Georgia,serif;color:var(--accent);opacity:.65;margin-left:6px;align-self:flex-end;padding-bottom:5px}
+.app-nav [aria-current=page] .nav-icon{box-shadow:0 0 14px color-mix(in srgb,var(--accent) 35%,transparent),inset 0 1px #ffffff25}
