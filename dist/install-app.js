@@ -49,19 +49,44 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
       registration.update().then(showUpdate).catch(() => {});
     };
     document.addEventListener('visibilitychange', check);
+    setInterval(check, 300000);
+    navigator.serviceWorker.ready.then(({active})=>{
+      if(!active || !window.MessageChannel)return;
+      const channel=new MessageChannel();
+      channel.port1.onmessage=event=>{
+        channel.port1.close();
+        if(typeof event.data!=='string'||!event.data.startsWith('plystreak-offline-'))return;
+        try{
+          const old=localStorage.getItem('plystreak-active-version');
+          localStorage.setItem('plystreak-active-version',event.data);
+          if(!old||old===event.data)return;
+          const notice=document.createElement('div');notice.setAttribute('role','status');
+          const labels={it:'Plystreak è aggiornata',en:'Plystreak is up to date',es:'Plystreak está actualizado',fr:'Plystreak est à jour',de:'Plystreak ist aktualisiert'};
+          notice.textContent=labels[getSettings().language]||labels.it;
+          notice.style.cssText='position:fixed;z-index:10000;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:14px 18px;border:1px solid #e9a173;border-radius:12px;background:#291823;color:#fff0e2;box-shadow:0 8px 28px #0009;font:600 16px system-ui';
+          document.body.append(notice);setTimeout(()=>notice.remove(),8000);
+        }catch{}
+      };
+      active.postMessage({type:'GET_VERSION'},[channel.port2]);
+    }).catch(()=>{});
     window.addEventListener('online', check);
     check();
   }).catch(() => { /* Online use remains available if offline storage is denied. */ });
 }
 
 if (window.plystreakDesktop) {
-  window.plystreakDesktop.check().then(result => {
+  let desktopNotice;
+  const checkDesktop=()=>window.plystreakDesktop.check().then(result => {
     if (result.status !== 'available' && result.status !== 'shell') return;
-    const link = document.createElement('a');
+    if(desktopNotice)return;
+    const link = document.createElement('a');desktopNotice=link;
     const labels = {it:'Aggiornamento disponibile',en:'Update available',es:'Actualización disponible',fr:'Mise à jour disponible',de:'Update verfügbar'};
     link.textContent = labels[getSettings().language] || labels.it;
     link.href = 'settings.html#app';
     link.style.cssText = 'position:fixed;z-index:10000;top:12px;right:12px;padding:12px 16px;border-radius:10px;background:#e9a173;color:#21111b;font:700 15px system-ui;box-shadow:0 5px 20px #0008';
     document.body.append(link);
   }).catch(() => {});
+  checkDesktop();
+  setInterval(()=>{if(document.visibilityState==='visible')checkDesktop()},300000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkDesktop()});
 }

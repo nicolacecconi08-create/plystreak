@@ -16,7 +16,7 @@ self.addEventListener('install',event=>event.waitUntil((async()=>{
   try { for(const file of FILES) { const request=new Request(new URL(file,self.registration.scope),{cache:'reload'}); const response=await fetch(request); if(!response.ok)throw Error('Offline asset unavailable'); if(response.redirected){const target=new URL(response.url),expected=new URL(request.url);const paths=[expected.pathname];if(expected.pathname.endsWith('.html'))paths.push(expected.pathname.slice(0,-5));if(expected.pathname.endsWith('/index.html'))paths.push(expected.pathname.slice(0,-10));if(target.origin!==self.location.origin||!paths.includes(target.pathname))throw Error('Unexpected offline redirect');} const headers=new Headers(response.headers);headers.delete('content-encoding');headers.delete('content-length');await cache.put(request,new Response(await response.arrayBuffer(),{status:response.status,headers})); } }
   catch(error){await caches.delete(CACHE);throw error;}
 })()));
-self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();if(event.data?.type==='GET_VERSION')event.ports[0]?.postMessage(CACHE);});
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
   for(const name of await caches.keys())if(name.startsWith('plystreak-offline-')&&name!==CACHE)await caches.delete(name);
 })()));

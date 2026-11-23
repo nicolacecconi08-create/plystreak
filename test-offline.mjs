@@ -8,6 +8,7 @@ const context=vm.createContext({self:{skipWaiting:()=>skipped++,registration:{sc
   const p=new URL(request.url).pathname.slice(1);assert(fs.existsSync('dist/'+p),p);const response=new Response(fs.readFileSync('dist/'+p));if(p.endsWith('.html')){Object.defineProperty(response,'redirected',{value:true});Object.defineProperty(response,'url',{value:'https://example.org/'+p.slice(0,-5)});}return response;
 }});
 vm.runInContext(fs.readFileSync('dist/sw.js','utf8'),context);
+let reported;handlers.message({data:{type:'GET_VERSION'},ports:[{postMessage:v=>reported=v}]});assert.match(reported,/^plystreak-offline-/);
 handlers.message({data:{type:'OTHER'}});assert.equal(skipped,0);handlers.message({data:{type:'SKIP_WAITING'}});assert.equal(skipped,1);
 let pending;handlers.install({waitUntil:p=>pending=p});await pending;
 assert(entries.has('https://example.org/vendor/stockfish-19-lite-single.wasm'));
