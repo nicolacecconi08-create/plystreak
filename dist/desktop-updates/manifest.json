@@ -1,8 +1,8 @@
 {
-  "version": "1.25.2",
+  "version": "1.25.3",
   "minShell": "0.3.0",
-  "path": "/desktop-updates/plystreak-core-1.25.2.json.gz",
-  "size": 8442253,
-  "sha256": "5a594eb2c803ce2166ee1eeccb1072deac04d09e9c7dd530ecb80b8187b1ff57",
+  "path": "/desktop-updates/plystreak-core-1.25.3.json.gz",
+  "size": 8441806,
+  "sha256": "9146d9f5436f08b8d2e2624a3e39de9e8b12db44a9f4b8f4c8ec22a77f221676",
   "notes": "Aggiornamento del contenuto di Plystreak alla versione corrente del sito."
 }
