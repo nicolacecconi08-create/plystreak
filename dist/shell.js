@@ -42,7 +42,7 @@ window.plystreakDesktop?.healthy().catch(()=>{});
 const brand=document.querySelector('.brand');
 if(brand){
  brand.href='index.html';
- const icon=document.createElement('img');icon.src=new URL('./mascot-ply.svg',import.meta.url).href;icon.alt='';icon.setAttribute('aria-hidden','true');icon.width=42;icon.height=42;icon.className='ply-mascot';
+ const icon=document.createElement('span');icon.className='ply-mascot';icon.setAttribute('aria-hidden','true');icon.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 88" fill="none"><path d="M40 8c24 6 35 23 32 48-1 8-4 14-8 20 4-30-4-48-24-68Z" fill="var(--accent)"/><path d="m34 4 3 13 16 13c7 7 8 18 2 25L33 75h23l7 8H17l4-12 23-25-18 7-15-8 10-18 13-10V4Z" fill="#F4E8D6"/><path d="m26 30 10-5-5 8-5-3Z" fill="#2A0F2B"/></svg>';
  const old=brand.querySelector('.brand-icon');if(old)old.replaceWith(icon);else{for(const node of brand.childNodes)if(node.nodeType===Node.TEXT_NODE)node.textContent=node.textContent.replace('♘','');brand.prepend(icon)}
 }
 

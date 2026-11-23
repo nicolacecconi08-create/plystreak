@@ -1,3 +1,4 @@
+import './i18n.js';
 const status=document.getElementById('offlineStatus');
 if(!('serviceWorker' in navigator)||location.protocol!=='https:')status.textContent='Preparazione offline non disponibile in questo ambiente. Puoi usare il sito online.';
 else {

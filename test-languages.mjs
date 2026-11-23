@@ -15,3 +15,6 @@ setLanguage('it');console.log('PASS languages: five catalogs, placeholders, sett
 
 for(const lang of languages){setLanguage(lang);for(const label of ['IL TUO LABORATORIO','Dati della partita e analisi','Strumenti della scacchiera','Riprova stima Elo'])if(lang!=='it')assert.notEqual(t(label),label);const facts=explainMove({move,before,after,grade}).facts.join(' ');if(lang!=='it')assert(!facts.includes('Aumenti il controllo'));assert(!facts.includes('undefined'))}
 setLanguage('it');
+
+for(const lang of languages.filter(x=>x!=='it')){setLanguage(lang);for(const label of ['Migliore e attacchi','Anche caselle vuote','Importa una partita','Riprova questa mossa','Analizza / riprendi'])assert.notEqual(t(label),label,`${lang}: ${label}`)}
+setLanguage('it');
