@@ -11,3 +11,18 @@ assert.equal(sanitizeSettings({board:'ocean',accent:'jade',boardFrame:'wood',ava
 assert.equal(sanitizeSettings({accent:'invalid'}).accent,'apricot');
 assert.notEqual(avatarSVG({avatarColor:'coral'}),avatarSVG({avatarColor:'mint'}));
 console.log('PASS: undo for both sides, terminal mate, four-step coaching, progressive hints, level order, safe settings and avatar');
+
+import {needsLesson,lessonBoard} from './dist/coach-core.js';
+const practice=new Chess();
+const played=practice.move('f3');
+const position=practice.fen();
+const example={move:played,type:'mistake',before:{fen:played.before,lines:[{pv:['e2e4']}]},after:{fen:played.after,lines:[{pv:['e7e5']}]}};
+assert.ok(needsLesson('critical',example));
+assert.ok(!needsLesson('critical',{type:'good'}));
+assert.ok(needsLesson('guided',{type:'good'}));
+assert.ok(!needsLesson('play',example));
+assert.equal(lessonBoard(example,1).move.san,'e4');
+assert.equal(lessonBoard(example,2).move.san,'e5');
+assert.equal(lessonBoard(example,3).board.fen(),position);
+assert.equal(lessonBoard({...example,before:{lines:[{pv:['e2e8']}]}},1).board.fen(),position);
+assert.equal(practice.fen(),position);
