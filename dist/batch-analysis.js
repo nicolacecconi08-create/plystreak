@@ -1,3 +1,4 @@
+import {approvedQueue} from './batch-consent.js';
 import {Chess} from './vendor/chess.js';
 import {Engine,terminal} from './analysis.js';
 import {checkedGrade} from './move-grade.js';
@@ -57,11 +58,12 @@ export async function analyzeRecord(record,{engine,openings={},signal,onProgress
  report(onTiming,{phase:'complete',plies:moves.length,elapsedMs:clock()-started});
  return final;
 }
-export async function runBatch(username,{signal,onProgress,onSaved,onTiming,engine=new Engine(()=>{})}={}){
+export async function runBatch(username,{signal,manual=false,onProgress,onSaved,onTiming,engine=new Engine(()=>{})}={}){
  try{
   const job=await getRecord('batch-'+username,'meta');if(!job)return;
-  const records=await Promise.all(job.ids.map(id=>getRecord(id)));const pending=records.filter(r=>r&&!(r.analysis?.complete&&r.analysis.methodId===ANALYSIS_METHOD));
-  if(!pending.length)return;
+  const records=await Promise.all(job.ids.map(id=>getRecord(id)));const unfinished=records.map(r=>r&&!(r.analysis?.complete&&r.analysis.methodId===ANALYSIS_METHOD)?r:null);
+  const {pending,deferred}=await approvedQueue(job,unfinished,{signal,manual,save:value=>putRecord(value,'meta')});
+  if(!pending.length)return {deferred};
   let completed=0;const started=Date.now();let remaining=pending.reduce((n,r)=>n+Math.max(0,r.plies||0),0);
   const response=await fetch('vendor/openings.json');if(!response.ok)throw Error('Catalogo aperture non disponibile.');const openings=await response.json();
   for(const [i,record] of pending.entries()){
@@ -70,6 +72,7 @@ export async function runBatch(username,{signal,onProgress,onSaved,onTiming,engi
    const analysis=await analyzeRecord(record,{engine,openings,signal,onTiming:timing,onProgress:(ply,total,verify)=>onProgress?.(i+1,pending.length,ply,total,verify,completed>=3?Math.max(0,remaining-completed)*(Date.now()-started)/completed:null),onCheckpoint:async analysis=>{await persistBatchAnalysis(record,analysis);completed++}});
    await persistBatchAnalysis(record,analysis);await onSaved?.();
   }
-  await putRecord({...job,completedAt:Date.now()},'meta');
+  if(!deferred)await putRecord({...job,completedAt:Date.now()},'meta');
+  return {deferred};
  }finally{engine.worker?.terminate()}
 }

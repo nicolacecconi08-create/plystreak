@@ -1,1 +1,3 @@
-Original Plystreak board sounds. Mono 24 kHz PCM, rendered with scripts/render-board-sounds.mjs.
+Kenney, Impact Sounds (2019), CC0 1.0. https://kenney.nl/assets/impact-sounds
+Plystreak uses edited impactWood_light_004, impactWood_medium_002 and impactBell_heavy_002.
+The seven mono 24 kHz WAV cues are rendered with scripts/render-board-sounds.py.

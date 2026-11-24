@@ -18,3 +18,11 @@ for(const lang of languages){
  assert.equal(new Set(comments).size,3,lang);
 }
 console.log('PASS five graded legal-choice policies and distinct coaching tones in five languages');
+import {avatarSVG,sanitizeSettings} from './dist/settings.js';
+import {botLevel} from './dist/coach-core.js';
+assert.deepEqual(BOTS.slice(0,5).map(b=>b.name),['Pip','Alba','Vega','Siro','Iris']);
+for(const [index,bot] of BOTS.entries()){assert(botLevel(index).limits[0]>0);assert.equal(sanitizeSettings(bot).avatarColor,bot.avatarColor)}
+assert.equal(new Set(BOTS.map(avatarSVG)).size,BOTS.length);
+for(const [key,values] of Object.entries({avatarShape:['fox'],avatarEyes:['wink'],avatarColor:['ice','copper'],avatarAccessory:['scarf','bow']})){
+ for(const value of values){assert.equal(sanitizeSettings({[key]:value})[key],value);assert.notEqual(avatarSVG({[key]:value}),avatarSVG())}
+}

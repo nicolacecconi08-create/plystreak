@@ -1,5 +1,5 @@
 import {chessSounds} from './chess-sounds.js';
-// Original synthesized cues: no recordings, downloads or third-party audio licenses.
+// Synthesized fallback for environments without HTML audio.
 const cues={
  move:[[260,115,0,.065,'triangle'],[940,420,0,.025,'sine']],
  capture:[[180,70,0,.10,'triangle'],[660,190,.014,.055,'triangle'],[1100,510,.014,.025,'sine']],

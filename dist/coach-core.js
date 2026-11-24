@@ -10,8 +10,13 @@ export const BOTS=[
  {name:'Alba',rating:650,slip:.38,avatarColor:'coral',avatarShape:'round',avatarEyes:'friendly'},
  {name:'Vega',rating:1150,slip:.13,avatarColor:'sky',avatarShape:'square',avatarEyes:'happy'},
  {name:'Siro',rating:1750,slip:.025,avatarColor:'mint',avatarShape:'cat',avatarEyes:'focused'},
- {name:'Iris',rating:2400,slip:0,avatarColor:'plum',avatarShape:'square',avatarEyes:'focused'}
+ {name:'Iris',rating:2400,slip:0,avatarColor:'plum',avatarShape:'square',avatarEyes:'focused'},
+ {name:'Luma',rating:450,tier:0,slip:.52,avatarColor:'ice',avatarShape:'fox',avatarEyes:'wink'},
+ {name:'Teo',rating:900,tier:1,slip:.22,avatarColor:'sage',avatarShape:'round',avatarAccessory:'scarf'},
+ {name:'Brina',rating:1450,tier:2,slip:.07,avatarColor:'ice',avatarShape:'cat',avatarAccessory:'glasses'},
+ {name:'Flint',rating:2050,tier:3,slip:.01,avatarColor:'copper',avatarShape:'fox',avatarEyes:'focused',avatarAccessory:'bow'}
 ];
+export const botLevel=index=>LEVELS[BOTS[index].tier??index];
 export function practiceReply(chess,level,random=Math.random){
  if(random()>=BOTS[level].slip)return null;
  const legal=chess.moves({verbose:true});
