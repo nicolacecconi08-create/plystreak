@@ -21,3 +21,22 @@ setLanguage('it');
 
 for(const lang of languages.filter(x=>x!=='it')){setLanguage(lang);for(const label of ['Mostra la mossa migliore','Confronto in corso…','Importa nuove partite'])assert.notEqual(t(label),label,`${lang}: ${label}`)}
 setLanguage('it');
+import {readFileSync,readdirSync} from 'node:fs';
+const labels=new Set(catalog.map(row=>row[0]));
+const sharedLabels=new Set(['B','N','plystreak','♘ plystreak.','Milo','Chess.com','CHESS.COM','Coach','Windows','Blitz · 3 + 2','Stockfish.js 19.0.1','· GPLv3 ·','AGPLv3+','Lichess chess-openings','chess.js','· BSD-2-Clause.']);
+setLanguage('en');
+for(const file of readdirSync(new URL('./dist/',import.meta.url)).filter(name=>name.endsWith('.html'))){
+ const page=readFileSync(new URL('./dist/'+file,import.meta.url),'utf8').replace(/<(script|style|textarea)\b[^>]*>[\s\S]*?<\/\1>/gi,'');
+ const entries=[...page.matchAll(/>([^<>]+)</g),...page.matchAll(/(?:title|placeholder|alt|aria-label)="([^"]+)"/g)];
+ for(const entry of entries){
+  const label=entry[1].trim();
+  if(!/[a-z]/i.test(label)||labels.has(label)||sharedLabels.has(label))continue;
+  assert.notEqual(t(label),label,file+' has an untranslated label: '+label);
+ }
+}
+for(const lang of languages.slice(1)){
+ setLanguage(lang);
+ for(const key of ['Nessuno · partita condivisa','Salvataggio non riuscito. Non chiudere la pagina senza esportare il PGN.','La soluzione non è confermata: salta questo problema senza penalità.','Gioco dal vivo è già aperto in un’altra scheda. Chiudila e ricarica questa pagina.','Prossimo traguardo: 1200','Aggiornamento completato. Apertura di Plystreak…'])assert.notEqual(t(key),key,lang+' '+key);
+ assert(t('Prossimo traguardo: 1200').includes('1200'));
+}
+setLanguage('it');
