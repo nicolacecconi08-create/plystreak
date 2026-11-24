@@ -15,25 +15,31 @@ function sameMoves(pgn, chess) {
  const oldMoves=previous.history({verbose:true}),newMoves=chess.history({verbose:true});
  return oldMoves.length===newMoves.length&&oldMoves.every((move,i)=>move.before===newMoves[i].before&&move.after===newMoves[i].after);
 }
-async function writeGame({id,pgn,source='import',side,analysis,playedAt,extra={}}){
- const chess=new Chess();chess.loadPgn(pgn);const headers=chess.getHeaders();
- id=id||await gameId(pgn);
+export async function updateGameRecord(id,update){
  const database=await db();
  return new Promise((resolve,reject)=>{
   const transaction=database.transaction('games','readwrite'),store=transaction.objectStore('games'),request=store.get(id);
-  let record;
+  let record,error;
   request.onsuccess=()=>{
-   const old=request.result;
-   record={...old,id,pgn,source:old?.source||source,headers,side:side===undefined?(old?.side||inferSide(headers)):side,playedAt:playedAt||old?.playedAt||pgnDate(headers)||Date.now(),recordedAt:old?.recordedAt||Date.now(),updatedAt:Date.now(),plies:chess.history().length,...extra};
-   const previous=old?.analysis;
-   const keeper=analysis&&previous&&(previous.complete&&!analysis?.complete||
-    analysis?.coverage==='player'&&previous.coverage!=='player'&&(previous.complete||previous.checkpoint));
-   const preserve=keeper&&(old.pgn===pgn||sameMoves(old.pgn,chess));
-   if(analysis!==undefined&&!preserve)record.analysis=analysis;
-   store.put(record);
+   try{
+    record=update(request.result);
+    if(record!==request.result)store.put(record);
+   }catch(cause){error=cause;transaction.abort()}
   };
   transaction.oncomplete=()=>resolve(record);
-  transaction.onerror=transaction.onabort=()=>reject(transaction.error||Error('Salvataggio interrotto. Riprova prima di chiudere.'));
+  transaction.onerror=transaction.onabort=()=>reject(error||transaction.error||Error('Salvataggio interrotto. Riprova prima di chiudere.'));
+ });
+}
+async function writeGame({id,pgn,source='import',side,analysis,playedAt,extra={}}){
+ const chess=new Chess();chess.loadPgn(pgn);const headers=chess.getHeaders();
+ id=id||await gameId(pgn);
+ return updateGameRecord(id,old=>{
+  const record={...old,id,pgn,source:old?.source||source,headers,side:side===undefined?(old?.side||inferSide(headers)):side,playedAt:playedAt||old?.playedAt||pgnDate(headers)||Date.now(),recordedAt:old?.recordedAt||Date.now(),updatedAt:Date.now(),plies:chess.history().length,...extra};
+  const previous=old?.analysis;
+  const keeper=analysis&&previous&&(previous.complete&&!analysis.complete||
+   analysis.coverage==='player'&&previous.coverage!=='player'&&(previous.complete||previous.checkpoint));
+  if(analysis!==undefined&&!(keeper&&(old.pgn===pgn||sameMoves(old.pgn,chess))))record.analysis=analysis;
+  return record;
  });
 }
 export const THEMES={material:'Pezzi e catture',king:'Sicurezza del re',position:'Scelte di posizione',fork:'Doppi attacchi',pin:'Inchiodature',hanging:'Pezzi indifesi'};

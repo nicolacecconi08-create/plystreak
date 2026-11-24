@@ -19,9 +19,15 @@ const legacy={...partial,checkpoint:{results:partial.checkpoint.results,grades:p
 const controller=new AbortController(),saved=[];await assert.rejects(analyzeRecord(record,{engine:mock(),signal:controller.signal,onCheckpoint:a=>{saved.push(structuredClone(a));controller.abort();}}),/interrotta/);assert.equal(saved.length,1);
 await assert.rejects(analyzeRecord(record,{engine:mock(),onCheckpoint:()=>{throw Error('disk full')}}),/disk full/);
 await analyzeRecord(record,{engine:mock(),onTiming:()=>{throw Error('optional diagnostics')}});
-let stored;await persistBatchAnalysis(record,final,{get:async()=>({...record,side:'b',note:'edited during analysis'}),put:async r=>{stored=r}});assert.equal(stored.side,'b');assert.equal(stored.note,'edited during analysis');assert.equal(stored.analysis,final);
-await assert.rejects(persistBatchAnalysis(record,final,{get:async()=>null,put:()=>assert.fail('must not resurrect')}),/eliminata/);
-await assert.rejects(persistBatchAnalysis(record,final,{get:async()=>({...record,pgn:'1. d4'}),put:()=>assert.fail('must not replace')}),/cambiata/);
+const edited={...record,side:'b',note:'edited during analysis'};
+const saveAgainst=current=>(_id,change)=>change(current);
+const stored=await persistBatchAnalysis(record,final,saveAgainst(edited));
+assert.equal(stored.side,'b');assert.equal(stored.note,'edited during analysis');assert.equal(stored.analysis,final);
+const complete={...edited,analysis:final};
+assert.equal(await persistBatchAnalysis(record,{complete:false},saveAgainst(complete)),complete);
+assert.equal(final.checkpoint.grades.length,final.details.length);
+await assert.rejects(persistBatchAnalysis(record,final,saveAgainst(null)),/eliminata/);
+await assert.rejects(persistBatchAnalysis(record,final,saveAgainst({...record,pgn:'1. d4'})),/cambiata/);
 assert(times.every(e=>Number.isFinite(e.elapsedMs)&&e.elapsedMs>=0));
 const end=snapshots.at(-1).checkpoint;
 let t=performance.now();for(let pass=0;pass<10;pass++)for(let i=1;i<=moves.length;i++)analysisRecord(moves,end.grades.slice(0,i),end.results.slice(0,i+1));const legacySummaryMs=performance.now()-t;

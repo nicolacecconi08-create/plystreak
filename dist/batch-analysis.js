@@ -1,10 +1,10 @@
 import {Chess} from './vendor/chess.js';
 import {Engine,terminal} from './analysis.js';
 import {checkedGrade} from './move-grade.js';
-import {analysisRecord,getRecord,putRecord} from './archive.js';
+import {analysisRecord,getRecord,putRecord,updateGameRecord} from './archive.js';
 import {gameDecisions} from './game-performance.js';
 import {resultAccuracy} from './accuracy-metric.js';
-import {restoreCheckpoint,REVIEW_METHOD} from './review-checkpoint.js';
+import {makeCheckpoint,restoreCheckpoint,REVIEW_METHOD} from './review-checkpoint.js';
 export const ANALYSIS_METHOD='plystreak-1.5-verified';
 const clock=()=>performance.now();
 function report(callback,event){try{callback?.(event)}catch{/* Diagnostics must not interrupt analysis. */}}
@@ -21,12 +21,12 @@ function resume(record,moves){
  }
  return restoreCheckpoint(cp,moves);
 }
-export async function persistBatchAnalysis(record,analysis,{get=getRecord,put=putRecord}={}){
- // The PGN was already parsed by analyzeRecord. Preserve current metadata, and
- // never resurrect a game deleted or replaced while its worker was running.
- const current=await get(record.id);
- if(!current||current.pgn!==record.pgn)throw Error('La partita è cambiata o è stata eliminata durante l’analisi.');
- return put({...current,analysis,updatedAt:Date.now()});
+export async function persistBatchAnalysis(record,analysis,update=updateGameRecord){
+ return update(record.id,current=>{
+  if(!current||current.pgn!==record.pgn)throw Error('La partita è cambiata o è stata eliminata durante l’analisi.');
+  if(current.analysis?.complete&&current.analysis.coverage!=='player'&&!analysis.complete)return current;
+  return {...current,analysis,updatedAt:Date.now()};
+ });
 }
 export async function analyzeRecord(record,{engine,openings={},signal,onProgress,onCheckpoint,onTiming}={}){
  const started=clock(),game=new Chess();game.loadPgn(record.pgn);const moves=game.history({verbose:true});if(!moves.length)throw Error('La partita non contiene mosse.');
@@ -53,7 +53,7 @@ export async function analyzeRecord(record,{engine,openings={},signal,onProgress
   const saving=clock();await onCheckpoint?.(partial);
   report(onTiming,{phase:'checkpoint',ply:i+1,elapsedMs:clock()-saving});
  }
- const final={...analysisRecord(moves,grades,results),methodId:ANALYSIS_METHOD};
+ const final={...analysisRecord(moves,grades,results),methodId:ANALYSIS_METHOD,checkpoint:makeCheckpoint(moves,results,grades)};
  report(onTiming,{phase:'complete',plies:moves.length,elapsedMs:clock()-started});
  return final;
 }
