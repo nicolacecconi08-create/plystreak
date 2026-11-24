@@ -316,3 +316,7 @@ dialog.review-visit:modal {position:fixed;inset:0;width:100%;max-width:none;heig
 .trail-marks i{width:8px;height:8px;border-radius:50%;border:1px solid currentColor;opacity:.45}
 .trail-marks i.earned{background:var(--accent);border-color:var(--accent);opacity:1}
 @media(max-width:700px){#trainingTrail{flex-basis:100%;gap:.4rem}#trainingTrail button{font-size:.85rem}}
+
+.board .square:disabled {pointer-events:none}
+select option {color:CanvasText;background-color:Canvas}
+@media(min-width:960px){.card.puzzle-menu{align-self:start;align-items:flex-start;flex-direction:column}}

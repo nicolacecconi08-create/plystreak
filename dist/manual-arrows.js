@@ -9,12 +9,17 @@ export function mountAnnotations(board){if(mounted.has(board))return;mounted.add
 
  function square(e){const r=board.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/r.width*8),y=Math.floor((e.clientY-r.top)/r.height*8);if(x<0||x>7||y<0||y>7)return null;const flip=board.querySelector('[data-sq]')?.dataset.sq==='h1';return'abcdefgh'[flip?7-x:x]+(flip?y+1:8-y)}
  toggle.onclick=()=>{mode=!mode;tap=null;board.classList.toggle('annotating',mode);toggle.setAttribute('aria-pressed',String(mode));toggle.textContent=mode?'Termina disegno':'Disegna frecce'};clear.onclick=clearAll;board.addEventListener('contextmenu',e=>e.preventDefault());
- board.addEventListener('pointerdown',e=>{if(e.button!==2&&!mode)return;start=square(e);if(!start)return;e.preventDefault();e.stopImmediatePropagation();board.setPointerCapture(e.pointerId)},true);
+ board.addEventListener('pointerdown',e=>{if(!mode&&e.button===0&&e.pointerType==='mouse'){
+  // Disabled square buttons swallow click events while Stockfish is thinking.
+  const name=square(e),cell=name&&board.querySelector('[data-sq="'+name+'"]');
+  if(cell&&!cell.querySelector(':scope > img')&&!cell.classList.contains('legal'))clearAll();
+ }
+ if(e.button!==2&&!mode)return;start=square(e);if(!start)return;e.preventDefault();e.stopImmediatePropagation();board.setPointerCapture(e.pointerId)},true);
  board.addEventListener('pointermove',e=>{if(!start)return;const to=square(e);preview=to&&to!==start?{from:start,to}:null;paint();e.preventDefault()},true);
  board.addEventListener('pointerup',e=>{if(!start)return;e.preventDefault();e.stopImmediatePropagation();const to=square(e);if(to&&start!==to){arrows=toggleArrow(arrows,start,to);tap=null}else if(mode&&to){if(tap&&tap!==to){arrows=toggleArrow(arrows,tap,to);tap=null}else tap=to}start=null;preview=null;paint();if(board.hasPointerCapture(e.pointerId))board.releasePointerCapture(e.pointerId)},true);
  board.addEventListener('pointercancel',()=>{start=null;preview=null;paint()});board.addEventListener('click',e=>{
   if(mode){e.preventDefault();e.stopImmediatePropagation();return}
-  const cell=e.target.closest('[data-sq]');if(!cell||e.button!==0)return;
+  const cell=e.target.closest('[data-sq]')||board.querySelector('[data-sq="'+square(e)+'"]');if(!cell||e.button!==0)return;
   if(cell.querySelector(':scope > img')){resumeArrows(board);return}
   // Legal empty destinations must still play the selected move (including en passant).
   if(e.pointerType!=='touch'&&!cell.classList.contains('legal')){clearAll();e.preventDefault();e.stopImmediatePropagation()}

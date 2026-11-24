@@ -51,7 +51,7 @@ function renderDialogue(){
   $('stepCount').textContent=(step+1)+' / '+steps.length;
   $('stepBack').disabled=step===0;
   $('stepNext').disabled=step===steps.length-1;
-  $('boardLessonText').innerHTML=(['blunder','mistake','miss'].includes(lastGrade.type)?'<strong>'+esc(t('Riconsidera {0}',[lastGrade.san]))+'</strong>':'')+'<h3>'+esc(current.title)+'</h3><p>'+esc(current.text)+'</p>';
+  $('boardLessonText').innerHTML=(['blunder','mistake','miss'].includes(lastGrade.type)?'<strong>'+esc(t('Riconsidera {0}',[lastGrade.san]))+'</strong>':'')+'<h3>'+esc(current.title)+'</h3><p>'+esc(current.text)+'</p>'+(!step&&lastComment?'<p>'+esc(lastComment)+'</p>':'');
   return;
  }
  const title=phase==='ended'?(gameOutcome(chess)||'Partita conclusa'):(lastComment||lastGrade)?'La tua ultima mossa':phase==='thinking'?'Sto pensando…':'La scacchiera è tua.';
@@ -85,7 +85,7 @@ difficulty.replaceChildren(...Object.keys(BOTS).sort((a,b)=>BOTS[a].rating-BOTS[
  const bot=BOTS[index];
  return new Option(bot.name+' · '+bot.rating+' · '+t(botLevel(index).name),index,false,index==='1');
 }));
-$('difficulty').onchange=()=>{const i=Number($('difficulty').value);$('difficultyDescription').textContent=t(botLevel(i).description)+' '+t('Rating indicativo del bot, non misurato in torneo.');$('setupAvatar').innerHTML=avatarSVG(BOTS[i]);$('setupName').textContent=BOTS[i].name};$('difficulty').onchange();
+$('difficulty').onchange=()=>{const i=Number($('difficulty').value);$('difficultyDescription').textContent=t(botLevel(i).description)+' '+t('Obiettivo indicativo sulla scala Chess.com. Forza non calibrata.');$('setupAvatar').innerHTML=avatarSVG(BOTS[i]);$('setupName').textContent=BOTS[i].name};$('difficulty').onchange();
 $('startLesson').onclick=()=>{const training=ENDGAMES[Number($('trainingPosition').value)];chess=$('trainingPosition').value!==''&&training?new Chess(training.fen):new Chess();lessonMode=$('lessonMode').value;sessionId=newId();humanDetails=[];feedbackHistory=[];lastComment='';lastGrade=null;human=$('humanSide').value;if(human==='random')human=Math.random()<.5?'w':'b';level=Number($('difficulty').value);chess.setHeader('Event','Plystreak · Allenamento');chess.setHeader('White',human==='w'?'Tu':BOTS[level].name);chess.setHeader('Black',human==='b'?'Tu':BOTS[level].name);activate()};
 function resume(){try{const s=JSON.parse(localStorage.getItem('plystreak-training'));if(!s||s.version!==1||!['w','b'].includes(s.human)||!Number.isInteger(s.level)||!BOTS[s.level])throw Error('Salvataggio non valido.');chess=new Chess();if(s.pgn)chess.loadPgn(s.pgn);feedbackHistory=Array.isArray(s.feedbackHistory)?s.feedbackHistory.filter(x=>Number.isInteger(x.ply)&&typeof x.text==='string'&&typeof x.san==='string').slice(-12):[];human=s.human;level=s.level;lessonMode=['critical','guided','play'].includes(s.lessonMode)?s.lessonMode:'critical';$('lessonMode').value=lessonMode;sessionId=s.sessionId||newId();humanDetails=Array.isArray(s.humanDetails)?s.humanDetails:[];lastComment=typeof s.lastComment==='string'?s.lastComment:'';lastGrade=s.lastGrade&&TYPES[s.lastGrade.type]&&Number.isFinite(s.lastGrade.accuracy)&&Number.isFinite(s.lastGrade.after?.cp)?s.lastGrade:null;if(lastGrade?.move&&lastComment)lastComment=briefComment(lastGrade.move,lastGrade.before,lastGrade.after,lastGrade,getSettings().coachTone);activate()}catch(e){message('Impossibile riprendere: '+e.message)}}
 try{$('resumeLesson').hidden=!localStorage.getItem('plystreak-training')}catch{}

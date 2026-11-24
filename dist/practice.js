@@ -1,4 +1,4 @@
-import {playMoveSound} from './settings.js';
+import {playMoveSound,playSound,getSettings} from './settings.js';
 import {ratingHistory,ratingMilestones,nextContinuousQueue} from './puzzle-rating.js';
 import {LEVELS,cardDifficulty,difficultyQueue,difficultyNote,difficultyProgress} from './practice-difficulty.js';
 import {trainingPath,pathMove,pathComplete,verifiedPath,goalReached} from './puzzle-path.js';
@@ -167,13 +167,19 @@ $('practiceBoard').onclick=async e=>{
  let promotion;if(candidates.some(m=>m.promotion)){busy=true;render();promotion=await choosePiece(chess.turn());busy=false;if(!promotion){render();return}}
  await playStep(selected,sq,promotion);
 };
+function signalWrong(square){
+ playSound('wrong');
+ const cell=$('practiceBoard').querySelector('[data-sq="'+square+'"]');
+ if(getSettings().animation!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)
+  cell?.animate([{boxShadow:'inset 0 0 0 0 transparent'},{boxShadow:'inset 0 0 0 6px #df625e',offset:.25},{boxShadow:'inset 0 0 0 3px #df625e',offset:.65},{boxShadow:'inset 0 0 0 0 transparent'}],{duration:650});
+}
 async function playStep(from,to,promotion){
  const current=chess.fen();busy=true;const m=chess.move({from,to,promotion:promotion||'q'});selected=null;lastMove=m;playMoveSound(chess,m,{terminal:false});render();
  try{
   const u=m.from+m.to+(m.promotion||'');
   if(!pathMove(path,ply,u)&&queue[index].exactMate){
    if(generator.distance(chess)!==path.moves.length-ply-1){
-    chess=new Chess(current);lastMove=ply?path.moves[ply-1]:null;mistakes++;await record(false);
+    chess=new Chess(current);lastMove=ply?path.moves[ply-1]:null;mistakes++;signalWrong(to);await record(false);
     $('practiceFeedback').textContent=t('Questa mossa non forza il matto nel numero richiesto. Riprova.');return;
    }
    const tail=generator.line(chess);
@@ -185,7 +191,7 @@ async function playStep(from,to,promotion){
    if(check.verdict==='uncertain'){$('practiceFeedback').textContent='La verifica è incerta: nessun errore registrato. Riprova o passa al prossimo problema.';chess=new Chess(current);return}
    // On the first move retain the declared exercise objective; later moves preserve engine value.
    if(check.verdict!=='accepted'||(ply===0&&!queue[index].line&&!meetsGoal(queue[index],m,chess))){
-    chess=new Chess(current);$('practiceFeedback').textContent='Questa strada non completa la soluzione verificata. La posizione è ripristinata: prova un’altra idea.';mistakes++;await record(false);return;
+    chess=new Chess(current);$('practiceFeedback').textContent='Questa strada non completa la soluzione verificata. La posizione è ripristinata: prova un’altra idea.';mistakes++;signalWrong(to);await record(false);return;
    }
    let tail=trainingPath(current,check.played.lines[0].pv,Math.max(1,path.moves.length-ply));
    const join=t=>({moves:[...path.moves.slice(0,ply),...t.moves],positions:[...path.positions.slice(0,ply),...t.positions]});
