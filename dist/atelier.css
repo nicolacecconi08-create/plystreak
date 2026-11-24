@@ -306,3 +306,13 @@ dialog.review-visit:modal {position:fixed;inset:0;width:100%;max-width:none;heig
 .batch-consent div {display:flex;flex-wrap:wrap;gap:.6rem;justify-content:flex-end}
 .puzzle-menu {display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
 .puzzle-menu button {min-height:44px}
+#practiceBoard .square.hint-origin{outline:4px solid var(--accent);outline-offset:-5px;z-index:2;box-shadow:inset 0 0 0 7px #21132088}
+#trainingTrail{display:flex;align-items:stretch;gap:.6rem;flex:1;min-width:0}
+#trainingTrail button{flex:1;position:relative;border:1px solid var(--line);border-radius:12px;padding:.75rem .45rem;background:var(--panel);color:var(--ink);font-weight:700}
+#trainingTrail button:not(:first-child)::before{content:"";position:absolute;right:100%;width:.65rem;top:50%;border-top:2px solid var(--line)}
+#trainingTrail button[aria-current=step]{border-color:var(--accent);box-shadow:inset 0 -3px var(--accent)}
+#trainingTrail button[data-complete=true]{background:color-mix(in srgb,var(--accent) 16%,var(--panel))}
+#trainingTrail .trail-marks{display:flex;gap:4px;justify-content:center;margin:.45rem auto 0}
+.trail-marks i{width:8px;height:8px;border-radius:50%;border:1px solid currentColor;opacity:.45}
+.trail-marks i.earned{background:var(--accent);border-color:var(--accent);opacity:1}
+@media(max-width:700px){#trainingTrail{flex-basis:100%;gap:.4rem}#trainingTrail button{font-size:.85rem}}
