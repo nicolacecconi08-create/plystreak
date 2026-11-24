@@ -318,5 +318,19 @@ dialog.review-visit:modal {position:fixed;inset:0;width:100%;max-width:none;heig
 @media(max-width:700px){#trainingTrail{flex-basis:100%;gap:.4rem}#trainingTrail button{font-size:.85rem}}
 
 .board .square:disabled {pointer-events:none}
-select option {color:CanvasText;background-color:Canvas}
+/* Keep popup text and its painting surface in the same theme on Windows. */
+select option, select optgroup {color:var(--ink);background-color:var(--panel)}
+@media (hover:hover) and (pointer:fine) {
+ @supports (appearance:base-select) {
+  select:not([multiple]):not([size]),select:not([multiple]):not([size])::picker(select) {appearance:base-select}
+  select::picker(select) {color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px;max-height:min(55vh,24rem);overflow:auto}
+  select option {padding:.42rem .65rem;border-radius:6px}
+  select option:checked {font-weight:700}
+  select option:is(:hover,:focus-visible) {color:var(--ink);background:var(--soft);outline:1px solid var(--accent);outline-offset:-1px}
+ }
+}
+@media (forced-colors:active) {
+ select option,select optgroup,select::picker(select) {background:Canvas;color:CanvasText}
+ select option:is(:checked,:hover,:focus-visible) {background:Highlight;color:HighlightText}
+}
 @media(min-width:960px){.card.puzzle-menu{align-self:start;align-items:flex-start;flex-direction:column}}
