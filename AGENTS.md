@@ -13,3 +13,13 @@ Per ogni pubblicazione che modifica il runtime, incrementare native/windows/core
 - Pubblicare la versione verificata sul Site ChatGPT esistente e controllare che il deploy sia riuscito, che l'URL sia invariato e che il manifest e il pacchetto Windows pubblicati corrispondano. Un push GitHub non dimostra che il sito sia aggiornato. Se lo strumento Sites non è disponibile, segnalarlo chiaramente e indicare quale commit attende la pubblicazione.
 - La revisione completa delle traduzioni richieste dal proprietario è ancora aperta: analizzare e correggere le traduzioni errate nelle cinque lingue, verificare le pagine e rigenerare il catalogo con `python3 build-locales.py`. Non dichiarare completata la revisione senza averla verificata.
 - Non riattivare l'automazione delle 03:00; non includere dati personali, backup o credenziali nel repository.
+
+## Richieste aperte del proprietario
+- Impostazioni: mostrare un'anteprima dei diversi stili grafici e dei pezzi selezionati. Esiste una prima anteprima: verificarne completezza e funzionamento per tutte le opzioni.
+- Scacco matto: animare il re che cade a terra di lato. Rendere più evidenti sulla scacchiera le pulsazioni associate alle mosse.
+- Analisi: mantenerla aperta e conservare il suo stato anche quando si cambia schermata all'interno di Plystreak.
+- Traduzioni: revisionare e correggere tutte le lingue, con particolare attenzione all'inglese.
+- Istruttore: rendere le spiegazioni più utili e spiegare i cambiamenti posizionali della mossa, senza descrivere una continuazione di Stockfish come risposta obbligata dell'avversario. Nelle spiegazioni identificare il pezzo presente sulla casella per nome; usare la notazione della casella quando è vuota.
+- Correzione durante la partita: quando l'istruttore interrompe il gioco per una mossa errata, mostrare l'interfaccia di correzione al posto del pannello accanto alla scacchiera con le valutazioni delle mosse. Rendere evidente che invita a correggere l'errore e a riflettere sulla natura della mossa.
+- Difficoltà: differenziare sensibilmente i livelli inferiori, rendendoli più deboli e capaci di commettere errori e lasciare maggiore libertà al giocatore. Il livello più forte deve usare Stockfish a piena forza disponibile.
+- Aggiungere bot predefiniti con nomi, aspetti individuali e rating dichiarato, da 250 a 2400, con livelli intermedi significativi per l'evoluzione del gioco. Calibrare e verificare la forza; distinguere un rating stimato da un rating misurato, senza attribuire valori non supportati.
