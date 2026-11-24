@@ -1,9 +1,23 @@
+import {briefComment} from './brief-coach.js';
 import {t,getLanguage} from './i18n.js';
-import {localComment,pieceName} from './coach-localized.js';
+import {pieceName} from './coach-localized.js';
 import {Chess} from './vendor/chess.js';
 import {decodeLine} from './explanations.js';
 import {moveDescription,positionNarrative} from './position-narrative.js';
-export const LEVELS=[{name:'Primi passi',skill:0,limits:[5,180],description:'Per prendere confidenza. Il motore commette più imprecisioni.'},{name:'Principiante',skill:3,limits:[8,300],description:'Un avversario accessibile per provare i fondamentali.'},{name:'Intermedio',skill:8,limits:[12,500],description:'Una sfida per mettere alla prova i tuoi piani.'},{name:'Avanzato',skill:14,limits:[16,900],description:'Più precisione: controlla bene tattiche e risposte.'},{name:'Esperto',skill:20,limits:[20,1800],description:'La massima forza disponibile con questi limiti di calcolo.'}];
+export const LEVELS=[{name:'Primi passi',skill:0,limits:[5,180],description:'Per prendere confidenza. Il motore commette più imprecisioni.'},{name:'Principiante',skill:3,limits:[8,300],description:'Un avversario accessibile per provare i fondamentali.'},{name:'Intermedio',skill:8,limits:[12,500],description:'Una sfida per mettere alla prova i tuoi piani.'},{name:'Avanzato',skill:14,limits:[16,900],description:'Più precisione: controlla bene tattiche e risposte.'},{name:'Esperto',skill:20,limits:[24,5000],description:'La massima forza disponibile con questi limiti di calcolo.'}];
+export const BOTS=[
+ {name:'Pip',rating:250,slip:.72,avatarColor:'sun',avatarShape:'cat',avatarEyes:'happy'},
+ {name:'Alba',rating:650,slip:.38,avatarColor:'coral',avatarShape:'round',avatarEyes:'friendly'},
+ {name:'Vega',rating:1150,slip:.13,avatarColor:'sky',avatarShape:'square',avatarEyes:'happy'},
+ {name:'Siro',rating:1750,slip:.025,avatarColor:'mint',avatarShape:'cat',avatarEyes:'focused'},
+ {name:'Iris',rating:2400,slip:0,avatarColor:'plum',avatarShape:'square',avatarEyes:'focused'}
+];
+export function practiceReply(chess,level,random=Math.random){
+ if(random()>=BOTS[level].slip)return null;
+ const legal=chess.moves({verbose:true});
+ const move=legal[Math.floor(random()*legal.length)];
+ return move?move.from+move.to+(move.promotion||''):null;
+}
 export const pieceNames={p:'pedone',n:'cavallo',b:'alfiere',r:'torre',q:'donna',k:'re'};
 export function gameOutcome(c){if(c.isCheckmate())return c.turn()==='w'?'Scacco matto. Vince il Nero.':'Scacco matto. Vince il Bianco.';if(c.isStalemate())return 'Patta per stallo.';if(c.isThreefoldRepetition())return 'Patta per triplice ripetizione.';if(c.isInsufficientMaterial())return 'Patta per materiale insufficiente.';if(c.isDrawByFiftyMoves())return 'Patta per la regola delle 50 mosse.';if(c.isDraw())return 'Patta.';return null}
 export function hintsFor(c,result){const best=decodeLine(c.fen(),result?.lines?.[0]?.pv)[0];const tactical=c.moves({verbose:true}).filter(m=>m.captured||m.san.includes('+')||m.san.includes('#'));const first=c.isCheck()?'Il tuo re è sotto scacco. Cerca una risposta legale: spostare il re, catturare chi attacca o bloccare la linea.':tactical.length?`Prima del piano, controlla scacchi e catture: in questa posizione ci sono ${tactical.length} mosse di questo tipo. Non tutte sono convenienti.`:c.moveNumber()<=10?'Osserva quali pezzi devono ancora uscire e chi controlla il centro. Controlla sempre la risposta dell’avversario.':'Controlla prima i pezzi attaccati e la sicurezza del re. Poi chiediti quale pezzo potrebbe diventare più attivo.';return [first,best?`Concentrati sul ${pieceNames[best.piece]} in ${best.from}. Dove può andare per migliorare la posizione?`:'Analisi non disponibile: prova a elencare due mosse candidate.',best?`La prima scelta trovata da Stockfish è ${best.san}: ${best.from} → ${best.to}. È un suggerimento alla profondità raggiunta, non una garanzia.`:'Non ho ancora una mossa calcolata da mostrarti.']}
@@ -13,12 +27,11 @@ function lessonMoveText(move){
  return t('c.move',[pieceName(move.piece),move.from,move.to]);
 }
 
-export function lessonFor(move,before,after,grade){
+export function lessonFor(move,before,after,grade,tone='warm'){
  const review={move,before,after};
  const alternative=lessonCandidate(review,1),reply=lessonCandidate(review,2);
  const same=alternative?.uci===move.from+move.to+(move.promotion||'');
- const facts=positionNarrative(move,after);
- const observed=getLanguage()==='it'?facts[0]:localComment(move,before,after,grade,'direct');
+ const observed=briefComment(move,before,after,grade,tone);
  const detail=candidate=>[lessonMoveText(candidate),getLanguage()==='it'?positionNarrative(candidate)[0]:''].filter(Boolean).join(' ');
  const outcome=gameOutcome(new Chess(move.after));
  return [

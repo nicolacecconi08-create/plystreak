@@ -79,7 +79,7 @@ Principiante|Beginner|Principiante|Débutant|Anfänger
 Intermedio|Intermediate|Intermedio|Intermédiaire|Fortgeschritten
 Avanzato|Advanced|Avanzado|Avancé|Erfahren
 Esperto|Expert|Experto|Expert|Experte
-Per prendere confidenza. Il motore commette più imprecisioni.|Get comfortable. The engine makes more inaccuracies.|Para familiarizarte. El motor comete más imprecisiones.|Pour prendre confiance. Le moteur commet plus d’imprécisions.|Zum Einstieg. Die Engine spielt ungenauer.
+Per prendere confidenza. Il motore commette più imprecisioni.|A gentle introduction. The engine often plays imprecise moves.|Para familiarizarte. El motor comete más imprecisiones.|Pour prendre confiance. Le moteur commet plus d’imprécisions.|Zum Einstieg. Die Engine spielt ungenauer.
 Un avversario accessibile per provare i fondamentali.|An accessible opponent to practice the basics.|Un rival accesible para practicar lo básico.|Un adversaire accessible pour travailler les bases.|Ein zugänglicher Gegner zum Üben der Grundlagen.
 Una sfida per mettere alla prova i tuoi piani.|A challenge to test your plans.|Un desafío para poner a prueba tus planes.|Un défi pour tester tes plans.|Eine Herausforderung für deine Pläne.
 Più precisione: controlla bene tattiche e risposte.|More precision: check tactics and replies carefully.|Más precisión: revisa bien las tácticas y respuestas.|Plus de précision : vérifie les tactiques et les réponses.|Mehr Präzision: Prüfe Taktik und Antworten genau.
@@ -125,7 +125,7 @@ CHIEDI AL COACH|ASK THE COACH|PREGUNTA AL ENTRENADOR|DEMANDE AU COACH|FRAG DEN T
 Cosa è sotto attacco?|What is under attack?|¿Qué está bajo ataque?|Qu’est-ce qui est attaqué ?|Was wird angegriffen?
 Su cosa mi concentro?|What should I focus on?|¿En qué me centro?|Sur quoi me concentrer ?|Worauf soll ich mich konzentrieren?
 Il mio re è al sicuro?|Is my king safe?|¿Está seguro mi rey?|Mon roi est-il en sécurité ?|Ist mein König sicher?
-Quali pezzi attivare?|Which pieces need activity?|¿Qué piezas activar?|Quelles pièces activer ?|Welche Figuren aktivieren?
+Quali pezzi attivare?|Which of my pieces should I develop?|¿Qué piezas activar?|Quelles pièces activer ?|Welche Figuren aktivieren?
 Spiegami l’ultima mossa|Explain my last move|Explica mi última jugada|Explique mon dernier coup|Erkläre meinen letzten Zug
 Seleziona una domanda per ragionare sulla posizione attuale.|Choose a question to think about the current position.|Elige una pregunta para pensar en la posición actual.|Choisis une question pour réfléchir à la position actuelle.|Wähle eine Frage zur aktuellen Stellung.
 Il commento riguarda la mossa appena giocata. Nessuna continuazione anticipata: il piano rimane tuo.|Feedback covers the move just played. No future line is revealed: the plan is yours.|El comentario trata de la última jugada. No se revela la continuación: el plan es tuyo.|Le commentaire porte sur le coup joué. Aucune suite dévoilée : le plan reste le tien.|Das Feedback betrifft deinen letzten Zug. Keine Fortsetzung wird verraten: Der Plan bleibt deiner.
@@ -395,7 +395,7 @@ Doppi attacchi|Double attacks|Ataques dobles|Attaques doubles|Doppelangriffe
 Inchiodature|Pins|Clavadas|Clouages|Fesselungen
 Pezzi indifesi|Undefended pieces|Piezas indefensas|Pièces non défendues|Ungedeckte Figuren
 Strategia|Strategy|Estrategia|Stratégie|Strategie
-Prima di muovere, controlla gli scacchi disponibili all’avversario.|Before moving, check the opponent’s available checks.|Antes de mover, revisa los jaques disponibles del rival.|Avant de jouer, vérifie les échecs dont dispose l’adversaire.|Prüfe vor deinem Zug die möglichen gegnerischen Schachs.
+Prima di muovere, controlla gli scacchi disponibili all’avversario.|Before moving, look for checks your opponent could give.|Antes de mover, revisa los jaques disponibles del rival.|Avant de jouer, vérifie les échecs dont dispose l’adversaire.|Prüfe vor deinem Zug die möglichen gegnerischen Schachs.
 Prima di confermare, verifica quali tuoi pezzi rimangono attaccati e senza difesa.|Before committing, check which pieces remain attacked and undefended.|Antes de confirmar, revisa qué piezas tuyas quedan atacadas y sin defensa.|Avant de confirmer, vérifie quelles pièces restent attaquées et non défendues.|Prüfe vor der Entscheidung, welche Figuren angegriffen und ungedeckt bleiben.
 Controlla se un pezzo avversario può attaccare due bersagli insieme.|Check whether an opposing piece can attack two targets at once.|Comprueba si una pieza rival puede atacar dos objetivos a la vez.|Vérifie si une pièce adverse peut attaquer deux cibles à la fois.|Prüfe, ob eine gegnerische Figur zwei Ziele gleichzeitig angreifen kann.
 Verifica quali pezzi proteggono il tuo re e non possono muoversi liberamente.|Check which pieces protect your king and cannot move freely.|Revisa qué piezas protegen a tu rey y no pueden moverse libremente.|Vérifie quelles pièces protègent ton roi et ne peuvent bouger librement.|Prüfe, welche Figuren deinen König schützen und nicht frei ziehen können.

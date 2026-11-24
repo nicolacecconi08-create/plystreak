@@ -21,10 +21,12 @@ import {animateBoard} from './motion.js';
 import {getSettings,playMoveSound} from './settings.js';
 import {renderReviewCoach} from './review-coach.js';
 import {explainMove,scoreText} from './explanations.js';
+import {mountReviewNavigation} from './review-navigation.js';
 import {Chess} from './vendor/chess.js';
 import {Engine,TYPES,classify,terminal} from './analysis.js';
 const $=id=>document.getElementById(id),names={p:'pedone',n:'cavallo',b:'alfiere',r:'torre',q:'donna',k:'re'},esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let game=null,positions=[new Chess().fen()],moves=[],results=[],grades=[],headers={},index=0,flipped=false,selected=null,exploring=false,branches=[],activeBranch=null,branchIndex=0,busy=false,runId=0,liveId=0,liveResult=null,openingMap={},bookReady=false;
+if(window.name!=='plystreak-visit')mountReviewNavigation(()=>!!game);
 const engine=new Engine(s=>{$('engineStatus').textContent=s;});
 let bookPromise;function loadBook(){if(!bookPromise)bookPromise=fetch('vendor/openings.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(d=>{openingMap=d;bookReady=true}).catch(()=>notify('Aperture non disponibili: la categoria Teoria sarà omessa.'));return bookPromise}
 const quality=()=>'deep';

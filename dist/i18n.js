@@ -9,7 +9,7 @@ const patterns=catalog.filter(r=>/\{\d+\}/.test(r[0])).map(row=>{const keys=[];l
 function tr(s,depth=0){if(language==='it'||!s||depth>6)return s;const n=languages.indexOf(language),row=exact.get(s);if(row)return row[n]||s;for(const p of patterns){const m=s.match(p.re);if(m){const values={};p.keys.forEach((k,i)=>values[k]=tr(m[i+1],depth+1));return p.row[n].replace(/\{(\d+)\}/g,(_,k)=>values[k]??'')}}
  // Translate independently authored sentences and UI separators, preserving notation.
  const parts=s.split(/( · |\n|(?<=[.!?])\s+)/);if(parts.length>1)return parts.map(p=>/^( · |\n|\s+)$/.test(p)?p:tr(p,depth+1)).join('');
- const match=s.match(/^(←\s*|＋\s*|↥\s*)?(.+?)(\s*[→↗])?$/);if(match&&(match[1]||match[3]))return (match[1]||'')+tr(match[2],depth+1)+(match[3]||'');
+ const match=s.match(/^(←\s*|＋\s*|↥\s*|▶\s*)?(.+?)(\s*[→↗])?$/);if(match&&(match[1]||match[3]))return (match[1]||'')+tr(match[2],depth+1)+(match[3]||'');
  if(/[.!?:]$/.test(s)){const base=s.slice(0,-1),r=exact.get(base);if(r)return r[n]+s.at(-1)}
  return s;
 }
