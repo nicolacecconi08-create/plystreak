@@ -32,3 +32,4 @@ function checkMarks(fen,san,expected){
 checkMarks('4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1','exd6',['d5:capture']);
 checkMarks('4k3/8/8/8/8/8/8/4K2R w K - 0 1','O-O',['g1:castle','f1:castle']);
 checkMarks('4k3/P7/8/8/8/8/8/4K3 w - - 0 1','a8=Q+',['a8:promotion','e8:check']);
+checkMarks('4k3/8/8/8/8/8/4P3/4K3 w - - 0 1','e4',['e4:move']);

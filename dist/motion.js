@@ -35,14 +35,14 @@ export function animateBoard(board,fen,flipped,options={}){
   current.drawAnimations=targets.map((target,i)=>target.animate(i?[{boxShadow:`inset 0 0 0 0 ${color}00`},{boxShadow:`inset 0 0 26px 9px ${color}aa`,offset:.45},{boxShadow:`inset 0 0 0 0 ${color}00`}]:[{boxShadow:`0 0 0 0 ${color}00`},{boxShadow:`0 0 0 7px ${color}77`,offset:.45},{boxShadow:`0 0 0 0 ${color}00`}],{duration:1500,easing:'ease-in-out',fill:'none'}));
  }
  if(!draw){current.drawCelebrated=false;for(const animation of current.drawAnimations||[])animation.cancel();current.drawAnimations=[];}
- if(mate){const king=c.board().flat().find(p=>p?.type==='k'&&p.color===c.turn()),square=board.querySelector(`[data-sq="${king.square}"]`);square?.classList.add('mate-king');square?.classList.toggle('fallen-king',motion&&!options.rapid);
+ if(mate){const king=c.board().flat().find(p=>p?.type==='k'&&p.color===c.turn()),square=board.querySelector(`[data-sq="${king.square}"]`);square?.classList.add('mate-king');square?.classList.toggle?.('fallen-king',motion&&!options.rapid);
  if(motion&&!options.rapid&&old?.fen!==fen){kingEffect(square,'✦','#e9a173');board.animate([{boxShadow:'0 0 0 0 #d96b6300'},{boxShadow:'0 0 0 12px #e9a17399',offset:.38},{boxShadow:'0 0 0 0 #d96b6300'}],{duration:1250,easing:'ease-out',fill:'none'});square?.animate([{filter:'brightness(1)'},{filter:'brightness(1.6)'},{filter:'brightness(1)'}],{duration:850,delay:220,easing:'ease-in-out'})}}
 
  if(getSettings().animation==='off'||!old||old.flipped!==flipped||placement(old.fen)===placement(fen)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  let m=connectingMove(old.fen,fen),reverse=false;
  if(!m){m=connectingMove(fen,old.fen);reverse=true}if(!m)return;
  if(!reverse&&!options.rapid){
-  const effects=m.captured||m.promotion||c.isCheck()?[]:[[m.to,'move',520]];
+  const effects=[];
   if(m.captured)effects.push([m.flags.includes('e')?m.to[0]+m.from[1]:m.to,'capture',440]);
   if(m.promotion)effects.push([m.to,'promotion',760]);
   if(m.flags.includes('k')||m.flags.includes('q'))effects.push([m.to,'castle',520],[(m.flags.includes('k')?'f':'d')+m.from[1],'castle',660]);
@@ -50,6 +50,7 @@ export function animateBoard(board,fen,flipped,options={}){
    const king=c.board().flat().find(p=>p?.type==='k'&&p.color===c.turn());
    if(king)effects.push([king.square,'check',720]);
   }
+  if(!effects.length)effects.push([m.to,'move',520]);
   current.ripples=effects.map(([sq,kind,ms])=>ripple(board.querySelector('[data-sq="'+sq+'"]'),kind,ms));
  }
  const pairs=[[m.from,m.to]];

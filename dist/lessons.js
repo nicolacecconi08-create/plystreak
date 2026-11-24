@@ -11,6 +11,7 @@ let quizMode=!saved.placed,answers=[],lesson,game,step=0,selected,last,finished=
 function persist(){try{localStorage.setItem(key,JSON.stringify({placed:!quizMode,current:lesson.id,done:[...done]}))}catch{$('lessonStorage').textContent=t('Memoria non disponibile. I progressi restano in questa sessione.')}}
 function paint(){drawBoard($('lessonBoard'),game,{selected,last,disabled:finished});}
 function load(id){
+ if(lesson?.id!==id)testing=false;
  lesson=lessons.find(item=>item.id===id)||lessons[0];
  if(!lesson.replies)testing=false;game=lessonPosition(lesson);step=0;selected=last=null;finished=false;
  $('lessonMode').textContent=quizMode?t('Quiz iniziale · {0}/{1}',[answers.length+1,quiz.length]):t('Lezioni · {0}/{1}',[done.size,lessons.length]);
