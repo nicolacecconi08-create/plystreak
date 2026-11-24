@@ -20,6 +20,7 @@ else {
     session.defaultSession.setPermissionRequestHandler((_contents,_permission,callback)=>callback(false));
     session.defaultSession.setPermissionCheckHandler(()=>false);
     window=new BrowserWindow({width:1280,height:900,minWidth:700,minHeight:550,title:'Plystreak',autoHideMenuBar:true,backgroundColor:'#100d16',webPreferences:{preload:path.join(__dirname,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
+    if(process.platform==='win32')window.setAccentColor('#e9a173');
     let loaded=false,healthRequested=false,startupFailed=false,healthTimer;
     const markHealthy=()=>{if(loaded&&healthRequested&&!startupFailed&&!healthTimer)healthTimer=setTimeout(()=>{healthTimer=null;if(loaded&&healthRequested&&!startupFailed)updater.healthy().catch(()=>{});},5000);};
     window.webContents.on('did-finish-load',()=>{loaded=true;markHealthy();});

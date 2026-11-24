@@ -30,9 +30,22 @@ export async function reviewChoice(engine,{fen,move,base}){
  const confirmed=r=>r?.lines?.[0]?.pv?.[0]===uci;
  let verdict=confirmed(played)?choiceVerdict(best,played,move.color,same):'uncertain';
  if(verdict==='uncertain'){
-  best=await engine.evaluate(fen,'deep','',{limits:[24,5000]});
-  played=best.lines?.[0]?.pv?.[0]===uci?best:await engine.evaluate(fen,'deep',uci,{limits:[24,5000]});
+  // Compare one principal variation per search at the same target depth.
+  const options={multiPV:1,limits:[17,8000]};
+  best=await engine.evaluate(fen,'deep','',options);
+  played=best.lines?.[0]?.pv?.[0]===uci?best:await engine.evaluate(fen,'deep',uci,options);
   verdict=confirmed(played)?choiceVerdict(best,played,move.color,best===played):'uncertain';
+ }
+ // Separate searches may disagree even on equal-depth scores. Compare both
+ // candidates in one MultiPV search before treating the difference as evidence.
+ const reference=best?.lines?.[0]?.pv?.[0];
+ if(verdict==='uncertain'&&reference&&reference!==uci){
+  const paired=await engine.evaluate(fen,'deep',reference+' '+uci,{multiPV:2,limits:[17,8000]});
+  const first=paired.lines?.[0],candidate=paired.lines?.find(l=>l.pv?.[0]===uci);
+  if(first&&candidate&&paired.lines.some(l=>l.pv?.[0]===reference)&&first.depth===candidate.depth){
+   best=paired;played={...paired,...candidate,best:uci,lines:[candidate]};
+   verdict=choiceVerdict(best,played,move.color,first===candidate);
+  }
  }
  const line=legalVariation(fen,played?.lines?.[0]?.pv||[]);
  if(!line.moves.length||uciOf(line.moves[0])!==uci)verdict='uncertain';
