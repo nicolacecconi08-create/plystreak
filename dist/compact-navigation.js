@@ -1,7 +1,7 @@
 import {uiIcon} from './ui-icons.js';
 // Native dialog preserves keyboard focus, Escape and modal semantics.
 export function compactNavigation(nav,openSettings){
- const secondary=['live.html','openings.html'];
+ const secondary=['live.html','openings.html','lessons.html'];
  for(const link of nav.querySelectorAll('a'))if(secondary.includes(link.getAttribute('href')))link.classList.add('nav-overflow');
  nav.querySelector('#preferencesButton').classList.add('nav-overflow');
  const more=document.createElement('button');more.type='button';more.className='mobile-more';more.id='moreNavigationButton';more.setAttribute('aria-haspopup','dialog');more.setAttribute('aria-controls','moreNavigation');more.setAttribute('aria-expanded','false');more.innerHTML='<span class="nav-icon" aria-hidden="true">'+uiIcon('more')+'</span><span>Altro</span>';

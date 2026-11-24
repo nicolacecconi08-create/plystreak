@@ -1,3 +1,4 @@
+import {showOpeningConclusion} from './opening-conclusion.js';
 import {Chess} from './vendor/chess.js';
 import {drawBoard,choosePiece} from './mini-board.js';
 import {positionKey} from './move-grade.js';
@@ -15,7 +16,7 @@ function render(){
  $('explorerUndo').disabled=$('explorerReset').disabled=!hist.length;
  if(!data)return;
  const n=data.nodes[positionKey(chess.fen())],exact=n?.[0]||[],edges=Object.entries(n?.[1]||{}).sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0]));
- const guide=edges.find(([,lines])=>lines.includes(target));const arrived=exact.includes(target);if(!guide&&!arrived)target=null;
+ const guide=edges.find(([,lines])=>lines.includes(target));const arrived=exact.includes(target);if(!guide&&!arrived)target=null;showOpeningConclusion($('explorerConclusion'),chess,arrived||!!exact.length&&!edges.length);
  $('explorerGuide').hidden=target===null;$('explorerTarget').textContent=target===null?'':label(target);$('explorerStep').disabled=arrived||!guide;
  $('explorerStep').onclick=()=>{if(!guide)return;const u=guide[0];play({from:u.slice(0,2),to:u.slice(2,4),promotion:u[4]})};
  identity.replaceChildren(el('h2',!hist.length?'Gioca la prima mossa':exact.length?label(exact[0]):n?'Più aperture possibili':'Posizione fuori repertorio'));
