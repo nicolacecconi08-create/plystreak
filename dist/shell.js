@@ -1,3 +1,4 @@
+import {welcome} from './welcome.js';
 import './batch-background.js';
 import './atelier-layout.js';
 import {compactNavigation} from './compact-navigation.js';
@@ -63,3 +64,5 @@ if(brand){
 }
 
 const installLink=document.createElement("a");installLink.href="install.html";installLink.textContent="Installa Plystreak e prepara l’uso offline";installLink.className="text-button install-shortcut";document.querySelector("main")?.append(installLink);
+
+welcome(brand);

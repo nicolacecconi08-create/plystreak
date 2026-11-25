@@ -7,7 +7,8 @@ import {validateBackup} from './backup.js';
 import {makeDeck,reviewSummary} from './repetition.js';
 import {readAll,getRecord,putRecord,saveGame,personalStats,THEMES} from './archive.js';
 import {escapeHTML as esc,getSettings,saveSettings} from './settings.js';
-import {fetchProfile,syncArchive} from './chess-api.js';
+import {connectChessProfile} from './connect-profile.js';
+import {syncArchive} from './chess-api.js';
 import {importLatest} from './batch-import.js';
 const $=id=>document.getElementById(id);let games=[],page=0,profile=null,controller=null,autoPaused=false;
 const date=t=>new Date(t).toLocaleDateString(locale()),fixed=x=>x==null?'—':x.toFixed(1);
@@ -38,7 +39,7 @@ async function latestAndAnalyze(signal,{analyze=true}={}){
  const {job,imported}=await importLatest(profile.username,{signal,onProgress:i=>$('syncStatus').textContent=`Lettura delle partite più recenti · archivio ${i+1}…`});
  await refresh();await playerReport();if(!imported&&!job.ids.length){$('syncStatus').textContent='Nessuna partita standard conclusa disponibile.';return}const queue=await Promise.all(job.ids.map(id=>getRecord(id)));const pending=queue.filter(g=>g&&(!g.analysis?.complete||g.analysis.methodId!==ANALYSIS_METHOD));if(!pending.length){$('syncStatus').textContent='Sei aggiornato: nessuna nuova partita da analizzare. Le analisi complete sono state conservate.';return}if(analyze)await continueBatch(signal);else $('syncStatus').textContent=`Importazione completata in ${Math.max(1,Math.round((performance.now()-importStarted)/1000))} s. ${pending.length} partite in attesa di analisi. Puoi già aprirle dall’archivio. Premi Analizza / riprendi per il calcolo approfondito, che può richiedere molto tempo.`;
 }
-$('connectForm').onsubmit=e=>{e.preventDefault();autoPaused=false;localStorage.removeItem('plystreak-batch-paused');performBatch(async signal=>{$('syncStatus').textContent='Lettura del profilo pubblico…';profile=await fetchProfile($('username').value.trim(),signal);await putRecord(profile,'meta');localStorage.setItem('plystreak-chess-user',profile.username);showProfile();$('syncGames').disabled=$('analyzeLatest').disabled=true;await latestAndAnalyze(signal)})};
+$('connectForm').onsubmit=e=>{e.preventDefault();autoPaused=false;localStorage.removeItem('plystreak-batch-paused');performBatch(async signal=>{$('syncStatus').textContent='Lettura del profilo pubblico…';profile=await connectChessProfile($('username').value,signal);showProfile();$('syncGames').disabled=$('analyzeLatest').disabled=true;await latestAndAnalyze(signal)})};
 $('analyzeLatest').onclick=()=>{if(!profile)return;autoPaused=false;localStorage.removeItem('plystreak-batch-paused');performBatch(async signal=>{const job=await getRecord('batch-'+profile.username,'meta'),records=job?await Promise.all(job.ids.map(id=>getRecord(id))):[];if(records.some(g=>g&&(!g.analysis?.complete||g.analysis.methodId!==ANALYSIS_METHOD)))await continueBatch(signal,true);else await latestAndAnalyze(signal,{analyze:true})})};
 
 $('syncGames').onclick=async()=>{if(!profile||controller)return;controller=new AbortController();$('syncGames').disabled=$('analyzeLatest').disabled=true;$('connect').disabled=true;$('disconnect').disabled=true;$('cancelSync').hidden=false;try{const r=await syncArchive(profile.username,$('syncRange').value,async records=>{let added=0;for(const record of records){await saveGame(record);added++}return added},controller.signal,(i,n,m)=>$('syncStatus').textContent=`Importazione mese ${i+1}/${n} · ${m}. Le partite già presenti non vengono duplicate.`);$('syncStatus').textContent=`Importazione completata: ${r.count} partite lette in ${r.months} mesi; ${r.skipped} partite non standard escluse.`}catch(e){$('syncStatus').textContent=e.message+' I mesi già scaricati rimangono disponibili.'}finally{controller=null;$('syncGames').disabled=$('analyzeLatest').disabled=false;$('connect').disabled=false;$('disconnect').disabled=false;$('cancelSync').hidden=true;await refresh()}};
@@ -55,3 +56,5 @@ window.addEventListener('ply-settings',()=>{stats();list();showProfile()});
 const refreshLatest=document.createElement("button");refreshLatest.id="refreshLatest";refreshLatest.className="secondary";refreshLatest.textContent="Importa nuove partite";$("analyzeLatest").after(refreshLatest);refreshLatest.onclick=()=>{if(profile&&!controller){autoPaused=false;localStorage.removeItem('plystreak-batch-paused');performBatch(signal=>latestAndAnalyze(signal))};};
 
 setInterval(()=>{if(profile&&!controller&&!autoPaused&&navigator.onLine&&document.visibilityState==='visible')performBatch(signal=>latestAndAnalyze(signal))},300000);
+
+window.addEventListener('ply-profile-connected',event=>{profile=event.detail;autoPaused=false;showProfile();weeklyGoal();playerReport()});
