@@ -1,4 +1,3 @@
-import {uiIcon} from './ui-icons.js';
 import {navigationPage} from './navigation.js';
 
 export function compactNavigation(nav){
@@ -9,13 +8,15 @@ export function compactNavigation(nav){
  const more=document.createElement('button');
  more.type='button';more.className='mobile-more';more.id='moreNavigationButton';
  more.setAttribute('aria-controls',menu.id);more.setAttribute('aria-expanded','false');
- more.innerHTML='<span class="nav-icon" aria-hidden="true">'+uiIcon('more')+'</span><span>Altro</span>';
+ more.setAttribute('aria-label','Altro');more.title='Altro';
+ more.innerHTML='<span class="menu-bars" aria-hidden="true"><i></i><i></i><i></i></span>';
  for(const link of [...nav.querySelectorAll('a')]){
   if(primary.has(link.getAttribute('href')))continue;
   menu.append(link);
  }
  const settings=nav.querySelector('#preferencesButton');
  menu.append(settings);
+ Array.from(menu.children).forEach((item,i)=>item.style.setProperty('--item-order',i));
  if(menu.querySelector('[aria-current="page"]')||navigationPage(location.pathname)==='settings.html')more.dataset.active='true';
  nav.append(more);
  // Keep the popup outside the fixed mobile bar and desktop sidebar.
