@@ -1,4 +1,4 @@
-import {playMoveSound,playSound,getSettings} from './settings.js';
+import {playMoveSound,playSound} from './settings.js';
 import {puzzleJourney} from './puzzle-journey.js';
 import {ratingHistory,ratingMilestones,nextContinuousQueue} from './puzzle-rating.js';
 import {LEVELS,cardDifficulty,difficultyQueue,difficultyNote,difficultyProgress} from './practice-difficulty.js';
@@ -201,8 +201,7 @@ $('practiceBoard').onclick=async e=>{
 function signalWrong(square){
  playSound('wrong');
  const cell=$('practiceBoard').querySelector('[data-sq="'+square+'"]');
- if(getSettings().animation!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches)
-  cell?.animate([{boxShadow:'inset 0 0 0 0 transparent'},{boxShadow:'inset 0 0 0 6px #df625e',offset:.25},{boxShadow:'inset 0 0 0 3px #df625e',offset:.65},{boxShadow:'inset 0 0 0 0 transparent'}],{duration:650});
+ cell?.animate([{boxShadow:'inset 0 0 0 0 transparent'},{boxShadow:'inset 0 0 0 6px #df625e',offset:.25},{boxShadow:'inset 0 0 0 3px #df625e',offset:.65},{boxShadow:'inset 0 0 0 0 transparent'}],{duration:420});
 }
 async function playStep(from,to,promotion){
  const current=chess.fen();busy=true;const m=chess.move({from,to,promotion:promotion||'q'});selected=null;lastMove=m;playMoveSound(chess,m,{terminal:false});render();

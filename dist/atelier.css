@@ -14,7 +14,7 @@ h1,h2,h3,.brand,.page-title{font-family:var(--font-title);font-weight:400;letter
 dialog,#preferences{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 90px #0007}dialog::backdrop{background:#100a16bb;backdrop-filter:blur(3px)}#moreNavigation{width:min(420px,calc(100% - 24px));padding:22px;box-sizing:border-box}#moreNavigation h2{margin:4px 0 22px;font-size:28px}.more-links{display:grid;gap:10px}.more-links a,.more-links button{display:flex;align-items:center;gap:14px;padding:14px;min-height:48px;background:var(--field);color:var(--ink);border:1px solid var(--line);border-radius:9px;text-decoration:none;font-size:17px;text-align:left}.more-links svg{color:var(--accent)}.more-links [aria-current=page]{border-color:var(--accent)}footer{color:var(--muted);padding:20px 0}.install-shortcut{display:block;width:fit-content;margin:18px 0;font-size:13px;color:var(--muted)}
 @media(min-width:1280px){body>header{width:210px;padding:30px 16px;gap:38px;background:linear-gradient(180deg,var(--panel),var(--bg))}body>header .brand{flex-direction:column;align-items:flex-start;font-size:30px;padding:0 12px;gap:10px}body>header .brand .ply-mascot{width:52px;height:56px}body>header .app-nav{gap:9px}body>header .app-nav a,body>header .app-nav button{font-size:16px;min-height:50px}body>header #preferencesButton{margin-top:20px;border-top:1px solid var(--line)}body>main{margin-left:210px;width:calc(100% - 210px);padding:28px 32px 0}.analysis-page .workspace{grid-template-columns:minmax(0,1.12fr) minmax(340px,1fr);gap:28px}}
 @media(max-width:700px){.app-nav{grid-template-columns:repeat(5,minmax(0,1fr));padding-inline:max(6px,env(safe-area-inset-left))!important}.app-nav .nav-overflow{display:none!important}.app-nav .mobile-more{display:flex}.app-nav a,.app-nav button{font-size:11px!important;min-height:56px!important}.app-nav a[aria-current=page]{box-shadow:inset 0 2px var(--accent)}.card{padding:18px}.page-title,.analysis-page .page-title{font-size:28px}.page-tools{gap:10px}.analysis-page .review-column{padding:0;border:0;background:transparent}.analysis-page .player{padding:4px 8px!important}.mobile-review .player{padding:4px 8px!important;box-sizing:border-box}.mobile-review .review-panels{background:var(--panel);border-color:var(--line)}.mobile-review .review-panels .card{border:0;margin:0;padding:0;background:transparent}.mobile-review #moveInsight h3{font-size:24px}.mobile-review .review-sections button{font-size:13px}.mobile-review .board-toolbar button{min-width:34px}.opening-detail{padding:18px}.coach-portrait{padding:16px}.lesson-setup{padding:18px}.stat{padding:16px}.stat strong{font-size:32px}.live-panel{padding:16px}.install-shortcut{margin-bottom:20px}.mobile-review .install-shortcut{display:none}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
 /* Structural redesign: a game workspace, not a stack of forms. */
 .page-heading{max-width:65ch}.page-heading>.eyebrow{display:block;color:var(--accent)!important;font-size:10px;margin-bottom:8px}.page-heading h1{margin:0}.page-heading>p{margin:8px 0 0;font-size:15px;color:var(--muted)}
 .analysis-welcome{display:none}.analysis-page:not(.review-loaded) .workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,1fr);max-width:1100px;gap:54px;margin:40px auto;align-items:center}.analysis-page:not(.review-loaded) .analysis-welcome{display:block}.analysis-welcome h2{font-size:clamp(32px,4vw,54px);line-height:1.1;margin:16px 0}.analysis-welcome p{font-size:17px;line-height:1.7;max-width:40ch}.analysis-welcome ol{list-style:none;padding:0;display:grid;gap:14px}.analysis-welcome li{display:flex;gap:16px;font-size:15px}.analysis-welcome li b{color:var(--accent);font-variant-numeric:tabular-nums}.welcome-board{display:grid;grid-template-columns:repeat(4,1fr);width:160px;height:160px;transform:rotate(-8deg);margin:30px 16px;border:5px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:18px 18px 0 var(--soft)}.welcome-board span{display:grid;place-items:center;background:#efdbc0;color:#30202c;font:30px Georgia}.welcome-board span:nth-child(8n+2),.welcome-board span:nth-child(8n+4),.welcome-board span:nth-child(8n+5),.welcome-board span:nth-child(8n+7){background:#8a647c;color:#fff4e3}
@@ -132,7 +132,7 @@ input:not([type=checkbox]):not([type=range]),select,textarea{background:linear-g
 .analysis-page #analysisLesson,.coach-dialogue,.live-panel{border-top:3px solid var(--accent)}.learning-tip,.setup-note,.engine-box,.theory-study{background:linear-gradient(110deg,color-mix(in srgb,var(--accent) 11%,var(--field)),var(--field));border-left:3px solid var(--accent)}
 :root[data-theme=light]{--club-shadow:0 12px 30px #6046501c,0 2px 0 #90727920}
 @media(max-width:700px){body{background-attachment:scroll}body>header .brand:after{display:none}.app-nav{background:linear-gradient(180deg,var(--panel),var(--bg))}.app-nav a,.app-nav button{box-shadow:none}.page-heading h1,.analysis-page .page-heading h1{font-size:28px}.card,.opening-card,.stat,.live-panel,.chart-card{box-shadow:inset 0 1px #ffffff0d,0 6px 15px #100a1620}.board{border-width:3px!important}.analysis-page .review-column{box-shadow:none}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}}
+
 /* Full page settings reuse the same controls and saved preferences. */
 body[data-screen=settings] #settingsMount{max-width:1000px;margin:0 auto}
 body[data-screen=settings] #preferences{display:flex;position:static;width:100%;max-width:none;max-height:none;margin:0;background:var(--panel);border:1px solid var(--club-line);border-radius:16px;color:var(--ink)}
@@ -141,15 +141,15 @@ body[data-screen=settings] #preferences .preferences-content{overflow:visible}
 body[data-screen=settings] #preferences .preferences-footer{border-radius:0 0 16px 16px}
 @media(max-width:700px){body[data-screen=settings] #preferences{width:100%;max-height:none}body[data-screen=settings] #preferences .preferences-layout{min-height:0}body[data-screen=settings] #preferences .preferences-nav{position:sticky;top:0;z-index:5;background:var(--field)}}
 /* Motion is decorative: no layout or information depends on an animation. */
-@media(prefers-reduced-motion:no-preference){
- :root:not([data-motion=off]) .page-heading,:root:not([data-motion=off]) main>.card,:root:not([data-motion=off]) main>.workspace,:root:not([data-motion=off]) main>.study-grid,:root:not([data-motion=off]) #settingsMount{animation:ply-enter .38s cubic-bezier(.2,.7,.2,1) both}
- :root:not([data-motion=off]) button:not(.square),:root:not([data-motion=off]) .app-nav a,:root:not([data-motion=off]) .opening-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background-color .18s ease}
- @media(hover:hover){:root:not([data-motion=off]) button:not(.square):not(:disabled):hover,:root:not([data-motion=off]) .app-nav a:hover{transform:translateY(-2px);filter:brightness(1.08)}}
- :root:not([data-motion=off]) button:not(.square):active{transform:translateY(1px) scale(.99)}
- :root:not([data-motion=off]) #preferences [data-settings-section]:not([hidden]){animation:ply-enter .25s ease both}
- :root:not([data-motion=off]) dialog[open]{animation:ply-dialog .2s ease both}
-}
-@keyframes ply-enter{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+
+ :root .page-heading,:root main>.card,:root main>.workspace,:root main>.study-grid,:root #settingsMount{animation:ply-enter .24s cubic-bezier(.2,.7,.2,1) both}
+ :root button:not(.square),:root .app-nav a,:root .opening-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background-color .18s ease}
+ @media(hover:hover){:root button:not(.square):not(:disabled):hover,:root .app-nav a:hover{transform:translateY(-2px);filter:brightness(1.08)}}
+ :root button:not(.square):active{transform:translateY(1px) scale(.99)}
+ :root #preferences [data-settings-section]:not([hidden]){animation:ply-enter .25s ease both}
+ :root dialog[open]{animation:ply-dialog .2s ease both}
+
+@keyframes ply-enter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @keyframes ply-dialog{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 body[data-screen=settings] #preferences{flex-direction:column;box-sizing:border-box}
 body[data-screen=settings] #preferences .preferences-header{display:none}
@@ -177,13 +177,13 @@ body[data-screen=settings] #preferences .preferences-layout,body[data-screen=set
 .analysis-page #importPanel{position:relative;overflow:hidden}
 .analysis-page #importPanel::before{content:'♟  ♞  ♝';position:absolute;right:18px;top:14px;letter-spacing:5px;color:var(--accent);opacity:.26;font-size:19px;pointer-events:none}
 @media(max-width:450px){.analysis-page .board-toolbar{padding:5px;gap:3px}.analysis-page .board-toolbar button svg{width:19px;height:19px}.analysis-page .board-toolbar #positionLabel{font-size:11px}.analysis-welcome::after{font-size:110px;top:0}}
-@media(prefers-reduced-motion:reduce){.analysis-page .board-toolbar button{transition:none}}
+
 /* Subtle chess motifs across the app, without adding extra controls. */
 .page-tools{position:relative;isolation:isolate;overflow:hidden}
 .page-tools::after{content:'♞  ♟  ♜';position:absolute;right:12px;top:50%;transform:translateY(-50%);font:28px Georgia,serif;letter-spacing:8px;color:var(--accent);opacity:.2;pointer-events:none;z-index:-1}
 main .card{transition:border-color .22s ease,box-shadow .22s ease}
 @media(hover:hover){main .card:hover{border-color:color-mix(in srgb,var(--accent) 42%,var(--line))}}
-@media(prefers-reduced-motion:reduce){main .card{transition:none}}
+
 
 /* A more tactile chess-club surface throughout the app. */
 main .card{position:relative;border-color:color-mix(in srgb,var(--accent) 24%,var(--line));box-shadow:0 10px 28px #08040d35,inset 0 1px #ffffff0d}
@@ -194,7 +194,7 @@ main .card::after{content:'';position:absolute;top:0;left:18px;right:18px;height
 .review-accuracy strong{color:var(--accent);font-variant-numeric:tabular-nums}
 .analysis-page .board-toolbar button svg{width:22px;height:22px;stroke-width:2.2}
 .analysis-page .board-toolbar #last,.analysis-page .board-toolbar #first{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 18%,var(--soft)),var(--panel))}
-@media(prefers-reduced-motion:no-preference){.analysis-page .board-toolbar #next:not(:disabled){animation:review-control-glow 3s ease-in-out infinite}@keyframes review-control-glow{0%,100%{box-shadow:0 3px 0 #8d4d39,0 0 8px #e9a17333}50%{box-shadow:0 3px 0 #8d4d39,0 0 20px #e9a17388}}}
+.analysis-page .board-toolbar #next:not(:disabled){animation:review-control-glow 1.8s ease-in-out 2}@keyframes review-control-glow{0%,100%{box-shadow:0 3px 0 #8d4d39,0 0 8px #e9a17333}50%{box-shadow:0 3px 0 #8d4d39,0 0 20px #e9a17388}}
 
 /* Plystreak personalization and chess-club identity. */
 :root[data-accent=jade]{--accent:#72b8a5;--focus:#72b8a5}
@@ -273,16 +273,16 @@ main .card::after {
 .release-list li:first-child { border-color:var(--accent); }
 .release-list strong { color:var(--accent); font-variant-numeric:tabular-nums; }
 .release-list p { margin:.25rem 0; }
-@media (prefers-reduced-motion:no-preference) {
- :root:not([data-motion=off]) .board .square.selected { animation:ply-select .24s ease-out; }
- :root:not([data-motion=off]) #coachContent > h3,
- :root:not([data-motion=off]) .release-list li,
- :root:not([data-motion=off]) details[open] > summary + * { animation:ply-reveal .28s ease-out both; }
- :root:not([data-motion=off]) .release-list li:nth-child(2) { animation-delay:45ms; }
- :root:not([data-motion=off]) .release-list li:nth-child(3) { animation-delay:90ms; }
+
+ :root .board .square.selected { animation:ply-select .24s ease-out; }
+ :root #coachContent > h3,
+ :root .release-list li,
+ :root details[open] > summary + * { animation:ply-reveal .28s ease-out both; }
+ :root .release-list li:nth-child(2) { animation-delay:45ms; }
+ :root .release-list li:nth-child(3) { animation-delay:90ms; }
  @keyframes ply-select { from {outline:3px solid var(--accent);outline-offset:-9px} to {outline:1px solid transparent;outline-offset:-1px} }
  @keyframes ply-reveal { from {opacity:.35;translate:0 5px} to {opacity:1;translate:0 0} }
-}
+
 
 /* Keep the current turn visible in the scoresheet, including in custom themes. */
 .analysis-page .move-row { font-variant-numeric:tabular-nums; align-items:center; }
@@ -338,7 +338,7 @@ select option, select optgroup {color:var(--ink);background-color:var(--panel)}
 /* The same knight crosses four squares at both loading sizes. */
 .ply-loading-screen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(ellipse at center,var(--soft),var(--bg) 68%);pointer-events:auto}
 .ply-loading-mark{--side:1.65rem;display:inline-grid;place-items:center;position:relative;flex:none;width:var(--side);height:var(--side);border:1px solid var(--accent);border-radius:18%;background:conic-gradient(var(--panel) 25%,var(--soft) 0 50%,var(--panel) 0 75%,var(--soft) 0);color:var(--accent);vertical-align:middle}
-.ply-loading-mark::after{content:'♞';font:normal calc(var(--side)*.72)/1 Georgia,serif;animation:ply-knight-hop 1.65s infinite ease-in-out}
+.ply-loading-mark::after{content:'♞';font:normal calc(var(--side)*.72)/1 Georgia,serif;animation:ply-knight-hop 1.4s infinite ease-in-out}
 .ply-loading-screen .ply-loading-mark{--side:5rem;box-shadow:0 12px 42px #0004}
 .ply-loading-mark[hidden],#earnedMilestone[hidden]{display:none}
 .progress-caption #progressText{margin-inline-end:auto}
@@ -358,9 +358,7 @@ select option, select optgroup {color:var(--ink);background-color:var(--panel)}
 #journeyMap li[data-state=earned] span,#earnedMilestone{color:var(--ink);background:var(--soft);border:2px solid var(--accent)}
 #journeyMap li[data-state=next] button{padding:0;min-height:0;color:var(--accent);outline:2px dashed var(--accent);outline-offset:3px}
 #earnedMilestone{border-radius:100vw;padding:.4rem .85rem;font-size:.9rem}
-#earnedMilestone:not([hidden]),.journey-award span{animation:ply-medal .85s cubic-bezier(.2,.75,.3,1) both}
+#earnedMilestone:not([hidden]),.journey-award span{animation:ply-medal .72s cubic-bezier(.2,.75,.3,1) both}
 @keyframes ply-medal{0%{opacity:0;transform:scale(.55) rotate(-14deg)}55%{opacity:1;transform:scale(1.12) rotate(5deg);box-shadow:0 0 0 .45rem color-mix(in srgb,var(--accent) 35%,transparent)}100%{transform:none;box-shadow:0 0 0 .9rem transparent}}
 .puzzle-menu #trainingTrail{grid-column:1/-1;width:100%}
 @media(max-width:600px){.journey-heading span{font-size:.83rem}}
-@media(prefers-reduced-motion:reduce){.ply-loading-mark::after,#earnedMilestone,.journey-award span{animation:none!important}}
-[data-motion=off] .ply-loading-mark::after,[data-motion=off] #earnedMilestone,[data-motion=off] .journey-award span{animation:none}
