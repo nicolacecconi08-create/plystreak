@@ -1,3 +1,4 @@
+import './popup-swipe.js';
 import {getSettings} from './settings.js';
 import {startupUpdateGuard} from './auto-update.js';
 let sessionStore;try{sessionStore=window.sessionStorage}catch{}
@@ -31,6 +32,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
       if(checkingClients)return;
       const [title, hint, action] = labels[getSettings().language] || labels.it;
       banner = document.createElement('div');
+      banner.dataset.swipeNotice='';
       banner.setAttribute('role', 'status');
       banner.style.cssText = 'position:fixed;z-index:10000;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(92vw,420px);padding:14px 16px;border:1px solid #e9a173;border-radius:12px;background:#291823;color:#fff0e2;box-shadow:0 8px 28px #0009;font:16px system-ui;display:flex;align-items:center;gap:12px';
       const text = document.createElement('div');
@@ -74,7 +76,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
           const old=localStorage.getItem('plystreak-active-version');
           localStorage.setItem('plystreak-active-version',event.data);
           if(!old||old===event.data)return;
-          const notice=document.createElement('div');notice.setAttribute('role','status');
+          const notice=document.createElement('div');notice.dataset.swipeNotice='';notice.setAttribute('role','status');
           const labels={it:'Plystreak è aggiornata',en:'Plystreak is up to date',es:'Plystreak está actualizado',fr:'Plystreak est à jour',de:'Plystreak ist aktualisiert'};
           notice.textContent=labels[getSettings().language]||labels.it;
           notice.style.cssText='position:fixed;z-index:10000;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:14px 18px;border:1px solid #e9a173;border-radius:12px;background:#291823;color:#fff0e2;box-shadow:0 8px 28px #0009;font:600 16px system-ui';
@@ -95,7 +97,7 @@ if (window.plystreakDesktop) {
     if(result.status==='available'&&startup.canApply()){await window.plystreakDesktop.install();if(startup.canApply()){await window.plystreakDesktop.restart();return;}}
     if (result.status !== 'available' && result.status !== 'shell') return;
     if(desktopNotice)return;
-    const link = document.createElement('a');desktopNotice=link;
+    const link = document.createElement('a');desktopNotice=link;link.dataset.swipeNotice='';
     const labels = {it:'Aggiornamento disponibile',en:'Update available',es:'Actualización disponible',fr:'Mise à jour disponible',de:'Update verfügbar'};
     link.textContent = labels[getSettings().language] || labels.it;
     link.href = 'settings.html#app';
