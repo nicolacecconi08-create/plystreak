@@ -1,5 +1,26 @@
 // A fast navigation finishes before the overlay is shown.
 (()=>{
+ // Paint the entry screen before the application modules mount.
+ function isEntry(){
+  if(window.top!==window)return false;
+  const navigation=performance.getEntriesByType('navigation')[0]?.type;
+  if(navigation==='back_forward')return false;
+  try{
+   const visited=sessionStorage.getItem('plystreak-welcome');
+   if(visited&&document.referrer&&new URL(document.referrer).origin===location.origin&&navigation!=='reload')return false;
+   sessionStorage.setItem('plystreak-welcome','1');
+  }catch{}
+  return true;
+ }
+ if(isEntry()){
+  const panel=document.createElement('dialog');
+  panel.className='welcome-panel';panel.setAttribute('aria-label','Plystreak');
+  panel.innerHTML='<div class="welcome-stage"><div class="welcome-stack"><span class="ply-loading-mark welcome-mark" aria-hidden="true"></span><div class="welcome-content" hidden></div></div></div>';
+  document.body.append(panel);panel.showModal();
+  const started=performance.now();
+  const fallback=setTimeout(()=>{panel.close();panel.remove()},10000);
+  window.plyClaimWelcome=()=>{clearTimeout(fallback);delete window.plyClaimWelcome;return {panel,started}};
+ }
  const pending=new Set();
  let timer,overlay,exit;
  function begin(){

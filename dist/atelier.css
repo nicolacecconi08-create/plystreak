@@ -415,8 +415,19 @@ body>header .app-nav #moreNavigationButton{display:flex;align-items:center;justi
  [data-swipe-notice]{box-sizing:border-box}
 }
 /* Opening identity and public-profile connection */
-dialog.welcome-panel{width:min(410px,calc(100vw - 36px));max-height:calc(100dvh - 48px);box-sizing:border-box;padding:clamp(25px,6vw,40px);overflow:auto;border:1px solid color-mix(in srgb,var(--accent) 48%,var(--line));border-radius:22px;background:radial-gradient(ellipse at 100% 0,color-mix(in srgb,var(--accent) 14%,transparent),transparent 65%),var(--panel);color:var(--ink);box-shadow:0 24px 80px #0006}
-dialog.welcome-panel::backdrop{background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(6px)}
+dialog.welcome-panel:modal{position:fixed;inset:0;width:100%;height:100%;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;box-sizing:border-box;overflow:auto;border:0;border-radius:0;box-shadow:none;color:var(--ink);background-color:var(--bg);background-image:radial-gradient(ellipse at 50% 40%,var(--panel) 0%,transparent 70%),repeating-conic-gradient(from 45deg,color-mix(in srgb,var(--accent) 4%,transparent) 0 25%,transparent 0 50%);background-size:auto,68px 68px;animation:none}
+dialog.welcome-panel::backdrop{background:transparent;backdrop-filter:none}
+.welcome-stage{box-sizing:border-box;min-height:100%;display:grid;place-items:center;padding:max(22px,env(safe-area-inset-top)) 20px max(22px,env(safe-area-inset-bottom))}
+.welcome-stack{width:min(100%,360px);display:grid;justify-items:center}
+.welcome-content{width:100%;animation:welcome-arrive 580ms var(--ply-settle) both}
+.welcome-mark{--side:4rem;box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 8%,transparent),0 9px 34px #0002}
+.welcome-panel[data-stage=complete] .welcome-mark::after{animation:welcome-land 360ms var(--ply-settle) both}
+.welcome-panel[data-stage=complete] .welcome-mark::before{content:'';position:absolute;inset:-4px;border:1px solid var(--accent);border-radius:inherit;animation:welcome-ring .6s ease-out both}
+.welcome-panel:modal[data-leaving=true]{animation:welcome-away 540ms ease-in-out both}
+@keyframes welcome-land{0%{transform:translateY(-16%) rotate(5deg)}65%{transform:translateY(4%) scale(1.05,.96)}100%{transform:none}}
+@keyframes welcome-ring{from{opacity:.8;transform:scale(.96)}to{opacity:0;transform:scale(1.38)}}
+@keyframes welcome-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes welcome-away{from{opacity:1}to{opacity:0}}
 .welcome-lockup{display:flex;justify-content:center;align-items:center;gap:9px;padding:8px 0 14px}
 .welcome-word{display:inline-flex;font:600 clamp(32px,8vw,45px)/1.15 Georgia,serif;letter-spacing:-.055em}
 .welcome-word>span{display:inline-block;animation:welcome-letter 330ms var(--ply-settle) both;animation-delay:calc(35ms * var(--letter))}
