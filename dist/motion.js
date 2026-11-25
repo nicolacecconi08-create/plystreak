@@ -1,5 +1,6 @@
 import {Chess} from './vendor/chess.js';
 const previous=new WeakMap();
+const flights=new WeakMap();
 function kingEffect(square,symbol,color){if(!square?.animate)return;const img=square.querySelector?.('img');if(symbol!=='✦')img?.animate([{transform:'scale(1) rotate(0deg)'},{transform:'scale(1.18) rotate(-8deg)',offset:.35},{transform:'scale(1) rotate(0deg)'}],{duration:1000,easing:'ease-out'});const mark=square.ownerDocument?.createElement('span');if(!mark)return;mark.textContent=symbol;mark.setAttribute('aria-hidden','true');mark.style.cssText=`position:absolute;z-index:12;right:4%;top:4%;color:${color};font:bold clamp(18px,3vw,30px) system-ui;text-shadow:0 2px 8px #000;pointer-events:none`;square.append(mark);const animation=mark.animate([{opacity:0,transform:'translateY(10px) scale(.5)'},{opacity:1,transform:'translateY(-6px) scale(1.2)',offset:.35},{opacity:0,transform:'translateY(-22px) scale(1)'}],{duration:1150,easing:'ease-out'});animation.onfinish=animation.oncancel=()=>mark.remove()}
 function ripple(square,kind,duration){
  if(!square?.ownerDocument)return;
@@ -15,7 +16,7 @@ function ripple(square,kind,duration){
 const placement=fen=>fen.split(' ')[0];
 function connectingMove(from,to){try{const c=new Chess(from);return c.moves({verbose:true}).find(m=>placement(m.after)===placement(to))}catch{return null}}
 export function animateBoard(board,fen,flipped,options={}){
- const current={fen,flipped,rects:new Map([...board.querySelectorAll('[data-sq]')].map(s=>[s.dataset.sq,s.getBoundingClientRect()]))};
+ const current={fen,flipped};
  const old=previous.get(board);previous.set(board,current);
  if(old?.fen!==fen)for(const animation of old?.drawAnimations||[])animation.cancel();
  else{current.drawAnimations=old?.drawAnimations;current.drawCelebrated=old?.drawCelebrated;}
@@ -55,9 +56,26 @@ export function animateBoard(board,fen,flipped,options={}){
  const pairs=[[m.from,m.to]];
  if(m.flags.includes('k'))pairs.push(['h'+m.from[1],'f'+m.from[1]]);
  if(m.flags.includes('q'))pairs.push(['a'+m.from[1],'d'+m.from[1]]);
- for(let [from,to] of pairs){if(reverse)[from,to]=[to,from];const image=board.querySelector(`[data-sq="${to}"] img`),a=old.rects.get(from),b=current.rects.get(to);if(!image||!a||!b)continue;
- const square=image.parentElement;square.style.zIndex='5';
- const animation=image.animate([{transform:`translate(${a.left-b.left}px,${a.top-b.top}px)`},{transform:'translate(0,0)'}],{duration:options.duration??185,easing:'cubic-bezier(.2,.7,.2,1)'});
- animation.onfinish=animation.oncancel=()=>{square.style.zIndex=''};
+ for(let [from,to] of pairs){
+  if(reverse)[from,to]=[to,from];
+  const image=board.querySelector(`[data-sq="${to}"] img`);
+  if(!image)continue;
+  const origin=board.querySelector(`[data-sq="${from}"]`).getBoundingClientRect();
+  const square=image.parentElement,destination=square.getBoundingClientRect();
+  let x=origin.left-destination.left,y=origin.top-destination.top;
+  const prior=flights.get(image);
+  if(prior){
+   // A second move can arrive while this piece is still crossing the board.
+   const offset=getComputedStyle(image).translate.split(' ').map(parseFloat);
+   x+=offset[0]||0;y+=offset[1]||0;
+   prior.stop();
+  }
+  const distance=Math.hypot(from.charCodeAt(0)-to.charCodeAt(0),Number(from[1])-Number(to[1]));
+  const duration=options.duration??Math.min(275,145+distance*20);
+  const animation=image.animate([{translate:x+'px '+y+'px'},{translate:'0px 0px'}],{duration,easing:'cubic-bezier(.22,.76,.23,1)'});
+  square.style.zIndex='5';
+  const flight={stop(){animation.cancel();finish()}};
+  function finish(){if(flights.get(image)!==flight)return;flights.delete(image);square.style.zIndex=''}
+  flights.set(image,flight);animation.onfinish=animation.oncancel=finish;
  }
 }

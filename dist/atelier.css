@@ -362,3 +362,28 @@ select option, select optgroup {color:var(--ink);background-color:var(--panel)}
 @keyframes ply-medal{0%{opacity:0;transform:scale(.55) rotate(-14deg)}55%{opacity:1;transform:scale(1.12) rotate(5deg);box-shadow:0 0 0 .45rem color-mix(in srgb,var(--accent) 35%,transparent)}100%{transform:none;box-shadow:0 0 0 .9rem transparent}}
 .puzzle-menu #trainingTrail{grid-column:1/-1;width:100%}
 @media(max-width:600px){.journey-heading span{font-size:.83rem}}
+
+/* Keep the old surface visible until the next page is ready to paint. */
+@view-transition{navigation:auto}
+::view-transition-group(root){animation-duration:210ms}
+::view-transition-old(root){animation:ply-page-out 210ms ease-out both}
+::view-transition-new(root){animation:ply-page-in 210ms cubic-bezier(.2,.75,.22,1) both}
+@keyframes ply-page-out{to{translate:0 -4px}}
+@keyframes ply-page-in{from{opacity:0;translate:0 7px}to{opacity:1;translate:0 0}}
+:root{--ply-settle:cubic-bezier(.22,.8,.22,1);--ply-spring:cubic-bezier(.18,.85,.32,1.18)}
+:root button:not(.square),:root .app-nav a,:root .opening-card{transition:transform 200ms var(--ply-spring),box-shadow 180ms ease,border-color 160ms ease,background-color 160ms ease}
+:root button:not(.square):active:not(:disabled){transform:translateY(1px) scale(.975);transition-duration:65ms}
+:root dialog[open]{animation:ply-panel-in 250ms var(--ply-settle)}
+:root dialog[open]::backdrop{animation:ply-veil-in 180ms ease-out}
+@keyframes ply-panel-in{from{opacity:.35;translate:0 10px;scale:.985}to{opacity:1;translate:0;scale:1}}
+@keyframes ply-veil-in{from{opacity:0}to{opacity:1}}
+:root #preferences [data-settings-section]:not([hidden]),.opening-detail:not([hidden]),#solutionViewer:not([hidden]),#practiceSuccess:not([hidden]){animation:ply-panel-in 250ms var(--ply-settle)}
+#preferences .switch-track::before{transition:transform 230ms var(--ply-spring)}
+#journeyMap li[data-state=next] button{transition:transform 200ms var(--ply-spring),box-shadow 180ms}
+#journeyMap li[data-state=next] button:hover{transform:translateY(-3px) scale(1.035)}
+.ply-loading-screen .ply-loading-mark{animation:ply-panel-in 225ms var(--ply-settle)}
+#progressFill{transition:width 300ms var(--ply-settle)}
+@supports (appearance:base-select){
+ select::picker(select):popover-open{animation:ply-picker-in 150ms var(--ply-settle);transform-origin:top}
+ @keyframes ply-picker-in{from{opacity:.5;translate:0 -3px}to{opacity:1;translate:0 0}}
+}
