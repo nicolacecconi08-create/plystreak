@@ -1,4 +1,5 @@
 import {playMoveSound,playSound,getSettings} from './settings.js';
+import {puzzleJourney} from './puzzle-journey.js';
 import {ratingHistory,ratingMilestones,nextContinuousQueue} from './puzzle-rating.js';
 import {LEVELS,cardDifficulty,difficultyQueue,difficultyNote,difficultyProgress} from './practice-difficulty.js';
 import {trainingPath,pathMove,pathComplete,verifiedPath,goalReached} from './puzzle-path.js';
@@ -102,7 +103,34 @@ function render(){
  $('practicePath').textContent=path?(alternate?'Percorso alternativo verificato':'Linea principale')+` · ${Math.ceil(ply/2)} / ${Math.ceil(path.moves.length/2)} mosse completate`:'';
  $('solutionViewer').hidden=!solutionLine;$('solutionPrev').disabled=busy||!solutionIndex;$('solutionNext').disabled=busy||!solutionLine||solutionIndex>=solutionLine.moves.length;
 }
+const emblems=['♟','♞','♝','♜','♛','♚'];
+let lastSolved;
 function showTrail(){
+ const {solved,chapter,targets}=puzzleJourney(attempts);
+ const map=$('journeyMap');
+ if(solved!==lastSolved){
+  $('journeyScore').textContent=t('Capitolo {0}',[chapter+1])+' · '+solved+'/'+targets.at(-1);
+  const next=targets.find(goal=>goal>solved);
+  map.replaceChildren(...targets.map((goal,i)=>{
+   const node=document.createElement('li');
+   node.dataset.state=goal<=solved?'earned':goal===next?'next':'later';
+   if(goal===next)node.setAttribute('aria-current','step');
+   node.setAttribute('aria-label',t('Problemi risolti: {0}',[Math.min(solved,goal)+'/'+goal]));
+   const medal=document.createElement(goal===next?'button':'span');medal.textContent=emblems[i];
+   if(goal===next){
+    medal.type='button';medal.setAttribute('aria-label',t('Inizia allenamento')+' · '+goal);
+    medal.onclick=()=>{if(!busy&&ready){$('practiceDifficulty').value='progressive';$('startPractice').click()}};
+   }else medal.setAttribute('aria-hidden','true');
+   const number=document.createElement('b');number.textContent=goal;
+   node.append(medal,number);return node;
+  }));
+  if(lastSolved!==undefined&&solved>lastSolved&&targets.includes(solved)){
+   const badge=$('earnedMilestone');badge.textContent=emblems[targets.indexOf(solved)]+'  '+t('Traguardo raggiunto')+' · '+solved;badge.hidden=false;
+   map.children[targets.indexOf(solved)].classList.add('journey-award');
+  }
+  lastSolved=solved;
+ }
+
  const {level,counts}=difficultyProgress(cards,attempts);
  for(const button of $('trainingTrail').querySelectorAll('button')){
   const stage=Number(button.dataset.stage),count=counts[stage];
@@ -118,6 +146,8 @@ function summary(){showTrail();ratingView();$('difficultyProgress').textContent=
 function empty(){const s=reviewSummary(cards.filter(c=>($('practiceSource').value==='all'||c.source===$('practiceSource').value)&&($('practiceTopic').value==='all'||c.theme===$('practiceTopic').value)),attempts);$('practiceWorkspace').hidden=true;$('practiceEmpty').hidden=false;$('emptyTitle').textContent=queue.length?'Sessione completata.':'Nessuna posizione in attesa.';$('emptyText').textContent=$('practiceSource').value==='personal'&&!cards.some(c=>c.source==='personal')?'Completa l’analisi di una partita e indica il tuo colore. Intanto puoi allenarti con i nuovi scenari tattici.':Number.isFinite(s.nextDue)?'Il prossimo ripasso sarà disponibile il '+new Date(s.nextDue).toLocaleString(locale())+'. Puoi anche iniziare una sessione libera o lavorare su altre posizioni nuove.':'Non ci sono posizioni disponibili con questi filtri. Cambia tema o difficoltà, scegli Allenamento libero oppure analizza una partita per personalizzare gli esercizi.'}
 async function start(){if(busy||!ready)return;generatedMode='';busy=true;render();sessionId=newId();attempts=await readAll('attempts');totalShown=1;queue=await trainingQueue(null);index=0;summary();busy=false;if(queue.length){$('practiceSetup').open=false;await load();$('practiceWorkspace').scrollIntoView({block:'start',behavior:'smooth'});}else{empty();render()}}
 async function load(){
+ const finishLoading=window.plyBeginLoading();try{
+ $('earnedMilestone').hidden=true;
  busy=true;solved=false;completed=false;selected=null;assisted=false;recorded=false;base=null;solutionLine=null;solutionIndex=0;path=null;ply=0;alternate=false;lastMove=null;
  hintedPly=-1;attemptRecord=null;mistakes=0;elapsed=0;ratingSettled=false;$('ratingResult').textContent='';
  const card=queue[index];fen=card.fen;chess=new Chess(fen);flipped=chess.turn()==='b';
@@ -157,6 +187,7 @@ async function load(){
   if(!goalReached(card,path))throw Error('La linea verificata non completa l’obiettivo: salta il problema senza penalità.');
   $('practiceFeedback').textContent='Trova la prima mossa. Le risposte avversarie verranno giocate automaticamente.';
  }catch(e){path=null;$('practiceFeedback').textContent=e.message;}finally{busy=false;render()}
+ }finally{finishLoading()}
 }
 async function record(success){if(recorded)return;const card=queue[index],a={id:newId(),sessionId,cardId:card.id,position:card.id,theme:card.theme,success,assisted,at:Date.now()};try{await putRecord(a,'attempts')}catch{$('reviewDue').textContent='Salvataggio non riuscito: il risultato resta visibile in questa sessione.';return}recorded=true;attemptRecord=a;attempts.push(a);summary();$('reviewDue').textContent=nextReviewText(schedules(attempts).get(card.id))}
 $('practiceBoard').onclick=async e=>{
@@ -242,6 +273,6 @@ $('trainingTrail').onclick=e=>{
  $('practiceDifficulty').value=Number(button.dataset.stage)===recommended?'progressive':button.dataset.stage;
  $('startPractice').click();
 };
-$('dailyPuzzle').onclick=()=>generatedStart();
-$('startPractice').onclick=()=>start().catch(e=>{busy=false;render();$('practiceStatus').textContent=e.message});
+$('dailyPuzzle').onclick=()=>{const finish=window.plyBeginLoading();return generatedStart().finally(finish)};
+$('startPractice').onclick=()=>{const finish=window.plyBeginLoading();return start().finally(finish).catch(e=>{busy=false;render();$('practiceStatus').textContent=e.message})};
 (async()=>{try{const [games,history,savedCards,r]=await Promise.all([readAll(),readAll('attempts'),readAll('meta'),fetch('vendor/training-catalog.json')]);if(!r.ok)throw Error('Catalogo non disponibile: ricarica la pagina.');const deck=makeDeck(games,await r.json());cards=[...deck.cards,...savedCards.filter(v=>v.id.startsWith('practice-card:')&&v.card?.fen).map(v=>v.card)];attempts=history;ready=true;$('personalizationNote').textContent=deck.errors.length?`Ho trovato ${deck.errors.length} posizioni da rivedere nelle tue partite. I nuovi scenari sui temi ricorrenti hanno la precedenza.`:'Puoi iniziare con scenari tattici originali. Dopo un’analisi completa con il tuo colore, la selezione si adatterà ai tuoi errori.';summary();render()}catch(e){$('practiceStatus').textContent=e.message;$('startPractice').disabled=true}})();

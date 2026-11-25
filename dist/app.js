@@ -68,7 +68,7 @@ async function persistReview(){
   try{localStorage.setItem('plystreak-last-review',record.id)}catch{}
   $('saveStatus').textContent=record.analysis!==analysis
    ?'La revisione completa precedente resta in archivio.'
-   :`Salvato sul dispositivo · ${analysis.details.length}/${analysis.total} mosse`;
+   :busy?t('Salvato sul dispositivo'):`Salvato sul dispositivo · ${analysis.details.length}/${analysis.total} mosse`;
  }
  return record;
 }
@@ -134,20 +134,20 @@ async function analyzeGame(resume=false){
  if(busy||!game)return;setTab(false);busy=true;const id=++runId;
  $('reanalyze').hidden=true;$('cancel').hidden=false;$('cancel').disabled=false;$('progressArea').hidden=false;$('analyze').disabled=true;$('exploreTab').disabled=true;
  if(!resume){results=[];grades=[];}
- $('progressText').textContent='Avvio di Stockfish…';
+ $('analysisLoader').hidden=false;$('progressText').textContent=t('Analisi in corso');
  $('progressFill').style.width=100*grades.length/moves.length+'%';
  updateAccuracy();render();
  try{
   await Promise.all([engine.init(),loadBook()]);
   const historyPosition=reviewHistory(moves,positions[0]);
   await continueReview({positions,moves,results,grades,stopped:()=>id!==runId,
-   evaluate:async(fen,i)=>{ $('progressText').textContent=`Analisi posizione ${i+1} di ${positions.length}…`;const c=historyPosition(i);return terminal(c)||await engine.evaluate(fen,quality());},
+   evaluate:async(fen,i)=>{const c=historyPosition(i);return terminal(c)||await engine.evaluate(fen,quality());},
    grade:(move,before,after,previousLoss)=>checkedGrade(engine,{move,before,after,openings:openingMap,previousLoss}),
    onSaved:async count=>{updateAccuracy();if(!rapid.running){renderMoves();renderChart();renderBoard();}$('progressFill').style.width=100*count/moves.length+'%';await persistReview();}
   });
   $('progressText').textContent=grades.length===moves.length?`Revisione completata · ${moves.length} mosse analizzate`:`Analisi interrotta · ${grades.length}/${moves.length} mosse. Premi Riprendi analisi.`;
  }catch(e){notify(e.message);$('saveStatus').textContent='Salvataggio o analisi non completati: conserva il PGN; puoi riprovare con Riprendi analisi.';$('progressText').textContent='Analisi incompleta · risultati disponibili conservati';}
- finally{busy=false;$('analyze').disabled=false;$('newGame').disabled=false;$('exploreTab').disabled=false;$('cancel').hidden=true;$('reanalyze').hidden=false;render();await persistReview().catch(()=>{$('saveStatus').textContent='Salvataggio non riuscito. Non chiudere la pagina senza esportare il PGN.'});if(resetRequested)resetReview();}
+ finally{$('analysisLoader').hidden=true;busy=false;$('analyze').disabled=false;$('newGame').disabled=false;$('exploreTab').disabled=false;$('cancel').hidden=true;$('reanalyze').hidden=false;render();await persistReview().catch(()=>{$('saveStatus').textContent='Salvataggio non riuscito. Non chiudere la pagina senza esportare il PGN.'});if(resetRequested)resetReview();}
 }
 
 function setTab(explore){comparisonToken++;if(explore&&activeBranch?.comparison)activeBranch=null;if(explore&&!game){notify('Importa prima una partita per esplorare le varianti.');return}if(explore&&busy)return;exploring=explore;$('reviewTab').classList.toggle('active',!explore);$('exploreTab').classList.toggle('active',explore);$('reviewContent').hidden=explore;$('exploreContent').hidden=!explore;if(!explore){activeBranch=null;liveId++;selected=null;render()}else{render();liveAnalyze()}}

@@ -334,3 +334,33 @@ select option, select optgroup {color:var(--ink);background-color:var(--panel)}
  select option:is(:checked,:hover,:focus-visible) {background:Highlight;color:HighlightText}
 }
 @media(min-width:960px){.card.puzzle-menu{align-self:start;align-items:flex-start;flex-direction:column}}
+
+/* The same knight crosses four squares at both loading sizes. */
+.ply-loading-screen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(ellipse at center,var(--soft),var(--bg) 68%);pointer-events:auto}
+.ply-loading-mark{--side:1.65rem;display:inline-grid;place-items:center;position:relative;flex:none;width:var(--side);height:var(--side);border:1px solid var(--accent);border-radius:18%;background:conic-gradient(var(--panel) 25%,var(--soft) 0 50%,var(--panel) 0 75%,var(--soft) 0);color:var(--accent);vertical-align:middle}
+.ply-loading-mark::after{content:'♞';font:normal calc(var(--side)*.72)/1 Georgia,serif;animation:ply-knight-hop 1.65s infinite ease-in-out}
+.ply-loading-screen .ply-loading-mark{--side:5rem;box-shadow:0 12px 42px #0004}
+.ply-loading-mark[hidden],#earnedMilestone[hidden]{display:none}
+.progress-caption #progressText{margin-inline-end:auto}
+.progress-caption:has(.ply-loading-mark:not([hidden])){display:flex;align-items:center;gap:.6rem}
+@keyframes ply-knight-hop{0%,100%{transform:translate(-14%,12%) rotate(-6deg)}25%{transform:translate(-6%,-23%) rotate(4deg)}50%{transform:translate(14%,-10%) rotate(5deg)}75%{transform:translate(4%,-21%) rotate(-4deg)}}
+
+.card.puzzle-menu{display:grid;grid-template-columns:1fr auto;align-items:center;width:100%;box-sizing:border-box}
+.journey-heading{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap}
+.journey-heading h2{margin:0}.journey-heading span{color:var(--text-secondary);font-variant-numeric:tabular-nums}
+#journeyMap{grid-column:1/-1;isolation:isolate;display:grid;grid-template-columns:repeat(6,1fr);list-style:none;padding:1rem 0;margin:0;width:100%}
+#journeyMap li{position:relative;display:grid;justify-items:center;align-content:start;gap:.4rem;color:var(--text-secondary)}
+#journeyMap li:nth-child(even){padding-top:1rem}
+#journeyMap li:not(:last-child)::after{content:'';position:absolute;left:50%;top:1.1rem;width:100%;height:1rem;background:var(--line);clip-path:polygon(0 0,100% 85%,100% 100%,0 15%);z-index:-1}
+#journeyMap li:nth-child(even)::after{transform:scaleY(-1)}
+#journeyMap li[data-state=earned]::after{background:var(--accent)}
+#journeyMap li :is(span,button){display:grid;place-items:center;width:clamp(2rem,4vw,3rem);aspect-ratio:1;border:1px solid var(--line);border-radius:50%;background:var(--panel);font:1.6rem/1 Georgia,serif}
+#journeyMap li[data-state=earned] span,#earnedMilestone{color:var(--ink);background:var(--soft);border:2px solid var(--accent)}
+#journeyMap li[data-state=next] button{padding:0;min-height:0;color:var(--accent);outline:2px dashed var(--accent);outline-offset:3px}
+#earnedMilestone{border-radius:100vw;padding:.4rem .85rem;font-size:.9rem}
+#earnedMilestone:not([hidden]),.journey-award span{animation:ply-medal .85s cubic-bezier(.2,.75,.3,1) both}
+@keyframes ply-medal{0%{opacity:0;transform:scale(.55) rotate(-14deg)}55%{opacity:1;transform:scale(1.12) rotate(5deg);box-shadow:0 0 0 .45rem color-mix(in srgb,var(--accent) 35%,transparent)}100%{transform:none;box-shadow:0 0 0 .9rem transparent}}
+.puzzle-menu #trainingTrail{grid-column:1/-1;width:100%}
+@media(max-width:600px){.journey-heading span{font-size:.83rem}}
+@media(prefers-reduced-motion:reduce){.ply-loading-mark::after,#earnedMilestone,.journey-award span{animation:none!important}}
+[data-motion=off] .ply-loading-mark::after,[data-motion=off] #earnedMilestone,[data-motion=off] .journey-award span{animation:none}
